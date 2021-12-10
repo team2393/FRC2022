@@ -12,7 +12,7 @@ ASAP
 
 January 2022
 
-* January 8, get latest software
+* January 8, get latest software .. only a _new_ laptop, because wpilib has breaking changes?
 * Create skeleton robot code that does "nothing" but builds, uploads to RoboRIO, connects to drive station
 * See what's new in hardware. Do we need to order new controller, radio? Are there new motor controllers, motors, sensors, .. that we need?
 * Learn about motors, encoders
