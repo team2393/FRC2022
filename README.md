@@ -8,7 +8,8 @@ TODO
 
 ASAP
 
- * Preview what's new in 2022 wpilib, https://docs.wpilib.org/en/latest/, CTRE, https://newsite.ctr-electronics.com/
+ * Study game manual, https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
+ * Preview what's new in 2022 wpilib, https://docs.wpilib.org/en/stable/, CTRE, https://newsite.ctr-electronics.com/
  * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/
  * Do we need a new RoboRIO? Does it have to be the new version 2.0, https://www.andymark.com/products/ni-roborio-2, https://www.firstinspires.org/robotics/frc/blog/2021-ni-guest-blog-roborio2-0
 
