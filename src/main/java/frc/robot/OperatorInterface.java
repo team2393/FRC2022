@@ -9,14 +9,14 @@ public class OperatorInterface
 {
     private final static XboxController joystick = new XboxController(0);
 
-    /** @return Speed, -1..1, positive is "forward" */
+    /** @return Speed that driver requests, -1..1, positive is "forward" */
     public static double getSpeed()
     {
         return joystick.getLeftY();
     }
 
-    /** @return Turn command, -1..1, positive is "right" or "clockwise" */
-    public static double getTurn()
+    /** @return Rotation that driver requests, -1..1, positive is "right" or "clockwise" */
+    public static double getRotation()
     {
         return joystick.getRightX();
     }
