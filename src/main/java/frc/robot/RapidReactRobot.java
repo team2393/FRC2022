@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 /** Team 2393 'Rapid React' robot */
 public class RapidReactRobot extends TimedRobot
 {
+    // TODO DriveTrain, ...
+    private final Servo test_servo = new Servo(0);
+
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
 
@@ -67,6 +71,7 @@ public class RapidReactRobot extends TimedRobot
     public void teleopPeriodic()
     {
         // TODO Read UI, ...
+        test_servo.setAngle(90.0 + OperatorInterface.getTurn() * 75.0);
     }
 
     /** This function is called when entering auto-no-mouse mode */
