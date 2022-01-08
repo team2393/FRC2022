@@ -1,7 +1,7 @@
 {
   "tabPane": [
     {
-      "title": "T Shirt Cannon",
+      "title": "Team 2393",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
@@ -27,9 +27,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 57.20000076293945,
-    "y": 0.0,
+    "x": 444.0,
+    "y": 228.8000030517578,
     "width": 692.0,
-    "height": 829.5999755859375
+    "height": 547.2000122070312
   }
 }
