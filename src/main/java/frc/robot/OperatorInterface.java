@@ -12,7 +12,7 @@ public class OperatorInterface
     /** @return Speed that driver requests, -1..1, positive is "forward" */
     public static double getSpeed()
     {
-        return joystick.getLeftY();
+        return -joystick.getLeftY();
     }
 
     /** @return Rotation that driver requests, -1..1, positive is "right" or "clockwise" */
