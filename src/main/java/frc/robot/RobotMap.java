@@ -1,6 +1,9 @@
+// Copyright (c) Team 2993, FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-/** Information about anything that's plugged into the roboRio */
+/** Information about anything that's plugged into the roboRIO */
 public class RobotMap
 {
     // ** Power Distribution Panel **
@@ -26,7 +29,7 @@ public class RobotMap
     // 2) must not be used, see game manual!
     //
     // VRM 12V, 500mA
-    // 1) Some sensor?
+    // 1) Some ball sensor?
     // 2) 
     //
     // VRM 5V, 500mA

@@ -17,7 +17,7 @@
               1
             ],
             "content": {
-              "_type": "Split Button Chooser",
+              "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Auto Options",
               "_title": "SmartDashboard/Auto Options"
             }
@@ -27,8 +27,8 @@
     }
   ],
   "windowGeometry": {
-    "x": 444.0,
-    "y": 228.8000030517578,
+    "x": 431.20001220703125,
+    "y": 120.4000015258789,
     "width": 692.0,
     "height": 547.2000122070312
   }

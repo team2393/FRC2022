@@ -1,3 +1,6 @@
+// Copyright (c) Team 2993, FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -7,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class OperatorInterface
 {
+    /** Controller used by primary driver */
     private final static XboxController joystick = new XboxController(0);
 
     /** @return Speed that driver requests, -1..1, positive is "forward" */
