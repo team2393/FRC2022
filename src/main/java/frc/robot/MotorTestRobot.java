@@ -70,6 +70,8 @@ public class MotorTestRobot extends TimedRobot
         // Compute voltage for the desired speed
         double speed = motor.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
         // TODO: Use feed forward and/or PID
+        // SimpleMotorFeedforward, PIDController.
+        // Later ProfiledPIDController when controlling position
         double voltage = 2.5;
             
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
