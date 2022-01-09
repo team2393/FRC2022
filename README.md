@@ -26,7 +26,7 @@ January 2022
 
 * January 8: Get latest software .. Note that wpilib has breaking changes, so need older setup for TShirt robot. The radio setup also requires the older software, https://docs.wpilib.org/en/latest/docs/yearly-overview/known-issues.html
 * Create skeleton robot code that does "nothing" but builds, uploads to RoboRIO, connects to drive station
-* See what's new in hardware. Do we need to order new controller, radio? Are there new motor controllers, motors, sensors, .. that we need? https://www.andymark.com/products/climber-in-a-box?
+* See what's new in hardware. Do we need to order new controller, radio? Are there new motor controllers, motors, sensors, .. that we need? https://www.andymark.com/products/climber-in-a-box, https://wcproducts.com/collections/viewall/products/greyt-shooter-9-5
 * Learn about motors, encoders
 * Feedforward for 'SimpleMotor', 'Elevator', 'Arm'
 * PID for speed control
