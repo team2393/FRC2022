@@ -71,7 +71,8 @@ public class RapidReactRobot extends TimedRobot
     public void teleopPeriodic()
     {
         // TODO Read UI, ...
-        test_servo.setAngle(90.0 + OperatorInterface.getRotation() * 75.0);
+        final double angle = 90.0 + OperatorInterface.getRotation() * 75.0;
+        test_servo.setAngle(angle);
     }
 
     /** This function is called when entering auto-no-mouse mode */

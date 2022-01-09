@@ -14,6 +14,6 @@ public final class Main
     /** Change to select which robot code you want to run */
     public static void main(String... args)
     {
-        RobotBase.startRobot(RapidReactRobot::new);
+        RobotBase.startRobot(MotorTestRobot::new);
     }
 }
