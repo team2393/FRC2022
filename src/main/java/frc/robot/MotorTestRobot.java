@@ -39,6 +39,10 @@ public class MotorTestRobot extends TimedRobot
         SmartDashboard.putNumber("Voltage", voltage);
         SmartDashboard.putNumber("Revs", pos);
         SmartDashboard.putNumber("Revs per sec", speed);
+        if (voltage == 0.0)
+            SmartDashboard.putNumber("kV", 0.0);
+        else
+            SmartDashboard.putNumber("kV", Math.abs(speed/voltage));
     }        
 
     @Override
