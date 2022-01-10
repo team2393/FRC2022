@@ -5,8 +5,8 @@ Code for 2022 Robot
 
  * Game manual: https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
  * Software: WPILIB https://docs.wpilib.org/en/stable/, CTRE https://newsite.ctr-electronics.com/, GIT https://git-scm.com/downloads
- * To get a copy of the sources into VS Code, use View, Command Palette, Git: Clone, https://github.com/team2393/FRC2022.git .
-   Place it in a git/ subfolder of your home directory.
+ * To get a copy of the sources into VS Code, use View, Command Palette, Git: Clone, `https://github.com/team2393/FRC2022.git` .
+   When prompted for the location of the code, best use a `git/` subfolder of your home directory.
  * To commit, you need to
     1) A github account
     2) Ask to be added to the people with write access to the repository
