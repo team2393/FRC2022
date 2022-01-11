@@ -21,11 +21,25 @@
               "_source0": "network_table:///SmartDashboard/Auto Options",
               "_title": "SmartDashboard/Auto Options"
             }
-          },
-          "3,0": {
+          }
+        }
+      }
+    },
+    {
+      "title": "Camera",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "4,0": {
             "size": [
-              5,
-              4
+              9,
+              7
             ],
             "content": {
               "_type": "Camera Stream",
@@ -33,12 +47,165 @@
               "_title": "Processed",
               "Crosshair/Show crosshair": false,
               "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
+              "Controls/Show controls": false,
               "Controls/Rotation": "NONE",
               "compression": -1.0,
               "fps": -1,
               "imageWidth": -1,
               "imageHeight": -1
+            }
+          },
+          "0,0": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Color",
+              "Layout/Number of columns": 3,
+              "Layout/Number of rows": 3,
+              "Layout/Label position": "TOP",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Center H",
+                  "_title": "Hue"
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/HueMin",
+                  "_title": "Min"
+                },
+                "2,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/HueMax",
+                  "_title": "Max"
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Center S",
+                  "_title": "Saturation"
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/SatMin",
+                  "_title": "Min"
+                },
+                "2,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/SatMax",
+                  "_title": "Max"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Center V",
+                  "_title": "Value"
+                },
+                "1,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ValMin",
+                  "_title": "Min"
+                },
+                "2,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/ValMax",
+                  "_title": "Max"
+                }
+              }
+            }
+          },
+          "0,3": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Shape",
+              "Layout/Number of columns": 3,
+              "Layout/Number of rows": 4,
+              "Layout/Label position": "TOP",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Area",
+                  "_title": "Area"
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/AreaMin",
+                  "_title": "Min"
+                },
+                "2,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/AreaMax",
+                  "_title": "Max"
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Aspect",
+                  "_title": "Aspect Ratio"
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/AspectMin",
+                  "_title": "Min"
+                },
+                "2,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/AspectMax",
+                  "_title": "Max"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Fullness",
+                  "_title": "Fullness"
+                },
+                "1,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/FullnessMin",
+                  "_title": "Min"
+                },
+                "2,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/FullnessMax",
+                  "_title": "Max"
+                }
+              }
+            }
+          },
+          "7,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Direction",
+              "_title": "Direction"
+            }
+          },
+          "9,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Distance",
+              "_title": "Distance"
+            }
+          },
+          "0,6": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Camera Target Mode",
+              "_title": "Target Mode"
             }
           }
         }
@@ -46,9 +213,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 342.79998779296875,
-    "y": 44.400001525878906,
-    "width": 1204.4000244140625,
-    "height": 708.4000244140625
+    "x": -8.0,
+    "y": 7.199999809265137,
+    "width": 1517.5999755859375,
+    "height": 793.2000122070312
   }
 }
