@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 /** Very simple robot that blinks LED */
 public class LEDTestRobot extends TimedRobot
 {
-    private final DigitalOutput led = new DigitalOutput(1);
+    private final DigitalOutput led = new DigitalOutput(4);
 
     @Override
     public void robotInit()
