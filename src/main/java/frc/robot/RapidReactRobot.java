@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,9 +19,6 @@ public class RapidReactRobot extends TimedRobot
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain();
     
-    // TODO Remove test servo
-    private final Servo test_servo = new Servo(0);
-
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
 
@@ -72,9 +68,7 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        // TODO Read UI, ...
-        final double angle = 90.0 + OperatorInterface.getRotation() * 75.0;
-        test_servo.setAngle(angle);
+        drivetrain.drive(OperatorInterface.getSpeed(), OperatorInterface.getRotation());
     }
 
     /** This function is called when entering auto-no-mouse mode */

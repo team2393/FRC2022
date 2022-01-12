@@ -17,11 +17,29 @@ import frc.robot.RobotMap;
 public class Drivetrain extends SubsystemBase
 {
     private final WPI_TalonFX primary_left = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE);
-    // TODO: All motors...
+    private final WPI_TalonFX secondary_left = new WPI_TalonFX(RobotMap.SECONDARY_LEFT_DRIVE);
+    private final WPI_TalonFX primary_right = new WPI_TalonFX(RobotMap.PRIMARY_RIGHT_DRIVE);
+    private final WPI_TalonFX secondary_right = new WPI_TalonFX(RobotMap.SECONDARY_RIGHT_DRIVE);
 
+    private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
     // TODO: Combine into DifferentialDrive
 
-    // TODO: void drive(double speed, double rotation)
+    public Drivetrain()
+    {
+        // Motors on right need to be inverted
+        primary_right.setInverted(true);
+        secondary_right.setInverted(true);
+
+        // Have secondaries follow the primaries
+        secondary_left.follow(primary_left);
+        secondary_right.follow(primary_right);
+    }
+
+    public void drive(double speed, double rotation)
+    {
+            diff_drive.arcadeDrive(speed, rotation);
+    }
+
     // TODO: DriveByJoystickCommand
 
     /** Create a command that runs the drve train along a trajectory

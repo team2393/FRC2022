@@ -41,8 +41,10 @@ public class RobotMap
     // 2) Color LED strip power?
 
     // Motors connected via CAN bus
-    public final static int PRIMARY_LEFT_DRIVE = 1;
+    public final static int PRIMARY_LEFT_DRIVE = 4;
     public final static int SECONDARY_LEFT_DRIVE = 2;
     public final static int PRIMARY_RIGHT_DRIVE = 3;
-    public final static int SECONDARY_RIGHT_DRIVE = 4;
+    public final static int SECONDARY_RIGHT_DRIVE = 1;
+    public final static int PRIMARY_SPINNER = 5;
+    public final static int SECONDARY_SPINNER = 6;
 }
