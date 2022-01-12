@@ -115,6 +115,7 @@ public class MotorTestRobot extends TimedRobot
         // TODO: Use PIDController to compute voltage,
         //       configured via dashboard,
         //       reset when setpoint changes
+        //       See https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/introduction-to-pid.html
         // TODO: Use ProfiledPIDController when controlling position
 
         double voltage = 0.0;
