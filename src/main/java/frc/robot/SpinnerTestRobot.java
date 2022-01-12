@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /** Very simple robot that tests the spinner */
@@ -24,5 +23,4 @@ public class SpinnerTestRobot extends TimedRobot
         // In teleop, manually control spinner through joystick 
         spinner.setSpeed(OperatorInterface.getSpeed());
     }
-
 }
