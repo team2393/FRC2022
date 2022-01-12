@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -33,6 +34,8 @@ public class MotorTestRobot extends TimedRobot
         // Configure motor
         motor.configFactoryDefault();
         motor.clearStickyFaults();
+        motor.setNeutralMode(NeutralMode.Brake);
+        motor.setInverted(false);
     }
     
     @Override
