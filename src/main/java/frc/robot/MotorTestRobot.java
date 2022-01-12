@@ -93,7 +93,7 @@ public class MotorTestRobot extends TimedRobot
         // TODO: Add PIDController.
 
         // double kV = 0.1129943502;
-        // double voltage = setpoint * kV;
+        // double voltage = desired_speed * kV;
         double voltage = speed_feedforward.calculate(desired_speed);
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
         
