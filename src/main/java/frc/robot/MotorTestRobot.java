@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** Robot for testing motors */
 public class MotorTestRobot extends TimedRobot
 {
-    // Basic encoder steps per rev on Falcon: 2048
+    /** Basic encoder steps per rev on Falcon: 2048 */
     private final double STEPS_PER_REV = 2048;
+
+    /** Motor controller */
     private final WPI_TalonFX motor = new WPI_TalonFX(1);
 
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.17, 0.112994, 0);
+    /** Feed-forward that helps compute the voltage for a desired speed.
+     *  See also ElevatorFeedforward, ArmFeedforward
+     */
+    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.17, 0.112994, 0);
 
     @Override
     public void robotInit()
@@ -66,22 +71,50 @@ public class MotorTestRobot extends TimedRobot
     @Override
     public void autonomousPeriodic()
     {
-        final double setpoint;
+        // Pick what to do in auto mode
+        autoSpeedExample();
+        // autoPositionExample();
+    }
+
+    private void autoSpeedExample()
+    {
+        final double desired_speed;
         // Every 5 seconds, toggle motor between idle and some speed in revs/sec
         if ((System.currentTimeMillis() / 5000) % 2 == 0)
-            setpoint = 50.0;
+            desired_speed = 50.0;
         else
-            setpoint = 10.0;
+            desired_speed = 10.0;
 
         // Compute voltage for the desired speed
-        final double speed = motor.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
-        // TODO: Use feed forward and/or PID
-        // PIDController.
-        // Later ProfiledPIDController when controlling position
+        final double actual_speed = motor.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
+        // TODO: Add PIDController.
 
         // double kV = 0.1129943502;
         // double voltage = setpoint * kV;
-        double voltage = feedforward.calculate(setpoint);
+        double voltage = speed_feedforward.calculate(desired_speed);
+        voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+        
+        motor.setVoltage(voltage);
+    }
+
+    private void autoPositionExample()
+    {
+        final double desired_position;
+        // Every 5 seconds, toggle between two positions
+        if ((System.currentTimeMillis() / 5000) % 2 == 0)
+            desired_position = 100.0;
+        else
+            desired_position = 0.0;
+
+        final double actual_position = motor.getSelectedSensorPosition() / STEPS_PER_REV;
+
+        // TODO Use P control
+        // TODO: Use PIDController to compute voltage,
+        //       configured via dashboard,
+        //       reset when setpoint changes
+        // TODO: Use ProfiledPIDController when controlling position
+
+        double voltage = 0.0;
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
     
         motor.setVoltage(voltage);
