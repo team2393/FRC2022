@@ -21,8 +21,8 @@ public class Drivetrain extends SubsystemBase
     private final WPI_TalonFX primary_right = new WPI_TalonFX(RobotMap.PRIMARY_RIGHT_DRIVE);
     private final WPI_TalonFX secondary_right = new WPI_TalonFX(RobotMap.SECONDARY_RIGHT_DRIVE);
 
+    // Combine into DifferentialDrive
     private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
-    // TODO: Combine into DifferentialDrive
 
     public Drivetrain()
     {
