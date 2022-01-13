@@ -5,6 +5,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,10 +14,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Spinner used to eject balls */
 public class Spinner extends SubsystemBase
 {
+    /** Encoder steps per revolution of spinner wheel */
+    // TODO Calibrate!
     private final double STEPS_PER_REV = 2048;
+    
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
     
+    // TODO Find good values!
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
     private final PIDController pid = new PIDController(0, 0, 0);
 
@@ -24,10 +29,12 @@ public class Spinner extends SubsystemBase
     {
         // TODO Initialize both motors!
 
-        // Primary and secondary motors are on opposite sites of spinner,
+        // Primary and secondary motors are on opposite sides of spinner,
         // one needs to be inverted.
         // TODO Invert such that positive speed setting will 'eject' balls
-        secondary.setInverted(true); 
+        secondary.setInverted(true);
+
+        // We command the primary motor, secondary follows
         secondary.follow(primary); 
     }
 
@@ -58,9 +65,10 @@ public class Spinner extends SubsystemBase
     /** @param speed Desired speed in revs/sec */
     public void setSpeed(final double speed)
     {
-        // TODO Use FF and PID
-        // double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
-        // setVoltage(voltage);
+        // Use FF and PID to estimate voltage needed for that speed
+        double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
+        voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+        setVoltage(voltage);
     }
     
     @Override
