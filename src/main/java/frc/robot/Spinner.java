@@ -22,11 +22,19 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
+        // TODO Initialize both motors!
+
         // Primary and secondary motors are on opposite sites of spinner,
         // one needs to be inverted.
         // TODO Invert such that positive speed setting will 'eject' balls
         secondary.setInverted(true); 
         secondary.follow(primary); 
+    }
+
+    /** Reset position encoder */
+    public void reset()
+    {
+        primary.setSelectedSensorPosition(0);
     }
 
     /** @return Position in revs */
@@ -41,13 +49,18 @@ public class Spinner extends SubsystemBase
         return primary.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
     }
 
+    /** @param voltage Voltage for spinner motors */
+    public void setVoltage(final double voltage)
+    {
+        primary.setVoltage(voltage);
+    }
+
     /** @param speed Desired speed in revs/sec */
     public void setSpeed(final double speed)
     {
-        primary.set(speed);
         // TODO Use FF and PID
         // double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
-        // primary.setVoltage(voltage);
+        // setVoltage(voltage);
     }
     
     @Override

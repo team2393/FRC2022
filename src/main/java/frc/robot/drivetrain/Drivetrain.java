@@ -27,12 +27,27 @@ public class Drivetrain extends SubsystemBase
     public Drivetrain()
     {
         // Motors on right need to be inverted
-        primary_right.setInverted(true);
-        secondary_right.setInverted(true);
+        initializeMotor(primary_left, false);
+        initializeMotor(secondary_left, false);
+        initializeMotor(primary_right, true);
+        initializeMotor(secondary_right, true);
 
         // Have secondaries follow the primaries
         secondary_left.follow(primary_left);
         secondary_right.follow(primary_right);
+    }
+
+    /** @param motor Motor to initialize
+     *  @param invert Should motor direction be inverted?
+     */
+    private void initializeMotor(WPI_TalonFX motor, boolean invert)
+    {
+        // Motors remember certain settings. We don't know if the motor
+        // is fresh out of the box or had been used on a different robot.
+        // ==> Make sure that we start with the default configuration.
+        motor.configFactoryDefault();
+        motor.clearStickyFaults();
+        motor.setInverted(invert);
     }
 
     public void drive(double speed, double rotation)
