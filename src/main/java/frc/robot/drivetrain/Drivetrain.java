@@ -90,6 +90,19 @@ public class Drivetrain extends SubsystemBase
     {
         primary_left.setSelectedSensorPosition(0.0);
         primary_right.setSelectedSensorPosition(0.0);
+
+        left_speed_pid.reset();
+        right_speed_pid.reset();
+    }
+
+    /** @param kp Proportional gain
+     *  @param ki Integral gain
+     *  @param kd derivative gain
+     */
+    public void configurePID(double kp, double ki, double kd)
+    {
+        left_speed_pid.setPID(kp, ki, kd);
+        right_speed_pid.setPID(kp, ki, kd);
     }
 
     /** @return Distance travelled by left side motor(s) in meters */
@@ -142,10 +155,10 @@ public class Drivetrain extends SubsystemBase
     public void setSpeeds(double left_speed, double right_speed)
     {
         double actual_speed = getLeftSpeed();
-        primary_left.setVoltage(speed_feedforward.calculate(left_speed) + left_speed_pid.calculate(actual_speed, left_speed));
+        primary_left.setVoltage(speed_feedforward.calculate(left_speed)   + left_speed_pid.calculate(actual_speed, left_speed));
 
         actual_speed = getRightSpeed();
-        primary_right.setVoltage(speed_feedforward.calculate(left_speed) + right_speed_pid.calculate(actual_speed, left_speed));
+        primary_right.setVoltage(speed_feedforward.calculate(right_speed) + right_speed_pid.calculate(actual_speed, right_speed));
     }
 
     /** Create a command that runs the drve train along a trajectory
@@ -173,4 +186,5 @@ public class Drivetrain extends SubsystemBase
 
         return result;
     }
+
 }

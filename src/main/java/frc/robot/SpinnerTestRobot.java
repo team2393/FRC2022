@@ -17,14 +17,17 @@ public class SpinnerTestRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Spinner Test *****");
+
+        SmartDashboard.setDefaultNumber("Spinner Setpoint", 0.0);
     }
 
     @Override
     public void robotPeriodic()
     {
         // Spinner itself displays speed on dashboard.
-        // For spinner test, add display of position to allow configuring Spinner.STEPS_PER_REV
+        // Add details needed to configure/tune the spinner.
         SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
+        SmartDashboard.putNumber("Spinner Voltage", spinner.getVoltage());
     }
 
     @Override
@@ -36,11 +39,15 @@ public class SpinnerTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        // In teleop, manually control spinner through joystick
+        // In teleop, manually control spinner voltage -12..12 through joystick
         double voltage = 12.0*OperatorInterface.getSpeed();
         spinner.setVoltage(voltage);
+    }
 
-        // Display voltage so we can tune spinner
-        SmartDashboard.putNumber("Spinner Voltage", voltage);
+    @Override
+    public void autonomousPeriodic()
+    {
+        // In auto, ask spinner to run at desired speed
+        spinner.setSpeed(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
     }
 }

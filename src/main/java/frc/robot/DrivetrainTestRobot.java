@@ -20,6 +20,10 @@ public class DrivetrainTestRobot extends TimedRobot
 
         // Allow setting the speed used during auto-no-mouse
         SmartDashboard.setDefaultNumber("Desired Speed", 0.0);
+
+        SmartDashboard.setDefaultNumber("P", 0.0);
+        SmartDashboard.setDefaultNumber("I", 0.0);
+        SmartDashboard.setDefaultNumber("D", 0.0);
     }
 
     @Override
@@ -52,7 +56,11 @@ public class DrivetrainTestRobot extends TimedRobot
     @Override
     public void autonomousPeriodic()
     {
-        // Run 'forward' at speed set in dashboard
+        // Allow adjusting PID from dashboard
+        drivetrain.configurePID(SmartDashboard.getNumber("P", 0.0),
+                                SmartDashboard.getNumber("I", 0.0),
+                                SmartDashboard.getNumber("D", 0.0));
+        // Run 'straight forward' at speed set in dashboard
         final double speed = SmartDashboard.getNumber("Desired Speed", 0.0);
         drivetrain.setSpeeds(speed, speed);
     }

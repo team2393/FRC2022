@@ -70,7 +70,13 @@ public class Spinner extends SubsystemBase
         return primary.getSelectedSensorPosition() / STEPS_PER_REV;
     }
 
-    /** @return Speed in revs/sec */
+    /** @return Spinner motor voltage */
+    public double getVoltage()
+    {
+        return primary.getMotorOutputVoltage();
+    }
+
+    /** @return Measured speed in revs/sec */
     public double getSpeed()
     {
         // Convert encoder steps per 0.1 sec. into revs per second
