@@ -4,6 +4,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Very simple robot that tests the spinner */
 public class SpinnerTestRobot extends TimedRobot
@@ -15,6 +16,14 @@ public class SpinnerTestRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Spinner Test *****");
+    }
+
+    @Override
+    public void robotPeriodic()
+    {
+        // Spinner itself displays speed on dashboard.
+        // For spinner test, add display of position to allow configuring Spinner.STEPS_PER_REV
+        SmartDashboard.putNumber("Spinner Pos", spinner.getPosition());
     }
 
     @Override
