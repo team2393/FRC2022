@@ -23,7 +23,7 @@ public class SpinnerTestRobot extends TimedRobot
     {
         // Spinner itself displays speed on dashboard.
         // For spinner test, add display of position to allow configuring Spinner.STEPS_PER_REV
-        SmartDashboard.putNumber("Spinner Pos", spinner.getPosition());
+        SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
     }
 
     @Override
@@ -40,6 +40,6 @@ public class SpinnerTestRobot extends TimedRobot
         spinner.setVoltage(voltage);
 
         // Display voltage so we can tune spinner
-        SmartDashboard.putNumber("Voltage", voltage);
+        SmartDashboard.putNumber("Spinner Voltage", voltage);
     }
 }

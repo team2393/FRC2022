@@ -62,6 +62,7 @@ public class RapidReactRobot extends TimedRobot
     public void teleopInit()
     {
         System.out.println("Teleop");
+        drivetrain.reset();
     }
 
     /** This function is called periodically during operator control. */

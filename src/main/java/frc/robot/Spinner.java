@@ -28,6 +28,7 @@ public class Spinner extends SubsystemBase
     public Spinner()
     {
         // TODO Initialize both motors!
+        // motor.setNeutralMode(NeutralMode.Coasts);
 
         // Primary and secondary motors are on opposite sides of spinner,
         // one needs to be inverted.
@@ -47,12 +48,14 @@ public class Spinner extends SubsystemBase
     /** @return Position in revs */
     public double getPosition()
     {
+        // Convert encoder steps into revolutions of spinner wheels
         return primary.getSelectedSensorPosition() / STEPS_PER_REV;
     }
 
     /** @return Speed in revs/sec */
     public double getSpeed()
     {
+        // Convert encoder steps per 0.1 sec. into revs per second
         return primary.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
     }
 
