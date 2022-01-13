@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.auto.AutoOptions;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.DriveByJoystickCommand;
 
 /** Team 2393 'Rapid React' robot */
 public class RapidReactRobot extends TimedRobot
@@ -18,6 +19,9 @@ public class RapidReactRobot extends TimedRobot
 
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain();
+
+    /** Commands */
+    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);
     
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
@@ -62,14 +66,18 @@ public class RapidReactRobot extends TimedRobot
     public void teleopInit()
     {
         System.out.println("Teleop");
+
+        // Reset stuff
         drivetrain.reset();
+
+        // Start driving via joystick
+        joydrive.schedule();
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic()
     {
-        drivetrain.drive(OperatorInterface.getSpeed(), OperatorInterface.getRotation());
     }
 
     /** This function is called when entering auto-no-mouse mode */

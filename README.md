@@ -32,7 +32,8 @@ January 2022
 * Feedforward for 'SimpleMotor', 'Elevator', 'Arm'
 * PID for speed control
 * PID for position control
-* Odometry, trajectory generation, autonomous drive with 'smashbot'
+* Drivetrain: Basic teleop, calibrate encoders, speed control
+* Drivetrain: Odometry, trajectory generation, autonomous drive
 * Vision processing on raspberry pi
 * Start skeleton software for any expected robot component: Ball pickup, ball ejection, climber/arm, ...
 

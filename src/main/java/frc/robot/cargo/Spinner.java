@@ -1,8 +1,9 @@
 // Copyright (c) Team 2393, FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot;
+package frc.robot.cargo;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -10,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 /** Spinner used to eject balls */
 public class Spinner extends SubsystemBase
@@ -27,17 +29,33 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
-        // TODO Initialize both motors!
-        // motor.setNeutralMode(NeutralMode.Coasts);
-
         // Primary and secondary motors are on opposite sides of spinner,
         // one needs to be inverted.
         // TODO Invert such that positive speed setting will 'eject' balls
-        secondary.setInverted(true);
-
+        initializeMotor(primary, false);
+        initializeMotor(secondary, true);
+        
         // We command the primary motor, secondary follows
         secondary.follow(primary); 
     }
+    
+    /** @param motor Motor to initialize
+     *  @param invert Should motor direction be inverted?
+     */
+    private void initializeMotor(WPI_TalonFX motor, boolean invert)
+    {
+        // Motors remember certain settings. We don't know if the motor
+        // is fresh out of the box or had been used on a different robot.
+        // ==> Make sure that we start with the default configuration.
+        motor.configFactoryDefault();
+        motor.clearStickyFaults();
+        // Spinner tends to, well, spin real fast.
+        // When turned off, just allow it to wind down,
+        // no need to stop it hard via 'brake' mode.
+        motor.setNeutralMode(NeutralMode.Coast);
+        motor.setInverted(invert);
+    }
+
 
     /** Reset position encoder */
     public void reset()

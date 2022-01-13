@@ -3,8 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,15 +27,35 @@ public class Drivetrain extends SubsystemBase
     // Then enter the steps / distance, for example
     // 123434 /  Units.inchesToMeters(400.0)
     // ==> "Distance" is now in units of meters
+    /** Encoder steps per meter of drive chassis movement */
     private final double STEPS_PER_METER = 1.0;
 
-    private final WPI_TalonFX primary_left = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE);
-    private final WPI_TalonFX secondary_left = new WPI_TalonFX(RobotMap.SECONDARY_LEFT_DRIVE);
-    private final WPI_TalonFX primary_right = new WPI_TalonFX(RobotMap.PRIMARY_RIGHT_DRIVE);
-    private final WPI_TalonFX secondary_right = new WPI_TalonFX(RobotMap.SECONDARY_RIGHT_DRIVE);
+    /** Drive motors */
+    private final WPI_TalonFX primary_left    = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE),
+                              secondary_left  = new WPI_TalonFX(RobotMap.SECONDARY_LEFT_DRIVE),
+                              primary_right   = new WPI_TalonFX(RobotMap.PRIMARY_RIGHT_DRIVE),
+                              secondary_right = new WPI_TalonFX(RobotMap.SECONDARY_RIGHT_DRIVE);
 
-    // Combine into DifferentialDrive
+    /** Differential drive helper for turning forward/backwards and rotation into motor voltages */
     private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
+
+    // TODO Tune FF settings, then PID settings
+
+    /** FF for motor speed */
+    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0, 0, 0);
+
+    /** PIDs for motor speed
+     * 
+     *  Both the left and right motors behave the same,
+     *  so we can use the same feed forward and PID settings.
+     *  
+     *  While we can actually use the exact same 'speed_feedforward',
+     *  we cannot use the same PIDController instance because a PIDController
+     *  keeps track of the integral error and the last error, which can differ
+     *  for the two sides.
+     */
+    private final PIDController left_speed_pid = new PIDController(0, 0, 0),
+                                right_speed_pid = new PIDController(0, 0, 0);
 
     public Drivetrain()
     {
@@ -57,6 +80,8 @@ public class Drivetrain extends SubsystemBase
         // ==> Make sure that we start with the default configuration.
         motor.configFactoryDefault();
         motor.clearStickyFaults();
+        // When we set zero voltage, brake!
+        motor.setNeutralMode(NeutralMode.Brake);
         motor.setInverted(invert);
     }
 
@@ -66,16 +91,6 @@ public class Drivetrain extends SubsystemBase
         primary_left.setSelectedSensorPosition(0.0);
         primary_right.setSelectedSensorPosition(0.0);
     }
-
-    /** @param speed -1..1 speed of going back/for. Forward is positive
-     *  @param rotation -1..1 speed of rotation. Positive is "right", clockwise
-     */
-    public void drive(double speed, double rotation)
-    {
-        diff_drive.arcadeDrive(speed, rotation);
-    }
-
-    // TODO: DriveByJoystickCommand
 
     /** @return Distance travelled by left side motor(s) in meters */
     public double getLeftDistance()
@@ -87,6 +102,50 @@ public class Drivetrain extends SubsystemBase
     public double getRightDistance()
     {
         return primary_right.getSelectedSensorPosition() / STEPS_PER_METER; 
+    }
+
+    /** @return Speed of left side motor(s) in meters/sec */
+    public double getLeftSpeed()
+    {
+        return primary_left.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0; 
+    }
+
+    /** @return Speed of right side motor(s) in meters/sec */
+    public double getRightSpeed()
+    {
+        return primary_right.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0; 
+    }
+
+    /** @return Voltage of left side motor(s) */
+    public double getLeftVoltage()
+    {
+        return primary_left.getMotorOutputVoltage(); 
+    }
+
+    /** @return Voltage of right side motor(s) */
+    public double getRightVoltage()
+    {
+        return primary_right.getMotorOutputVoltage(); 
+    }
+
+    /** @param speed -1..1 speed of going back/for. Forward is positive
+     *  @param rotation -1..1 speed of rotation. Positive is "right", clockwise
+     */
+    public void drive(double speed, double rotation)
+    {
+        diff_drive.arcadeDrive(speed, rotation);
+    }
+
+    /** @param left_speed Speed in meters/sec for left side
+     *  @param right_speed .. and right side
+     */
+    public void setSpeeds(double left_speed, double right_speed)
+    {
+        double actual_speed = getLeftSpeed();
+        primary_left.setVoltage(speed_feedforward.calculate(left_speed) + left_speed_pid.calculate(actual_speed, left_speed));
+
+        actual_speed = getRightSpeed();
+        primary_right.setVoltage(speed_feedforward.calculate(left_speed) + right_speed_pid.calculate(actual_speed, left_speed));
     }
 
     /** Create a command that runs the drve train along a trajectory
@@ -113,12 +172,5 @@ public class Drivetrain extends SubsystemBase
         result.addRequirements(this);
 
         return result;
-    }
-
-    @Override
-    public void periodic()
-    {
-        SmartDashboard.putNumber("Left Distance", getLeftDistance());
-        SmartDashboard.putNumber("Right Distance", getRightDistance());
     }
 }
