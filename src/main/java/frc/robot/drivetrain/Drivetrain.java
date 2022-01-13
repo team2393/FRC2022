@@ -73,7 +73,7 @@ public class Drivetrain extends SubsystemBase
     /** @param motor Motor to initialize
      *  @param invert Should motor direction be inverted?
      */
-    private void initializeMotor(WPI_TalonFX motor, boolean invert)
+    private void initializeMotor(final WPI_TalonFX motor, final boolean invert)
     {
         // Motors remember certain settings. We don't know if the motor
         // is fresh out of the box or had been used on a different robot.
@@ -99,7 +99,7 @@ public class Drivetrain extends SubsystemBase
      *  @param ki Integral gain
      *  @param kd derivative gain
      */
-    public void configurePID(double kp, double ki, double kd)
+    public void configurePID(final double kp, final double ki, final double kd)
     {
         left_speed_pid.setPID(kp, ki, kd);
         right_speed_pid.setPID(kp, ki, kd);
@@ -144,7 +144,7 @@ public class Drivetrain extends SubsystemBase
     /** @param speed -1..1 speed of going back/for. Forward is positive
      *  @param rotation -1..1 speed of rotation. Positive is "right", clockwise
      */
-    public void drive(double speed, double rotation)
+    public void drive(final double speed, final double rotation)
     {
         diff_drive.arcadeDrive(speed, rotation);
     }
@@ -152,7 +152,7 @@ public class Drivetrain extends SubsystemBase
     /** @param left_speed Speed in meters/sec for left side
      *  @param right_speed .. and right side
      */
-    public void setSpeeds(double left_speed, double right_speed)
+    public void setSpeeds(final double left_speed, final double right_speed)
     {
         double actual_speed = getLeftSpeed();
         primary_left.setVoltage(speed_feedforward.calculate(left_speed)   + left_speed_pid.calculate(actual_speed, left_speed));
@@ -169,7 +169,7 @@ public class Drivetrain extends SubsystemBase
      * 
      *  @param x_y_z Sequence of points { X, Y, Heading }
      */
-    public CommandBase createTrajectoryCommand(double... x_y_h)
+    public CommandBase createTrajectoryCommand(final double... x_y_h)
     {
         if (x_y_h.length % 3 != 0)
             throw new IllegalArgumentException("List of { X, Y, Heading } contains " + x_y_h.length + " entries?!");

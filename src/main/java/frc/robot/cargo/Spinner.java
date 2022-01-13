@@ -42,7 +42,7 @@ public class Spinner extends SubsystemBase
     /** @param motor Motor to initialize
      *  @param invert Should motor direction be inverted?
      */
-    private void initializeMotor(WPI_TalonFX motor, boolean invert)
+    private void initializeMotor(final WPI_TalonFX motor, final boolean invert)
     {
         // Motors remember certain settings. We don't know if the motor
         // is fresh out of the box or had been used on a different robot.
