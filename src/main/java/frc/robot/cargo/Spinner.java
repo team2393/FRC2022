@@ -18,7 +18,7 @@ public class Spinner extends SubsystemBase
 {
     /** Encoder steps per revolution of spinner wheel */
     // TODO Calibrate!
-    private final double STEPS_PER_REV = 2048;
+    private final double STEPS_PER_REV = 2048 / 2;
     
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
@@ -101,6 +101,6 @@ public class Spinner extends SubsystemBase
     @Override
     public void periodic()
     {
-        SmartDashboard.putNumber("Spinner Rev/sec", getSpeed());
+        SmartDashboard.putNumber("Spinner RPS", getSpeed());
     }
 } 

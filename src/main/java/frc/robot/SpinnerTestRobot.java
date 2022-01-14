@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.cargo.Spinner;
 
 /** Very simple robot that tests the spinner */
@@ -24,6 +25,8 @@ public class SpinnerTestRobot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
+        CommandScheduler.getInstance().run();
+        
         // Spinner itself displays speed on dashboard.
         // Add details needed to configure/tune the spinner.
         SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
