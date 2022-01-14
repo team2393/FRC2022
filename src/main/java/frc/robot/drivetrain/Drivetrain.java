@@ -28,7 +28,7 @@ public class Drivetrain extends SubsystemBase
     // 123434 /  Units.inchesToMeters(400.0)
     // ==> "Distance" is now in units of meters
     /** Encoder steps per meter of drive chassis movement */
-    private final double STEPS_PER_METER = 1.0;
+    private final double STEPS_PER_METER = 339306.000000 / (10 * Units.inchesToMeters(18.65));
 
     /** Drive motors */
     private final WPI_TalonFX primary_left    = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE),
@@ -42,7 +42,7 @@ public class Drivetrain extends SubsystemBase
     // TODO Tune FF settings, then PID settings
 
     /** FF for motor speed */
-    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0, 0, 0);
+    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0, 3.9492, 0);
 
     /** PIDs for motor speed
      * 
@@ -159,6 +159,9 @@ public class Drivetrain extends SubsystemBase
 
         actual_speed = getRightSpeed();
         primary_right.setVoltage(speed_feedforward.calculate(right_speed) + right_speed_pid.calculate(actual_speed, right_speed));
+
+        // Since we're circumventing the drive train, reset its safety timer
+        diff_drive.feed();
     }
 
     /** Create a command that runs the drve train along a trajectory

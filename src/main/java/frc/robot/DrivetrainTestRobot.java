@@ -21,9 +21,9 @@ public class DrivetrainTestRobot extends TimedRobot
         // Allow setting the speed used during auto-no-mouse
         SmartDashboard.setDefaultNumber("Desired Speed", 0.0);
 
-        SmartDashboard.setDefaultNumber("P", 0.0);
-        SmartDashboard.setDefaultNumber("I", 0.0);
-        SmartDashboard.setDefaultNumber("D", 0.0);
+        SmartDashboard.setDefaultNumber("P", 4.0);
+        SmartDashboard.setDefaultNumber("I", 0.4);
+        SmartDashboard.setDefaultNumber("D", 0.05);
     }
 
     @Override
