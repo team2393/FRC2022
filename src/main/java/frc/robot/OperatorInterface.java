@@ -16,6 +16,8 @@ public class OperatorInterface
     /** @return Speed that driver requests, -1..1, positive is "forward" */
     public static double getSpeed()
     {
+        if (joystick.getRightTriggerAxis() > 0.5)
+            return -joystick.getLeftY() / 2;
         return -joystick.getLeftY();
     }
 
