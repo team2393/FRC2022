@@ -34,8 +34,18 @@ January 2022
 * PID for speed control, PID for position control
 * Drivetrain: Basic teleop, calibrate encoders, speed control
 * Spinner: Basic teleop, speed control
-* Drivetrain: Add gyro, odometry, trajectory generation, autonomous drive
+
+Ran into two issues:
+* In spinner teleop test, which works fine on another laptop, the robots laptop stops reacting to the joystick.
+  Looks like ongoing issue https://github.com/wpilibsuite/allwpilib/issues/3896
+* The Analog Devices gyro that we used last year only reports 0 degrees, never updating.
+   Looks like known issue https://docs.wpilib.org/en/stable/docs/yearly-overview/known-issues.html?highlight=gyro
+  
+Next:
+
+* Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
 * Vision processing on raspberry pi
+* Prepare for reading tilt angle in case we need that to climb
 * Start skeleton software for any expected robot component: Ball pickup, ball ejection, climber/arm, ...
 
 February
