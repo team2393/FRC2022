@@ -30,7 +30,7 @@ public class MotorTestRobot extends TimedRobot
     /** Feed-forward that helps compute the voltage for a desired speed.
      *  See also ElevatorFeedforward, ArmFeedforward
      */
-    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.17, 0.112994, 0);
+    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.50692, 0.10621, 0.0037104);
 
     /** PID controller for speed, to be used with speed_feedforward  */
     private final PIDController speed_pid = new PIDController(0, 0, 0);
@@ -120,9 +120,9 @@ public class MotorTestRobot extends TimedRobot
     public void autonomousPeriodic()
     {
         // Pick what to do in auto mode
-        // autoSpeedExample();
+        autoSpeedExample();
         // autoPositionExample();
-        autoProfiledPositionExample();
+        // autoProfiledPositionExample();
     }
 
     private void autoSpeedExample()
@@ -144,8 +144,8 @@ public class MotorTestRobot extends TimedRobot
         // the motor down.
         // PID is added to correct for what we don't know.
         // The 'integral' term is most important to correct the last small difference.
-        double voltage = speed_feedforward.calculate(desired_speed)
-                       + speed_pid.calculate(actual_speed, desired_speed);
+        double voltage = speed_feedforward.calculate(desired_speed);
+                      // + speed_pid.calculate(actual_speed, desired_speed);
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
         
         motor.setVoltage(voltage);
