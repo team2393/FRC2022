@@ -21,14 +21,15 @@ import frc.robot.RobotMap;
 /** Motors, encoders, .. of the drive chassis */
 public class Drivetrain extends SubsystemBase
 {
-    // TODO Calibrate!
     // Start with "1" so "distance" is in units of encoder steps.
     // Drive about 10 meters, measure the exact distance.
     // Then enter the steps / distance, for example
     // 123434 /  Units.inchesToMeters(400.0)
     // ==> "Distance" is now in units of meters
+
+    // Calibrated for 'smashbot'
     /** Encoder steps per meter of drive chassis movement */
-    private final double STEPS_PER_METER = 339306.000000 / (10 * Units.inchesToMeters(18.65));
+    private final double STEPS_PER_METER = 288123.000000 / Units.inchesToMeters(156.75);
 
     /** Drive motors */
     private final WPI_TalonFX primary_left    = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE),
@@ -59,6 +60,11 @@ public class Drivetrain extends SubsystemBase
 
     public Drivetrain()
     {
+        // steps/rev / (steps/meter)
+        // steps * 1/rev * meters * 1/steps
+        // meters / rev
+        double meters_per_rot = 2048 / STEPS_PER_METER;
+        System.out.println("Drivetrain meters per rev: " + meters_per_rot);
         // Motors on right need to be inverted
         initializeMotor(primary_left,   false);
         initializeMotor(secondary_left, false);
