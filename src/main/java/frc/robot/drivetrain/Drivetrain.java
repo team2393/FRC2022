@@ -42,8 +42,8 @@ public class Drivetrain extends SubsystemBase
 
     // TODO Tune FF settings, then PID settings
 
-    /** FF for motor speed */
-    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0, 3.9492, 0);
+    /** FF for motor speed from SysId */
+    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.54799, 3.8445, 0.19083);
 
     /** PIDs for motor speed
      * 
@@ -54,6 +54,8 @@ public class Drivetrain extends SubsystemBase
      *  we cannot use the same PIDController instance because a PIDController
      *  keeps track of the integral error and the last error, which can differ
      *  for the two sides.
+     * 
+     *  SysId suggests 0, 3.5927, 0
      */
     private final PIDController left_speed_pid = new PIDController(0, 0, 0),
                                 right_speed_pid = new PIDController(0, 0, 0);
@@ -63,6 +65,7 @@ public class Drivetrain extends SubsystemBase
         // steps/rev / (steps/meter)
         // steps * 1/rev * meters * 1/steps
         // meters / rev
+        // 0.028300446684228608
         double meters_per_rot = 2048 / STEPS_PER_METER;
         System.out.println("Drivetrain meters per rev: " + meters_per_rot);
         // Motors on right need to be inverted
