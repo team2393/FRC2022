@@ -113,6 +113,7 @@ public class Drivetrain extends SubsystemBase
 
         // Reset gyro angle
         pigeon.setFusedHeading(0.0);
+        pigeon.setYaw(0.0);
     }
 
     /** @param kp Proportional gain
@@ -216,4 +217,16 @@ public class Drivetrain extends SubsystemBase
         return result;
     }
 
+    @Override
+    public void periodic()
+    {
+        // Display generally useful drivetrain info
+        double avg = (getLeftDistance() + getRightDistance()) / 2;
+        SmartDashboard.putNumber("Distance",  avg);
+
+        avg = (getLeftSpeed() + getRightSpeed()) / 2;
+        SmartDashboard.putNumber("Speed",  avg);
+
+        SmartDashboard.putNumber("Heading", pigeon.getFusedHeading());
+    }
 }

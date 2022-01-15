@@ -38,5 +38,6 @@ public class PigeonTestRobot extends TimedRobot
     public void teleopInit()
     {
         pigeon.setFusedHeading(0.0);
+        pigeon.setYaw(0.0);
     }
 }

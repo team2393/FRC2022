@@ -30,13 +30,7 @@ public class DrivetrainTestRobot extends TimedRobot
     public void robotPeriodic()
     {
         // Display info that we need to adjust drivetrain feed forward and PID settings
-        double avg = (drivetrain.getLeftDistance() + drivetrain.getRightDistance()) / 2;
-        SmartDashboard.putNumber("Distance",  avg);
-
-        avg = (drivetrain.getLeftSpeed() + drivetrain.getRightSpeed()) / 2;
-        SmartDashboard.putNumber("Speed",  avg);
-
-        avg = (drivetrain.getLeftVoltage() + drivetrain.getRightVoltage()) / 2;
+        double avg = (drivetrain.getLeftVoltage() + drivetrain.getRightVoltage()) / 2;
         SmartDashboard.putNumber("Voltage",  avg);
     }
 
