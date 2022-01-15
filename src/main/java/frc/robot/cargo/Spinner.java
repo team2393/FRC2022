@@ -18,7 +18,7 @@ public class Spinner extends SubsystemBase
 {
     /** Encoder steps per revolution of spinner wheel */
     // TODO Calibrate on real robot
-    private final double STEPS_PER_REV = 2048 / 2;
+    private final double STEPS_PER_REV = 2048 * 1;
     
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
