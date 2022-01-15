@@ -10,17 +10,16 @@ Code for 2022 Robot
    * Past [getting-started sessions](https://github.com/team2393/FRC/wiki), [code examples](https://github.com/team2393/FRC/tree/master/src/main/java)
    * Cross-the-Road Electronics, details of some motors etc.: https://newsite.ctr-electronics.com/
    * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/
-   
 
 To get a copy of the sources, follow the WPILib introduction section on "Installing Software".
 You mostly need the "WPILib", which includes VS Code, and can add the rest later.
-Then get GIT https://git-scm.com/downloads
+Then get GIT from https://git-scm.com/downloads .
 Finally, open VS Code, and select the View menu, Command Palette, Git: Clone, `https://github.com/team2393/FRC2022.git` .
 When prompted for the location of the code, best use a `git/` subfolder of your home directory.
 
-Later, to commit, you'll need to
+If you're asked to commit changes, you'll also need to
   1) Get a github account
-  2) Ask to be added to the people with write access to the repository
+  2) Get added to the people with write access to the repository
   3) Create an "access token", https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 
