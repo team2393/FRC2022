@@ -51,8 +51,7 @@ public class SpinnerTestRobot extends TimedRobot
     public void autonomousPeriodic()
     {
         // In auto, ask spinner to run at desired speed
-        spinner.setVoltage(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
-
-        // TODO Change back to spinner.setSpeed(...)
+        // spinner.setVoltage(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
+        spinner.setSpeed(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
     }
 }

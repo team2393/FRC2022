@@ -24,8 +24,9 @@ public class Spinner extends SubsystemBase
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
     
     // TODO Find good values!
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
-    private final PIDController pid = new PIDController(0, 0, 0);
+    // SysId on plywood prototype
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.8287, 0.1148, 0.011757);
+    private final PIDController pid = new PIDController(0.14831, 0, 0);
 
     public Spinner()
     {
