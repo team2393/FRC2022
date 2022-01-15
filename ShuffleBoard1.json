@@ -269,8 +269,7 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Revs": true
+              "Y-axis/Unit": "ul"
             }
           },
           "13,1": {
@@ -286,12 +285,61 @@
           }
         }
       }
+    },
+    {
+      "title": "Pigeon",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Pigeon",
+              "Layout/Number of columns": 1,
+              "Layout/Number of rows": 4,
+              "Layout/Label position": "LEFT",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Heading",
+                  "_title": "Heading"
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Yaw",
+                  "_title": "Yaw"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Pitch",
+                  "_title": "Pitch"
+                },
+                "0,3": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Roll",
+                  "_title": "Roll"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
-    "x": 4.800000190734863,
-    "y": 88.0,
-    "width": 1517.5999755859375,
-    "height": 664.4000244140625
+    "x": -9.600000381469727,
+    "y": 230.8000030517578,
+    "width": 1178.4000244140625,
+    "height": 596.4000244140625
   }
 }

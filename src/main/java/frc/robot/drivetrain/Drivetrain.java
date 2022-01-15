@@ -5,6 +5,7 @@ package frc.robot.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -60,6 +61,9 @@ public class Drivetrain extends SubsystemBase
     private final PIDController left_speed_pid = new PIDController(0, 0, 0),
                                 right_speed_pid = new PIDController(0, 0, 0);
 
+    /** Heading and tilt angle sensor */
+    private final PigeonIMU pigeon = new PigeonIMU(0);
+
     public Drivetrain()
     {
         // steps/rev / (steps/meter)
@@ -77,6 +81,10 @@ public class Drivetrain extends SubsystemBase
         // Have secondaries follow the primaries
         secondary_left.follow(primary_left);
         secondary_right.follow(primary_right);
+
+        // Reset pigeon
+        pigeon.configFactoryDefault();
+        pigeon.clearStickyFaults();
     }
 
     /** @param motor Motor to initialize
@@ -102,6 +110,9 @@ public class Drivetrain extends SubsystemBase
 
         left_speed_pid.reset();
         right_speed_pid.reset();
+
+        // Reset gyro angle
+        pigeon.setFusedHeading(0.0);
     }
 
     /** @param kp Proportional gain
@@ -148,6 +159,12 @@ public class Drivetrain extends SubsystemBase
     public double getRightVoltage()
     {
         return primary_right.getMotorOutputVoltage(); 
+    }
+
+    /** @return Heading angle in degrees, increasing counterclockwise  */
+    public double getHeading()
+    {
+        return pigeon.getFusedHeading(); 
     }
 
     /** @param speed -1..1 speed of going back/for. Forward is positive
