@@ -24,6 +24,8 @@ public class OperatorInterface
     /** @return Rotation that driver requests, -1..1, positive is "right" or "clockwise" */
     public static double getRotation()
     {
+        if (joystick.getRightTriggerAxis() > 0.5)
+            return joystick.getRightX() / 2;
         return joystick.getRightX();
     }
 }
