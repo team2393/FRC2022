@@ -9,6 +9,7 @@ Code for 2022 Robot
    * Robot "WPILib", the FRC software framework https://docs.wpilib.org/en/stable/
    * Past [getting-started sessions](https://github.com/team2393/FRC/wiki), [code examples](https://github.com/team2393/FRC/tree/master/src/main/java)
    * Cross-the-Road Electronics, details of some motors etc.: https://newsite.ctr-electronics.com/
+   * REV, details of neu pneumatics hub https://docs.revrobotics.com/docs/first-robotics-competition
    * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/
 
 To get a copy of the sources, follow the WPILib introduction section on "Installing Software".
