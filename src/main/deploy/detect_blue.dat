@@ -1,0 +1,19 @@
+# Dashboard settings to detect blue balls
+HueMin = 10
+HueMax = 20
+SatMin = 10
+SatMax = 50
+ValMin = 100
+ValMax = 160
+AreaMin = 0
+AreaMax = 10000
+AspectMin = 0.5
+AspectMax = 1.5
+
+# Compare circe with radius r   vs.  square with side 2r:
+# 
+# fullness = circle_area / square_area
+#          = (3.14*rad*rad) = (2*rad*2*rad)
+#          = 4 / 3.14 = 0.785 ~ 80 %
+FullnessMin = 60
+FullnessMax = 100

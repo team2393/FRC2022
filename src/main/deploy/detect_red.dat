@@ -1,0 +1,19 @@
+# Dashboard settings to detect red balls
+HueMin = 170
+HueMax = 10
+SatMin = 250
+SatMax = 255
+ValMin = 230
+ValMax = 255
+AreaMin = 0
+AreaMax = 10000
+AspectMin = 0.5
+AspectMax = 1.5
+
+# Compare circe with radius r   vs.  square with side 2r:
+# 
+# fullness = circle_area / square_area
+#          = (3.14*rad*rad) = (2*rad*2*rad)
+#          = 4 / 3.14 = 0.785 ~ 80 %
+FullnessMin = 60
+FullnessMax = 100
