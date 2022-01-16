@@ -32,6 +32,7 @@ public class PigeonTestRobot extends TimedRobot
         SmartDashboard.putNumber("Yaw", ypr[0]);
         SmartDashboard.putNumber("Pitch", ypr[1]);
         SmartDashboard.putNumber("Roll", ypr[2]);
+        SmartDashboard.putNumber("Temperature", pigeon.getTemp());
     }
 
     @Override

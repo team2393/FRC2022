@@ -306,7 +306,7 @@
               "_type": "Grid Layout",
               "_title": "Pigeon",
               "Layout/Number of columns": 1,
-              "Layout/Number of rows": 4,
+              "Layout/Number of rows": 5,
               "Layout/Label position": "LEFT",
               "_children": {
                 "0,0": {
@@ -328,6 +328,11 @@
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Roll",
                   "_title": "Roll"
+                },
+                "0,4": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Temperature",
+                  "_title": "Temperature"
                 }
               }
             }
