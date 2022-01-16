@@ -23,9 +23,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.auto.TrajectoryHelper;
@@ -243,12 +241,7 @@ public class Drivetrain extends SubsystemBase
         final BiConsumer<Double, Double> output_speeds = this::setSpeeds;
         final CommandBase trajectory_follower = new RamseteCommand(trajectory, pose, follower, kinematics, output_speeds, this);
 
-        // Command to stop
-        final CommandBase stop = new InstantCommand(() -> drive(0, 0), this);
-
-        // First follow the trajectory. When done, make sure we stop
-        // since we can't be 100% sure how the trajectory plays out...
-        return new SequentialCommandGroup(trajectory_follower, stop);
+        return trajectory_follower;
     }
 
     @Override

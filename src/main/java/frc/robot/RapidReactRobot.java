@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.DriveByJoystickCommand;
@@ -36,6 +38,25 @@ public class RapidReactRobot extends TimedRobot
         // Populate and publish autonomous options
         AutoOptions.populate(auto_options, drivetrain);
         SmartDashboard.putData("Auto Options", auto_options);
+
+        // Handle the drivetrain via commands.
+        // By default, have it stop.
+        // Otherwise, DriveByJoystickCommand or an autonomous move command control it.
+        final CommandBase stay_put = new RunCommand(() -> drivetrain.drive(0, 0), drivetrain);
+        drivetrain.setDefaultCommand(stay_put);
+
+        // Register commands on dashboard: Reset stuff
+        final CommandBase reset_command = new InstantCommand(this::reset);
+        reset_command.setName("Reset");
+        SmartDashboard.putData(reset_command);
+    }
+
+    /** Reset drivetrain.. */
+    private void reset()
+    {
+        drivetrain.reset();
+
+        // TODO Is there more to reset?
     }
 
     /** This function is called all the time regardless of mode. */
@@ -67,9 +88,6 @@ public class RapidReactRobot extends TimedRobot
     {
         System.out.println("Teleop");
 
-        // Reset stuff
-        drivetrain.reset();
-
         // Start driving via joystick
         joydrive.schedule();
     }
@@ -85,6 +103,7 @@ public class RapidReactRobot extends TimedRobot
     public void autonomousInit()
     {
         System.out.println("Auto-No-Mouse");
+        // Start selected auto command
         auto_options.getSelected().schedule();
     }
 
