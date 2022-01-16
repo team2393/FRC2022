@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,9 @@ import frc.robot.RobotMap;
 /** Motors, encoders, .. of the drive chassis */
 public class Drivetrain extends SubsystemBase
 {
+    /** Maximum speed in meters/sec, acceleration in (m/s)/s */    
+    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0);
+
     // Start with "1" so "distance" is in units of encoder steps.
     // Drive about 10 meters, measure the exact distance.
     // Then enter the steps / distance, for example
