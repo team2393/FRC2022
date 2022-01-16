@@ -3,38 +3,56 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.drivetrain;
 
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.auto.TrajectoryHelper;
 
 /** Motors, encoders, .. of the drive chassis */
 public class Drivetrain extends SubsystemBase
 {
-    /** Maximum speed in meters/sec, acceleration in (m/s)/s */    
-    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0);
+    /** Track width is distance between left and right wheels in meters */
+    private static final double TRACK_WIDTH = 0.85;
 
+    /** Kinematics convert between speed of left/right wheels and speed of robot */
+    private static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(TRACK_WIDTH);
+
+    /** Maximum speed in meters/sec, acceleration in (m/s)/s */        
+    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
+                                                            // .addConstraint(new CentripetalAccelerationConstraint(1.0))
+                                                               .setKinematics(kinematics);
+
+    /** Encoder steps per meter of drive chassis movement */
     // Start with "1" so "distance" is in units of encoder steps.
     // Drive about 10 meters, measure the exact distance.
     // Then enter the steps / distance, for example
     // 123434 /  Units.inchesToMeters(400.0)
     // ==> "Distance" is now in units of meters
-
+    //
     // Calibrated for 'smashbot'
-    /** Encoder steps per meter of drive chassis movement */
-    private final double STEPS_PER_METER = 288123.000000 / Units.inchesToMeters(156.75);
+    private static final double STEPS_PER_METER = 288123.000000 / Units.inchesToMeters(156.75);
 
     /** Drive motors */
     private final WPI_TalonFX primary_left    = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE),
@@ -68,6 +86,9 @@ public class Drivetrain extends SubsystemBase
     /** Heading and tilt angle sensor */
     private final PigeonIMU pigeon = new PigeonIMU(0);
 
+    /** Odometry estimates where we are */
+    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
+
     public Drivetrain()
     {
         // steps/rev / (steps/meter)
@@ -89,6 +110,9 @@ public class Drivetrain extends SubsystemBase
         // Reset pigeon
         pigeon.configFactoryDefault();
         pigeon.clearStickyFaults();
+
+        // Reset everything to zero
+        reset();
     }
 
     /** @param motor Motor to initialize
@@ -118,6 +142,10 @@ public class Drivetrain extends SubsystemBase
         // Reset gyro angle
         pigeon.setFusedHeading(0.0);
         pigeon.setYaw(0.0);
+
+        // Set position to x=0, y=0, heading=0
+        final Rotation2d zero = Rotation2d.fromDegrees(0);
+        odometry.resetPosition(new Pose2d(0, 0, zero), zero);
     }
 
     /** @param kp Proportional gain
@@ -191,34 +219,36 @@ public class Drivetrain extends SubsystemBase
         actual_speed = getRightSpeed();
         primary_right.setVoltage(speed_feedforward.calculate(right_speed) + right_speed_pid.calculate(actual_speed, right_speed));
 
-        // Since we're circumventing the drive train, reset its safety timer
+        // Since we're circumventing the diff_drive, reset its safety timer
         diff_drive.feed();
     }
 
-    /** Create a command that runs the drve train along a trajectory
+    /** Create a command that drives along a trajectory
      * 
      *  Trajectory starts at X=0, Y=0 and Heading = 0.
      *  Given list of points must contain entries x, y, h,
      *  i.e., total length of x_y_h array must be a multiple of 3.
      * 
+     *  @param reversed Are we driving backwards?
      *  @param x_y_z Sequence of points { X, Y, Heading }
      */
-    public CommandBase createTrajectoryCommand(final double... x_y_h)
+    public CommandBase createTrajectoryCommand(final boolean reversed, final double... x_y_h)
     {
-        if (x_y_h.length % 3 != 0)
-            throw new IllegalArgumentException("List of { X, Y, Heading } contains " + x_y_h.length + " entries?!");
+        // Turns waypoints into a trajectory
+        final Trajectory trajectory = TrajectoryHelper.createTrajectory(reversed, x_y_h);
         
-        // TODO Create trajectory, return RamseteCommand to follow,
-        //      instead of just printing what it should do
-        final SequentialCommandGroup result = new SequentialCommandGroup();
-        result.addCommands(new PrintCommand("Start at 0, 0, 0"));
-        for (int i=0; i<x_y_h.length; i += 3)
-            result.addCommands(new PrintCommand("Move to " + x_y_h[i] + ", " + x_y_h[i+1] + ", " + x_y_h[i+2]));
-        result.addCommands(new PrintCommand("Stop"));
+        // Create command that follows the trajectory
+        final Supplier<Pose2d> pose = odometry::getPoseMeters;
+        final RamseteController follower = new RamseteController();
+        final BiConsumer<Double, Double> output_speeds = this::setSpeeds;
+        final CommandBase trajectory_follower = new RamseteCommand(trajectory, pose, follower, kinematics, output_speeds, this);
 
-        result.addRequirements(this);
+        // Command to stop
+        final CommandBase stop = new InstantCommand(() -> drive(0, 0), this);
 
-        return result;
+        // First follow the trajectory. When done, make sure we stop
+        // since we can't be 100% sure how the trajectory plays out...
+        return new SequentialCommandGroup(trajectory_follower, stop);
     }
 
     @Override
@@ -232,5 +262,14 @@ public class Drivetrain extends SubsystemBase
         SmartDashboard.putNumber("Speed",  avg);
 
         SmartDashboard.putNumber("Heading", pigeon.getFusedHeading());
+
+        // Update the estimated position
+        odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftDistance(), getRightDistance());
+
+        // Show where we think we are
+        final Pose2d pose = odometry.getPoseMeters();
+        SmartDashboard.putNumber("Pose X", pose.getX());
+        SmartDashboard.putNumber("Pose Y", pose.getY());
+        SmartDashboard.putNumber("Pose Head", pose.getRotation().getDegrees());
     }
 }

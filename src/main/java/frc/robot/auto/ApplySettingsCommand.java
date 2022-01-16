@@ -95,6 +95,7 @@ public class ApplySettingsCommand extends CommandBase
     @Override
     public boolean runsWhenDisabled()
     {
+        // Allow running this command even while disabled
         return true;
     }
 
@@ -120,6 +121,7 @@ public class ApplySettingsCommand extends CommandBase
     @Override
     public boolean isFinished()
     {
+        // Once we 'execute()', we're done
         return true;
     }
 }

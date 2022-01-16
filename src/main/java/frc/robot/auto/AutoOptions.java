@@ -25,19 +25,28 @@ public class AutoOptions
 
         auto_options.addOption("Hello", new PrintCommand("Hello!"));
 
-        auto_options.addOption("DelayedBack",
-           new SequentialCommandGroup(
-               new PrintCommand("Back"),
-               new WaitCommand(2.0),
-               drivetrain.createTrajectoryCommand(-1.0, 0, 0)
-           ));
+        auto_options.addOption("Forward",
+            new SequentialCommandGroup(
+                new PrintCommand("Forward"),
+                drivetrain.createTrajectoryCommand(false,
+                                                   1, 0, 0)
+            ));
+
+        auto_options.addOption("DelayedForward",
+            new SequentialCommandGroup(
+                new PrintCommand("DelayedForward"),
+                new WaitCommand(2.0),
+                drivetrain.createTrajectoryCommand(false,
+                                                   1, 0, 0)
+            ));
 
         auto_options.addOption("ForwardAndBack",
-           new SequentialCommandGroup(
-               new PrintCommand("ForwardAndBack"),
-               drivetrain.createTrajectoryCommand(1, 0, 0,
-                                                  0, 0, 0)
-           ));
-
+            new SequentialCommandGroup(
+                new PrintCommand("ForwardAndBack"),
+                drivetrain.createTrajectoryCommand(false,
+                                                   1, 0, 0),
+                drivetrain.createTrajectoryCommand(true,
+                                                   -1, 0, 0)
+           ) );
     }
 }

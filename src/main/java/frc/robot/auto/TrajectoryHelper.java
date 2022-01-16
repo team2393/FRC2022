@@ -24,9 +24,10 @@ public class TrajectoryHelper
      *  Given list of points must contain entries x, y, h,
      *  i.e., total length of x_y_h array must be a multiple of 3.
      * 
+     *  @param reversed Are we driving backwards?
      *  @param x_y_z Sequence of points { X, Y, Heading }
      */
-    public static Trajectory createTrajectory(final double... x_y_h)
+    public static Trajectory createTrajectory(final boolean reversed, final double... x_y_h)
     {
         if (x_y_h.length % 3 != 0)
             throw new IllegalArgumentException("List of { X, Y, Heading } contains " + x_y_h.length + " entries?!");
@@ -36,6 +37,7 @@ public class TrajectoryHelper
         for (int i=0; i<x_y_h.length; i += 3)
             waypoints.add(new Pose2d(x_y_h[i], x_y_h[i+1], Rotation2d.fromDegrees(x_y_h[i+2])));
 
+        Drivetrain.trajectory_config.setReversed(reversed);
         return TrajectoryGenerator.generateTrajectory(waypoints, Drivetrain.trajectory_config);
     }
 
