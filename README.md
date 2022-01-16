@@ -8,8 +8,8 @@ Code for 2022 Robot
    * Basics of Java: https://www.codecademy.com/learn/learn-java, [Java Book](https://www.amazon.com/dp/0596009208)
    * Robot "WPILib", the FRC software framework https://docs.wpilib.org/en/stable/
    * Past [getting-started sessions](https://github.com/team2393/FRC/wiki), [code examples](https://github.com/team2393/FRC/tree/master/src/main/java)
-   * Cross-the-Road Electronics, details of some motors etc.: https://newsite.ctr-electronics.com/
-   * REV, details of neu pneumatics hub https://docs.revrobotics.com/docs/first-robotics-competition
+   * Cross-the-Road Electronics, Phoenix tuner and manuals for several CAN devices: https://newsite.ctr-electronics.com/
+   * REV, new power distribution and pneumatics hub: https://docs.revrobotics.com/docs/first-robotics-competition
    * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/
 
 To get a copy of the sources, follow the WPILib introduction section on "Installing Software".
@@ -38,12 +38,13 @@ January 2022
 
 Ran into two issues:
 * In spinner teleop test, which works fine on another laptop, the robot room laptop stops reacting to the joystick.
-  Looks like ongoing issue https://github.com/wpilibsuite/allwpilib/issues/3896
+  Looks like ongoing issue https://github.com/wpilibsuite/allwpilib/issues/3896 (resolved)
 * The Analog Devices gyro that we used last year only reports 0 degrees, never updating.
-  Looks like known issue https://docs.wpilib.org/en/stable/docs/yearly-overview/known-issues.html?highlight=gyro
+  Looks like known issue https://docs.wpilib.org/en/stable/docs/yearly-overview/known-issues.html?highlight=gyro (avoid by using pigeon)
   
 Next:
 * Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
+* Test new REV power distribution and pneumatics hub
 * Vision processing on raspberry pi
 * Prepare for reading tilt angle in case we need that to climb
 * Start skeleton software for any expected robot component: Ball pickup, ball ejection, climber/arm, ...
