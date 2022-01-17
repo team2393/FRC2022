@@ -1,9 +1,9 @@
 # Dashboard settings to detect red balls
 HueMin = 170
 HueMax = 10
-SatMin = 250
+SatMin = 240
 SatMax = 255
-ValMin = 230
+ValMin = 190
 ValMax = 255
 AreaMin = 0
 AreaMax = 10000
