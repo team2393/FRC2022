@@ -175,17 +175,6 @@
               }
             }
           },
-          "0,6": {
-            "size": [
-              4,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Switch",
-              "_source0": "network_table:///SmartDashboard/Camera Target Mode",
-              "_title": "Target Mode"
-            }
-          },
           "13,0": {
             "size": [
               2,
@@ -211,16 +200,16 @@
               }
             }
           },
-          "13,4": {
+          "13,3": {
             "size": [
-              2,
-              3
+              3,
+              4
             ],
             "content": {
               "_type": "Grid Layout",
               "_title": "Settings",
               "Layout/Number of columns": 1,
-              "Layout/Number of rows": 2,
+              "Layout/Number of rows": 4,
               "Layout/Label position": "HIDDEN",
               "_children": {
                 "0,0": {
@@ -232,6 +221,16 @@
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Red Cargo",
                   "_title": "SmartDashboard/Red Cargo"
+                },
+                "0,2": {
+                  "_type": "Toggle Button",
+                  "_source0": "network_table:///SmartDashboard/Camera Target Mode",
+                  "_title": "Target Mode"
+                },
+                "0,3": {
+                  "_type": "Toggle Button",
+                  "_source0": "network_table:///SmartDashboard/SetHSV",
+                  "_title": "SetHSV"
                 }
               }
             }

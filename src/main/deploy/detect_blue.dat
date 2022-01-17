@@ -1,10 +1,10 @@
 # Dashboard settings to detect blue balls
-HueMin = 10
-HueMax = 20
-SatMin = 10
-SatMax = 50
-ValMin = 100
-ValMax = 160
+HueMin = 90
+HueMax = 120
+SatMin = 150
+SatMax = 255
+ValMin = 40
+ValMax = 255
 AreaMin = 0
 AreaMax = 10000
 AspectMin = 0.5
