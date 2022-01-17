@@ -4,9 +4,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.auto.ApplySettingsCommand;
+import frc.robot.camera.CameraHelper;
 
 /** Very simple robot for camera tests */
 public class CameraTestRobot extends TimedRobot
@@ -17,8 +16,7 @@ public class CameraTestRobot extends TimedRobot
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Camera Test *****");
 
-        SmartDashboard.putData(new ApplySettingsCommand("Red Cargo", "detect_red.dat"));
-        SmartDashboard.putData(new ApplySettingsCommand("Blue Cargo", "detect_blue.dat"));
+        CameraHelper.registerCommands();
     }
 
     @Override

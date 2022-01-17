@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.auto.AutoOptions;
+import frc.robot.camera.CameraHelper;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.DriveByJoystickCommand;
 
@@ -49,6 +50,8 @@ public class RapidReactRobot extends TimedRobot
         final CommandBase reset_command = new InstantCommand(this::reset);
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
+
+        CameraHelper.registerCommands();
     }
 
     /** Reset drivetrain.. */
