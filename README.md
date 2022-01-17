@@ -10,7 +10,7 @@ Code for 2022 Robot
    * Past [getting-started sessions](https://github.com/team2393/FRC/wiki), [code examples](https://github.com/team2393/FRC/tree/master/src/main/java)
    * Cross-the-Road Electronics, Phoenix tuner and manuals for several CAN devices: https://newsite.ctr-electronics.com/
    * REV, new power distribution and pneumatics hub: https://docs.revrobotics.com/docs/first-robotics-competition
-   * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/
+   * Other resources: https://www.chiefdelphi.com/, https://www.andymark.com/, https://docs.photonvision.org
 
 To get a copy of the sources, follow the WPILib introduction section on "Installing Software".
 You mostly need the "WPILib", which includes VS Code, and can add the rest later.
