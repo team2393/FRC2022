@@ -29,6 +29,18 @@ public class VisionData
     /** Time in millisec when data was received (not used when sending) */
     public long millisec;
 
+    public VisionData()
+    {
+        this(0, 0, 0);
+    }
+
+    public VisionData(final long millisec, final int direction, final int distance)
+    {
+        this.millisec = millisec;
+        this.direction = direction;
+        this.distance = distance;
+    }
+
     /** Clear the data
      * 
      *  Set distance and direction to "safe" values.

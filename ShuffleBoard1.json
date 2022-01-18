@@ -243,10 +243,10 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/rotate",
-              "_title": "SmartDashboard/rotate"
+              "_title": "rotate"
             }
           },
-          "16,3": {
+          "16,2": {
             "size": [
               2,
               1
@@ -254,7 +254,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/rotate gain",
-              "_title": "SmartDashboard/rotate gain"
+              "_title": "rotate gain"
             }
           }
         }

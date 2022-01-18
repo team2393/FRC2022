@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.camera.CameraHelper;
+import frc.robot.camera.GuessingUDPClient;
 
 /** Very simple robot for camera tests */
 public class CameraTestRobot extends TimedRobot
 {
     /** Servo that rotates camera */
     private final Servo rotator = new Servo(0);
+    private GuessingUDPClient guesser;
 
     @Override
     public void robotInit()
@@ -26,6 +28,15 @@ public class CameraTestRobot extends TimedRobot
 
         SmartDashboard.setDefaultNumber("rotate", 90.0);
         SmartDashboard.setDefaultNumber("rotate gain", 0.0);
+
+        try
+        {
+            guesser = new GuessingUDPClient();
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -41,14 +52,18 @@ public class CameraTestRobot extends TimedRobot
     }
     
     @Override
-    public void autonomousPeriodic()
+    public void autonomousInit()
     {
-        followSmashboard();
+        rotator.setAngle(90.0);
     }
 
-    private void followSmashboard()
+    @Override
+    public void autonomousPeriodic()
     {
+        // Pick one:
         final double direction = SmartDashboard.getNumber("Direction", 0);
+        // final double direction = guesser.get().direction;
+
         final double current_heading = rotator.getAngle();
         double new_heading = current_heading - direction * SmartDashboard.getNumber("rotate gain", 0.0);
         new_heading = MathUtil.clamp(new_heading, 5.0, 175.0);
