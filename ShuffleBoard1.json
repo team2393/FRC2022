@@ -234,6 +234,28 @@
                 }
               }
             }
+          },
+          "16,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/rotate",
+              "_title": "SmartDashboard/rotate"
+            }
+          },
+          "16,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/rotate gain",
+              "_title": "SmartDashboard/rotate gain"
+            }
           }
         }
       }
@@ -371,7 +393,7 @@
   "windowGeometry": {
     "x": -9.199999809265137,
     "y": 174.8000030517578,
-    "width": 1438.0,
+    "width": 1546.800048828125,
     "height": 708.7999877929688
   }
 }
