@@ -253,8 +253,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/rotate gain",
-              "_title": "rotate gain"
+              "_source0": "network_table:///SmartDashboard/VisRotGain",
+              "_title": "VisRotGain"
             }
           }
         }

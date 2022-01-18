@@ -16,7 +16,7 @@ public class CameraTestRobot extends TimedRobot
 {
     /** Servo that rotates camera */
     private final Servo rotator = new Servo(0);
-    private GuessingUDPClient guesser;
+    private GuessingUDPClient guess;
 
     @Override
     public void robotInit()
@@ -27,11 +27,11 @@ public class CameraTestRobot extends TimedRobot
         CameraHelper.registerCommands();
 
         SmartDashboard.setDefaultNumber("rotate", 90.0);
-        SmartDashboard.setDefaultNumber("rotate gain", 0.0);
+        SmartDashboard.setDefaultNumber("VisRotGain", 0.0);
 
         try
         {
-            guesser = new GuessingUDPClient();
+            guess = new GuessingUDPClient();
         }
         catch (Exception ex)
         {
@@ -62,10 +62,10 @@ public class CameraTestRobot extends TimedRobot
     {
         // Pick one:
         final double direction = SmartDashboard.getNumber("Direction", 0);
-        // final double direction = guesser.get().direction;
+        // final double direction = guess.get().direction;
 
         final double current_heading = rotator.getAngle();
-        double new_heading = current_heading - direction * SmartDashboard.getNumber("rotate gain", 0.0);
+        double new_heading = current_heading - direction * SmartDashboard.getNumber("VisRotGain", 0.0);
         new_heading = MathUtil.clamp(new_heading, 5.0, 175.0);
         SmartDashboard.putNumber("rotate", new_heading);
         rotator.setAngle(new_heading);
