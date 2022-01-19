@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,14 +33,14 @@ import frc.robot.auto.TrajectoryHelper;
 public class Drivetrain extends SubsystemBase
 {
     /** Track width is distance between left and right wheels in meters */
-    private static final double TRACK_WIDTH = 0.85;
+    private static final double TRACK_WIDTH = 0.66;
 
     /** Kinematics convert between speed of left/right wheels and speed of robot */
     private static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(TRACK_WIDTH);
 
     /** Maximum speed in meters/sec, acceleration in (m/s)/s */        
     public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
-                                                            // .addConstraint(new CentripetalAccelerationConstraint(1.0))
+                                                               .addConstraint(new CentripetalAccelerationConstraint(1.0))
                                                                .setKinematics(kinematics);
 
     /** Encoder steps per meter of drive chassis movement */
@@ -76,7 +77,7 @@ public class Drivetrain extends SubsystemBase
      *  keeps track of the integral error and the last error, which can differ
      *  for the two sides.
      * 
-     *  SysId suggests 0, 3.5927, 0
+     *  SysId suggests 0.0091159, 0, 0
      */
     private final PIDController left_speed_pid = new PIDController(0, 0, 0),
                                 right_speed_pid = new PIDController(0, 0, 0);
@@ -227,13 +228,13 @@ public class Drivetrain extends SubsystemBase
      *  Given list of points must contain entries x, y, h,
      *  i.e., total length of x_y_h array must be a multiple of 3.
      * 
-     *  @param reversed Are we driving backwards?
+     *  @param forward Are we driving forward?
      *  @param x_y_z Sequence of points { X, Y, Heading }
      */
-    public CommandBase createTrajectoryCommand(final boolean reversed, final double... x_y_h)
+    public CommandBase createTrajectoryCommand(final boolean forward, final double... x_y_h)
     {
         // Turns waypoints into a trajectory
-        final Trajectory trajectory = TrajectoryHelper.createTrajectory(reversed, x_y_h);
+        final Trajectory trajectory = TrajectoryHelper.createTrajectory(forward, x_y_h);
         
         // Create command that follows the trajectory
         final Supplier<Pose2d> pose = odometry::getPoseMeters;

@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.auto;
 
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -28,24 +30,24 @@ public class AutoOptions
         auto_options.addOption("Forward",
             new SequentialCommandGroup(
                 new PrintCommand("Forward"),
-                drivetrain.createTrajectoryCommand(false,
+                drivetrain.createTrajectoryCommand(true,
                                                    1, 0, 0)
             ));
 
-        auto_options.addOption("DelayedForward",
+        auto_options.addOption("DelayedForwardAndTurn",
             new SequentialCommandGroup(
-                new PrintCommand("DelayedForward"),
+                new PrintCommand("DelayedForwardAndTurn"),
                 new WaitCommand(2.0),
-                drivetrain.createTrajectoryCommand(false,
-                                                   1, 0, 0)
+                drivetrain.createTrajectoryCommand(true,
+                                                   1, 0, 45)
             ));
 
         auto_options.addOption("ForwardAndBack",
             new SequentialCommandGroup(
                 new PrintCommand("ForwardAndBack"),
-                drivetrain.createTrajectoryCommand(false,
-                                                   1, 0, 0),
                 drivetrain.createTrajectoryCommand(true,
+                                                   1, 0, 0),
+                drivetrain.createTrajectoryCommand(false,
                                                    -1, 0, 0)
            ) );
     }

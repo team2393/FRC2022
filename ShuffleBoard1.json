@@ -21,6 +21,69 @@
               "_source0": "network_table:///SmartDashboard/Auto Options",
               "_title": "SmartDashboard/Auto Options"
             }
+          },
+          "2,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Position",
+              "Layout/Number of columns": 1,
+              "Layout/Number of rows": 3,
+              "Layout/Label position": "TOP",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Distance",
+                  "_title": "SmartDashboard/Distance"
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Speed",
+                  "_title": "SmartDashboard/Speed"
+                },
+                "0,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Heading",
+                  "_title": "SmartDashboard/Heading"
+                }
+              }
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pose X",
+              "_title": "SmartDashboard/Pose X"
+            }
+          },
+          "4,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pose Y",
+              "_title": "SmartDashboard/Pose Y"
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pose Head",
+              "_title": "SmartDashboard/Pose Head"
+            }
           }
         }
       }

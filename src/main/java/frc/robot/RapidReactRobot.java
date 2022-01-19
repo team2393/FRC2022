@@ -24,11 +24,24 @@ public class RapidReactRobot extends TimedRobot
     private final Drivetrain drivetrain = new Drivetrain();
 
     /** Commands */
-    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);
+    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);    
+    private final CommandBase reset_command = new InstantCommand()
+    {
+        public void initialize()
+        {
+            reset();
+        };
+        
+        public boolean runsWhenDisabled()
+        {
+            return true;
+        };
+    };
     
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
 
+    
     /** This function runs once on robot startup. */
     @Override
     public void robotInit()
@@ -47,11 +60,12 @@ public class RapidReactRobot extends TimedRobot
         drivetrain.setDefaultCommand(stay_put);
 
         // Register commands on dashboard: Reset stuff
-        final CommandBase reset_command = new InstantCommand(this::reset);
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
 
         CameraHelper.registerCommands();
+
+        reset();
     }
 
     /** Reset drivetrain.. */

@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.drivetrain.Drivetrain;
 
 /** Robot for testing/calibrating drivetrain */
@@ -32,6 +33,9 @@ public class DrivetrainTestRobot extends TimedRobot
         // Display info that we need to adjust drivetrain feed forward and PID settings
         double avg = (drivetrain.getLeftVoltage() + drivetrain.getRightVoltage()) / 2;
         SmartDashboard.putNumber("Voltage",  avg);
+
+        // Make commands and subsystems execute
+        CommandScheduler.getInstance().run();
     }
 
     @Override
