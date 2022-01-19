@@ -42,12 +42,13 @@ Ran into two issues:
 * The Analog Devices gyro that we used last year only reports 0 degrees, never updating.
   Looks like known issue https://docs.wpilib.org/en/stable/docs/yearly-overview/known-issues.html?highlight=gyro (avoid by using pigeon)
   
-Next:
-* Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
 * Test new REV power distribution and pneumatics hub
+* Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
+
+Next:
 * Vision processing on raspberry pi: Detect blue vs. red cargo. Need LED? Test with servo. Add DriveAndRotateToVisionCommand.
 * Prepare for reading tilt angle in case we need that to climb
-* Start skeleton software for any expected robot component: Ball pickup, ball ejection, climber/arm, ...
+* Start skeleton software for any expected robot component: Ball pickup, ball feeder, ejection angle, climber/arm, ...
 
 February
 
