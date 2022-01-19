@@ -42,13 +42,20 @@ public class AutoOptions
                                                    1, 0, 45)
             ));
 
-        auto_options.addOption("ForwardAndBack",
-            new SequentialCommandGroup(
-                new PrintCommand("ForwardAndBack"),
-                drivetrain.createTrajectoryCommand(true,
-                                                   1, 0, 0),
-                drivetrain.createTrajectoryCommand(false,
-                                                   -1, 0, 0)
-           ) );
+
+        {
+            // 1m forward
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(true, 1, 0, 0);
+            // 1m back
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                TrajectoryHelper.createTrajectory(false, -1, 0, 0));
+    
+            auto_options.addOption("ForwardAndBack",
+                new SequentialCommandGroup(
+                    new PrintCommand("ForwardAndBack"),
+                    drivetrain.createTrajectoryCommand(seg1),
+                    drivetrain.createTrajectoryCommand(seg2)
+               ) );
+        }
     }
 }

@@ -96,7 +96,17 @@ public class TrajectoryHelper
     {
       return "End: " + getInfo(getEnd(trajectory));
     }
-  
+
+    /** Re-locate and rotate a trajectory
+     *  @param previous Previous trajectory
+     *  @param trajectory Trajectory to translates
+     *  @return Transformed trajectory where initial state is at end of previous trajectory
+     */
+    public static Trajectory continueTrajectory(final Trajectory previous, final Trajectory trajectory)
+    {
+        return makeTrajectoryStartAt(trajectory, getEndPose(previous));
+    }
+
     /** Re-locate and rotate a trajectory
      *  @param Original trajectory
      *  @param start Startpoint and heading

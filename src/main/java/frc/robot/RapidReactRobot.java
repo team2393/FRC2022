@@ -105,6 +105,8 @@ public class RapidReactRobot extends TimedRobot
     {
         System.out.println("Teleop");
 
+        reset();
+
         // Start driving via joystick
         joydrive.schedule();
     }
@@ -120,6 +122,9 @@ public class RapidReactRobot extends TimedRobot
     public void autonomousInit()
     {
         System.out.println("Auto-No-Mouse");
+
+        reset();
+        
         // Start selected auto command
         auto_options.getSelected().schedule();
     }

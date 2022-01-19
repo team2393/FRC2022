@@ -235,7 +235,15 @@ public class Drivetrain extends SubsystemBase
     {
         // Turns waypoints into a trajectory
         final Trajectory trajectory = TrajectoryHelper.createTrajectory(forward, x_y_h);
-        
+        return createTrajectoryCommand(trajectory);
+    }
+
+    /** Create a command that drives along a trajectory
+     * 
+     *  @param trajectory Trajectory to follow
+     */
+    public CommandBase createTrajectoryCommand(final Trajectory trajectory)
+    {    
         // Create command that follows the trajectory
         final Supplier<Pose2d> pose = odometry::getPoseMeters;
         final RamseteController follower = new RamseteController();
