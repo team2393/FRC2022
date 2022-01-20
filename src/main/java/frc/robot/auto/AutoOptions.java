@@ -3,13 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.auto;
 
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.cargo.CloseIntakeCommand;
+import frc.robot.cargo.OpenIntakeCommand;
+import frc.robot.cargo.ShootCommand;
 import frc.robot.drivetrain.Drivetrain;
 
 /** Helper for creating auto options */
@@ -56,6 +58,24 @@ public class AutoOptions
                     drivetrain.createTrajectoryCommand(seg1),
                     drivetrain.createTrajectoryCommand(seg2)
                ) );
+        }
+
+        {
+            // 1m forward
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(true, 1.3, -0.94, -90);
+
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                                    TrajectoryHelper.createTrajectory(false, -1.3, 0.9, -83));
+            auto_options.addOption("Test1",
+                new SequentialCommandGroup(
+                    new PrintCommand("Test 1"),
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(),
+                    new OpenIntakeCommand(),
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new CloseIntakeCommand(),
+                    new ShootCommand()
+                ));
         }
     }
 }
