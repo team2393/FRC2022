@@ -16,6 +16,7 @@ import frc.robot.cargo.CloseIntakeCommand;
 import frc.robot.cargo.OpenIntakeCommand;
 import frc.robot.cargo.ShootCommand;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.StayPutCommand;
 
 /** Helper for creating auto options */
 public class AutoOptions
@@ -56,6 +57,10 @@ public class AutoOptions
             auto_options.addOption("ForwardAndBack",
                 new SequentialCommandGroup(
                     drivetrain.createTrajectoryCommand(seg1),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(),
+                        new StayPutCommand(drivetrain)
+                    ),
                     drivetrain.createTrajectoryCommand(seg2)));
         }
 
@@ -68,15 +73,21 @@ public class AutoOptions
             auto_options.addOption("Test1",
                 new SequentialCommandGroup(
                     drivetrain.createTrajectoryCommand(seg1),
-                    new ShootCommand(),
                     // See also ParallelRaceGroup(), ParallelDeadlineGroup()
                     // Use with StayPutCommand() to avoid motor timeouts!
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(),
+                        new StayPutCommand(drivetrain)
+                    ),
                     new ParallelCommandGroup(
                         new OpenIntakeCommand(),
                         drivetrain.createTrajectoryCommand(seg2)
                     ),
                     new CloseIntakeCommand(),
-                    new ShootCommand()
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(),
+                        new StayPutCommand(drivetrain)
+                    )
                 ));
         }
     }

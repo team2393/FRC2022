@@ -19,3 +19,5 @@ AspectMax = 1.5
 #          = 4 / 3.14 = 0.785 ~ 80 %
 FullnessMin = 50
 FullnessMax = 100
+
+VisRotGain = 0.01

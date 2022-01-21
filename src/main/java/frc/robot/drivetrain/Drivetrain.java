@@ -229,7 +229,7 @@ public class Drivetrain extends SubsystemBase
      *  i.e., total length of x_y_h array must be a multiple of 3.
      * 
      *  @param forward Are we driving forward?
-     *  @param x_y_z Sequence of points { X, Y, Heading }
+     *  @param x_y_h Sequence of points { X, Y, Heading }
      */
     public CommandBase createTrajectoryCommand(final boolean forward, final double... x_y_h)
     {
