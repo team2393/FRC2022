@@ -132,7 +132,7 @@ public class TrajectoryViewer
                                                                   1, 0, 45,
                                                                   1, 1, 135,
                                                                   0, 1, 225,
-                                                                  0, 0.5, 0);
+                                                                  0, 0, 0);
 
         // Show it
         new TrajectoryViewer(trajectory, 0.25);

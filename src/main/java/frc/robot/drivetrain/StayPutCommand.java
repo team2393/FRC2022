@@ -4,14 +4,13 @@
 package frc.robot.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OperatorInterface;
 
-/** Command that drives based on joystick input */
-public class DriveByJoystickCommand extends CommandBase
+/** Command that tells drivetrain to stop */
+public class StayPutCommand extends CommandBase
 {
     private final Drivetrain drivetrain;
 
-    public DriveByJoystickCommand(final Drivetrain drivetrain)
+    public StayPutCommand(final Drivetrain drivetrain)
     {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
@@ -19,12 +18,6 @@ public class DriveByJoystickCommand extends CommandBase
 
     @Override
     public void execute()
-    {
-        drivetrain.drive(OperatorInterface.getSpeed(), OperatorInterface.getRotation());
-    }
-
-    @Override
-    public void end(boolean interrupted)
     {
         drivetrain.drive(0, 0);
     }

@@ -6,6 +6,9 @@ package frc.robot.auto;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -27,23 +30,21 @@ public class AutoOptions
         // First list the default option that does nothing
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
-        auto_options.addOption("Hello", new PrintCommand("Hello!"));
-
         auto_options.addOption("Forward",
-            new SequentialCommandGroup(
-                new PrintCommand("Forward"),
-                drivetrain.createTrajectoryCommand(true,
-                                                   1, 0, 0)
-            ));
+            drivetrain.createTrajectoryCommand(true, 1, 0, 0));
 
         auto_options.addOption("DelayedForwardAndTurn",
             new SequentialCommandGroup(
-                new PrintCommand("DelayedForwardAndTurn"),
                 new WaitCommand(2.0),
-                drivetrain.createTrajectoryCommand(true,
-                                                   1, 0, 45)
+                drivetrain.createTrajectoryCommand(true, 1, 0, 45)
             ));
 
+        auto_options.addOption("Round",
+            drivetrain.createTrajectoryCommand(true,
+                                               1, 0, 45,
+                                               1, 1, 135,
+                                               0, 1, 225,
+                                               0, 0, 0));
 
         {
             // 1m forward
@@ -54,25 +55,26 @@ public class AutoOptions
     
             auto_options.addOption("ForwardAndBack",
                 new SequentialCommandGroup(
-                    new PrintCommand("ForwardAndBack"),
                     drivetrain.createTrajectoryCommand(seg1),
-                    drivetrain.createTrajectoryCommand(seg2)
-               ) );
+                    drivetrain.createTrajectoryCommand(seg2)));
         }
 
         {
-            // 1m forward
+            // ~1m forward and right
             Trajectory seg1 = TrajectoryHelper.createTrajectory(true, 1.3, -0.94, -90);
-
+            // ..and from there on ~1m back and left
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
-                                    TrajectoryHelper.createTrajectory(false, -1.3, 0.9, -83));
+                                    TrajectoryHelper.createTrajectory(false, -1.3, 0.9, -90));
             auto_options.addOption("Test1",
                 new SequentialCommandGroup(
-                    new PrintCommand("Test 1"),
                     drivetrain.createTrajectoryCommand(seg1),
                     new ShootCommand(),
-                    new OpenIntakeCommand(),
-                    drivetrain.createTrajectoryCommand(seg2),
+                    // See also ParallelRaceGroup(), ParallelDeadlineGroup()
+                    // Use with StayPutCommand() to avoid motor timeouts!
+                    new ParallelCommandGroup(
+                        new OpenIntakeCommand(),
+                        drivetrain.createTrajectoryCommand(seg2)
+                    ),
                     new CloseIntakeCommand(),
                     new ShootCommand()
                 ));
