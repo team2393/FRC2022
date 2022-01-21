@@ -306,6 +306,17 @@
               "_source0": "network_table:///SmartDashboard/VisRotGain",
               "_title": "VisRotGain"
             }
+          },
+          "16,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Camera Drive",
+              "_title": "Camera Drive"
+            }
           }
         }
       }
@@ -441,8 +452,8 @@
     }
   ],
   "windowGeometry": {
-    "x": -9.199999809265137,
-    "y": 222.39999389648438,
+    "x": -0.4000000059604645,
+    "y": 200.8000030517578,
     "width": 1546.800048828125,
     "height": 661.2000122070312
   }

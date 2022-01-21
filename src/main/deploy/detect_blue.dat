@@ -1,11 +1,13 @@
 # Dashboard settings to detect blue balls
-HueMin = 90
+HueMin = 80
 HueMax = 120
-SatMin = 150
+SatMin = 30
 SatMax = 255
-ValMin = 40
+ValMin = 80
 ValMax = 255
-AreaMin = 0
+
+# Require some minimum size to spot nearby balls only
+AreaMin = 2000
 AreaMax = 10000
 AspectMin = 0.5
 AspectMax = 1.5
@@ -15,5 +17,5 @@ AspectMax = 1.5
 # fullness = circle_area / square_area
 #          = (3.14*rad*rad) = (2*rad*2*rad)
 #          = 4 / 3.14 = 0.785 ~ 80 %
-FullnessMin = 60
+FullnessMin = 50
 FullnessMax = 100

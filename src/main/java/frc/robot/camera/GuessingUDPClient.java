@@ -11,7 +11,7 @@ public class GuessingUDPClient
     // SYNC on access
     private final Guesstimator guesstimator = new Guesstimator();
 
-    public GuessingUDPClient() throws Exception
+    public GuessingUDPClient()
     {
         client = new UDPClient();
         thread = new Thread(this::receive);

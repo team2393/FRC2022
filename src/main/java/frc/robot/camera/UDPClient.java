@@ -18,19 +18,27 @@ public class UDPClient
     private final ByteBuffer buffer = ByteBuffer.allocate(VisionData.BYTE_SIZE);
 
     /** Create client on default UDP port */
-    public UDPClient() throws Exception
+    public UDPClient()
     {
         this(VisionData.UDP_PORT);
     }
 
-    public UDPClient(final int port) throws Exception
+    public UDPClient(final int port)
     {
-        udp = DatagramChannel.open(StandardProtocolFamily.INET);
-        udp.configureBlocking(true);
-        udp.socket().setBroadcast(true);
-        udp.socket().setReuseAddress(true);
-        udp.bind(new InetSocketAddress(port));
-        System.out.println("UDP Client listening on " + udp.getLocalAddress());
+        try
+        {
+            udp = DatagramChannel.open(StandardProtocolFamily.INET);
+            udp.configureBlocking(true);
+            udp.socket().setBroadcast(true);
+            udp.socket().setReuseAddress(true);
+            udp.bind(new InetSocketAddress(port));
+            
+            System.out.println("UDP Client listening on " + udp.getLocalAddress());
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException("Cannot setup UDP client", ex);
+        }
     }
 
     /** Wait for an update from camera

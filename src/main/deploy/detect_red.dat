@@ -1,7 +1,7 @@
 # Dashboard settings to detect red balls
 HueMin = 170
 HueMax = 10
-SatMin = 220
+SatMin = 30
 SatMax = 255
 ValMin = 80
 ValMax = 255
@@ -15,5 +15,5 @@ AspectMax = 1.5
 # fullness = circle_area / square_area
 #          = (3.14*rad*rad) = (2*rad*2*rad)
 #          = 4 / 3.14 = 0.785 ~ 80 %
-FullnessMin = 60
+FullnessMin = 40
 FullnessMax = 100

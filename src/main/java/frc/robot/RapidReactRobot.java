@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
+import frc.robot.camera.GuessingUDPClient;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
 
 /** Team 2393 'Rapid React' robot */
@@ -22,6 +24,9 @@ public class RapidReactRobot extends TimedRobot
 
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain();
+
+    /** Camera info client */
+    private GuessingUDPClient camera = new GuessingUDPClient();
 
     /** Commands */
     private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);    
@@ -63,6 +68,8 @@ public class RapidReactRobot extends TimedRobot
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
 
+        // Camera support
+        SmartDashboard.putData("Camera Drive", new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction));
         CameraHelper.registerCommands();
 
         reset();
