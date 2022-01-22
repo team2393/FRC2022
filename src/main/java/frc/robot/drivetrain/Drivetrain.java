@@ -21,6 +21,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -47,11 +49,20 @@ public class Drivetrain extends SubsystemBase
     // Start with "1" so "distance" is in units of encoder steps.
     // Drive about 10 meters, measure the exact distance.
     // Then enter the steps / distance, for example
-    // 123434 /  Units.inchesToMeters(400.0)
+    // 123434 / Units.inchesToMeters(400.0)
     // ==> "Distance" is now in units of meters
     //
-    // Calibrated for 'smashbot'
+    // Calibrated for 'smashbot' in low gear
     private static final double STEPS_PER_METER = 288123.000000 / Units.inchesToMeters(156.75);
+
+    /** Gear ratio of high to low */
+    private static final double GEAR_RATIO = 2.0;
+
+    /** Gear shifter */
+    private final Solenoid gear = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.GEAR_SHIFTER);
+
+    /** Are we in high gear right now? */
+    private boolean in_high_gear = false;
 
     /** Drive motors */
     private final WPI_TalonFX primary_left    = new WPI_TalonFX(RobotMap.PRIMARY_LEFT_DRIVE),
@@ -62,7 +73,7 @@ public class Drivetrain extends SubsystemBase
     /** Differential drive helper for turning forward/backwards and rotation into motor voltages */
     private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
 
-    // TODO Tune FF settings, then PID settings
+    // TODO Tune FF settings, then PID settings with actual robot
 
     /** FF for motor speed from SysId */
     private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.54799, 3.8445, 0.19083);
@@ -90,12 +101,13 @@ public class Drivetrain extends SubsystemBase
 
     public Drivetrain()
     {
-        // steps/rev / (steps/meter)
-        // steps * 1/rev * meters * 1/steps
+        // sysId needs meters / rev:
+        // steps/rev / (steps/meter) =
+        // steps * 1/rev * meters * 1/steps =
         // meters / rev
-        // 0.028300446684228608
-        double meters_per_rot = 2048 / STEPS_PER_METER;
-        System.out.println("Drivetrain meters per rev: " + meters_per_rot);
+        double meters_per_rev = 2048 / STEPS_PER_METER;
+        System.out.println("Drivetrain meters per rev: " + meters_per_rev);
+
         // Motors on right need to be inverted
         initializeMotor(primary_left,   false);
         initializeMotor(secondary_left, false);
@@ -145,6 +157,8 @@ public class Drivetrain extends SubsystemBase
         // Set position to x=0, y=0, heading=0
         final Rotation2d zero = Rotation2d.fromDegrees(0);
         odometry.resetPosition(new Pose2d(0, 0, zero), zero);
+
+        shiftgear(false);
     }
 
     /** @param kp Proportional gain
@@ -157,28 +171,39 @@ public class Drivetrain extends SubsystemBase
         right_speed_pid.setPID(kp, ki, kd);
     }
 
+    /** Scale distance and speed based on gearing
+     *  @param value Low-gear value
+     *  @return That value or scaled for high gear
+     */
+    private double getGearedValue(final double value)
+    {
+        if (in_high_gear)
+            return value * GEAR_RATIO;
+        return value;
+    }
+
     /** @return Distance travelled by left side motor(s) in meters */
     public double getLeftDistance()
     {
-        return primary_left.getSelectedSensorPosition() / STEPS_PER_METER; 
+        return getGearedValue(primary_left.getSelectedSensorPosition() / STEPS_PER_METER);
     }
 
     /** @return Distance travelled by right side motor(s) in meters */
     public double getRightDistance()
     {
-        return primary_right.getSelectedSensorPosition() / STEPS_PER_METER; 
+        return getGearedValue(primary_right.getSelectedSensorPosition() / STEPS_PER_METER);
     }
 
     /** @return Speed of left side motor(s) in meters/sec */
     public double getLeftSpeed()
     {
-        return primary_left.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0; 
+        return getGearedValue(primary_left.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0);
     }
 
     /** @return Speed of right side motor(s) in meters/sec */
     public double getRightSpeed()
     {
-        return primary_right.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0; 
+        return getGearedValue(primary_right.getSelectedSensorVelocity() / STEPS_PER_METER * 10.0);
     }
 
     /** @return Voltage of left side motor(s) */
@@ -197,6 +222,13 @@ public class Drivetrain extends SubsystemBase
     public double getHeading()
     {
         return pigeon.getFusedHeading(); 
+    }
+
+    /** @param high Shift to high gear? Otherwise selects low gear */
+    public void shiftgear(final boolean high)
+    {
+        in_high_gear = high;
+        gear.set(high);
     }
 
     /** @param speed -1..1 speed of going back/for. Forward is positive

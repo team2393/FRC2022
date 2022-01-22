@@ -52,13 +52,12 @@ public class RobotMap
     public final static int CONVEYOR = 8;
     public final static int FEEDER = 9;
 
-
     // Solenoids
     public final static int INTAKE_ARM = 0;
+    public final static int GEAR_SHIFTER = 6;
 
     // Digital I/O
     public final static int  CONVEYOR_SENSOR = 0;
     public final static int  FEEDER_SENSOR = 1;
     public final static int  EJECTION_SENSOR = 2;
-
 }

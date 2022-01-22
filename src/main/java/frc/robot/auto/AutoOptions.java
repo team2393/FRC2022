@@ -42,8 +42,8 @@ public class AutoOptions
 
         auto_options.addOption("Round",
             drivetrain.createTrajectoryCommand(true,
-                                               1, 0, 45,
-                                               1, 1, 135,
+                                               3, 0, 45,
+                                               3, 1, 135,
                                                0, 1, 225,
                                                0, 0, 0));
 

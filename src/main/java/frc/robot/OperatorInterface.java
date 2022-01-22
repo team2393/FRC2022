@@ -55,4 +55,17 @@ public class OperatorInterface
         return joystick.getAButtonPressed();
     }
 
+    /** Shift into high gear */
+    public static boolean shiftHigh()
+    {
+        // Push POV up, "north"
+        return joystick.getPOV() == 0;
+    }
+
+    /** Shift into low gear */
+    public static boolean shiftLow()
+    {
+        // Push POV down, "south"
+        return joystick.getPOV() == 180;
+    }
 }

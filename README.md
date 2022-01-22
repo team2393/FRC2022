@@ -44,11 +44,13 @@ Ran into two issues:
   
 * Test new REV power distribution and pneumatics hub
 * Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
+* Vision processing on raspberry pi: Detect blue vs. red cargo. Test with servo. Add DriveAndRotateToVisionCommand.
+* Start skeleton software for any expected robot component: Ball pickup, ball feeder, shooter
 
 Next:
-* Vision processing on raspberry pi: Detect blue vs. red cargo. Need LED? Test with servo. Add DriveAndRotateToVisionCommand.
-* Prepare for reading tilt angle in case we need that to climb
-* Start skeleton software for any expected robot component: Ball pickup, ball feeder, ejection angle, climber/arm, ...
+* Select high/low ejection angle
+* Start skeleton for climber/arm
+* Add light to camera
 
 February
 

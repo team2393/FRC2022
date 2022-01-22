@@ -122,6 +122,11 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
+        if (OperatorInterface.shiftHigh())
+            drivetrain.shiftgear(true);
+
+        if (OperatorInterface.shiftLow())
+            drivetrain.shiftgear(false);
     }
 
     /** This function is called when entering auto-no-mouse mode */
