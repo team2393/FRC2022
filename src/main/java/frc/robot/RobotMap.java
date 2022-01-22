@@ -11,8 +11,8 @@ public class RobotMap
     // * 40 Amp connectors
     // 0 Drive motor                 15 Drive motor
     // 1 Drive motor                 14 Drive motor
-    // 2                             13 
-    // 3                             12   
+    // 2 Spinner motor               13 Spinner motor
+    // 3                             12 Feeder motor(s)? Conveyor motor(s)? Intake motor(s)?
     //
     // * Less-than-40 Amp ports
     // 4                             11 

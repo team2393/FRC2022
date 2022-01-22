@@ -15,12 +15,19 @@ import edu.wpi.first.wpilibj.util.Color;
 /** Very simple robot that tests the color sensor */
 public class ColorSensorTestRobot extends TimedRobot
 {
+    /** Threshold for recognizing color, 0..1 */
+    private static final double THRESHOLD = 0.8;
+
     /** Sensor, connected to I2C socket on RIO */
     private final ColorSensorV3 sensor = new ColorSensorV3(I2C.Port.kOnboard);
 
-    // TODO Find good values for red and blue cargo balls
-    private final Color red = new Color(1.0, 0.0, 0.0);
-    private final Color blue = new Color(0.0, 0.0, 1.0);
+    /** Values for red and blue cargo balls
+     *  with light on sensor on.
+     *  TODO Detects "nothing" as "red"
+     *  Need to position sensor such that it sees e.g. black when there's no ball 
+     */
+    private final Color red = new Color(0.4, 0.4, 0.2);
+    private final Color blue = new Color(0.2, 0.45, 0.34);
 
     private final ColorMatch match = new ColorMatch();
     
@@ -33,7 +40,7 @@ public class ColorSensorTestRobot extends TimedRobot
         // Tell matcher to look for these two colors, 80% accuracy
         match.addColorMatch(red);
         match.addColorMatch(blue);
-        match.setConfidenceThreshold(0.8);
+        match.setConfidenceThreshold(THRESHOLD);
     }
 
     @Override
@@ -46,12 +53,12 @@ public class ColorSensorTestRobot extends TimedRobot
         SmartDashboard.putNumber("B", color.blue);
 
         // See if it's close enough to a ball color
-        final ColorMatchResult check = match.matchClosestColor(color);
+        ColorMatchResult check = match.matchClosestColor(color);
         if (check == null)
             SmartDashboard.putString("Color", "null");
-        else if (check.color.equals(red))
+        else if (check.confidence >= THRESHOLD  &&  check.color.equals(red))
             SmartDashboard.putString("Color", String.format("Red %.1f", check.confidence));
-        else if (check.color.equals(blue))
+        else if (check.confidence >= THRESHOLD  &&  check.color.equals(blue))
             SmartDashboard.putString("Color", String.format("Blue %.1f", check.confidence));
         else
             SmartDashboard.putString("Color", "??!??");
