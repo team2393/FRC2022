@@ -13,6 +13,14 @@ public class OperatorInterface
     /** Controller used by primary driver */
     private final static XboxController joystick = new XboxController(0);
 
+    public static void reset()
+    {
+        // Call all the 'pressed' methods that we use once
+        // so they start out 'false', not remmebering some past presses
+        joystick.getAButtonPressed();
+        joystick.getXButtonPressed();
+    }
+
     /** @return Speed that driver requests, -1..1, positive is "forward" */
     public static double getSpeed()
     {
@@ -28,4 +36,23 @@ public class OperatorInterface
             return joystick.getRightX() / 2;
         return joystick.getRightX();
     }
+
+    /** @return Do we want to shoot? */
+    public static boolean doShoot()
+    {
+        return joystick.getLeftBumper();
+    }
+
+    /** @return Do we want to always run the spinner? Toggles on each press */
+    public static boolean toggleSpinner()
+    {
+        return joystick.getXButtonPressed();
+    }
+
+    /** @return Toggle load/don't load */
+    public static boolean toggleLoading()
+    {
+        return joystick.getAButtonPressed();
+    }
+
 }

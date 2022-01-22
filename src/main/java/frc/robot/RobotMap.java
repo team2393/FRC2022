@@ -47,4 +47,18 @@ public class RobotMap
     public final static int SECONDARY_RIGHT_DRIVE = 1;
     public final static int PRIMARY_SPINNER = 5;
     public final static int SECONDARY_SPINNER = 6;
+
+    public final static int INTAKE = 7;
+    public final static int CONVEYOR = 8;
+    public final static int FEEDER = 9;
+
+
+    // Solenoids
+    public final static int INTAKE_ARM = 0;
+
+    // Digital I/O
+    public final static int  CONVEYOR_SENSOR = 0;
+    public final static int  FEEDER_SENSOR = 1;
+    public final static int  EJECTION_SENSOR = 2;
+
 }
