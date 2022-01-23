@@ -21,6 +21,7 @@ public class DriveAndRotateToVisionCommand extends CommandBase
      */
     public DriveAndRotateToVisionCommand(final Drivetrain drivetrain, final DoubleSupplier direction_supplier)
     {
+        setName("Camera Drive");
         this.drivetrain = drivetrain;
         this.direction_supplier = direction_supplier;
         addRequirements(drivetrain);

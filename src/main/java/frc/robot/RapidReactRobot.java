@@ -14,6 +14,7 @@ import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.AutoShiftCommand;
 import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
 
@@ -69,7 +70,8 @@ public class RapidReactRobot extends TimedRobot
         SmartDashboard.putData(reset_command);
 
         // Camera support
-        SmartDashboard.putData("Camera Drive", new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction));
+        SmartDashboard.putData(new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction));
+        SmartDashboard.putData(new AutoShiftCommand(drivetrain));
         CameraHelper.registerCommands();
 
         reset();
