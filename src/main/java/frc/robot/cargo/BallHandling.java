@@ -31,8 +31,11 @@ public class BallHandling extends SubsystemBase
 
     enum LoadStates
     {
+        /** All off */
         OFF,
+        /** Intake open, loading balls */
         LOADING,
+        /** Intake closed */
         NOT_LOADING
     }
 
@@ -40,18 +43,25 @@ public class BallHandling extends SubsystemBase
 
     enum ShooterStates
     {
+        /** All off */
         OFF,
+        /** Awake but not shooting */
         IDLE,
+        /** Shot requested, wait for spinner to be ready */
         SPINUP,
+        /** Ball should come out now */
         SHOOTING
     }
 
     private ShooterStates shooter_state = ShooterStates.OFF;
 
+    /** Should spinner run all the time? Or only start up during SPINUP? */
     private boolean keep_spinner_running = false;
 
+    /** Timer for spinner running after last shot */
     private Timer spinner_runtime = new Timer();
 
+    /** Has a shot been requested? */
     private boolean shot_requested = false;
 
     public BallHandling()
@@ -67,7 +77,7 @@ public class BallHandling extends SubsystemBase
         // TODO Need to invert some motors?
     }
 
-    private void initializeMotor(WPI_TalonFX motor)
+    private void initializeMotor(final WPI_TalonFX motor)
     {
         motor.configFactoryDefault();
         motor.clearStickyFaults();
@@ -75,7 +85,7 @@ public class BallHandling extends SubsystemBase
     }
 
     /** Overall Off/enabled */
-    public void enable(boolean do_enable)
+    public void enable(final boolean do_enable)
     {
         if (do_enable)
         {
@@ -99,8 +109,8 @@ public class BallHandling extends SubsystemBase
             keep_spinner_running = true;
     }
 
-    /** Switch between loading and not */
-    public void load(boolean do_load)
+    /** @param do_load Load or not? */
+    public void load(final boolean do_load)
     {
         if (do_load)
             load_state = LoadStates.LOADING;
@@ -108,6 +118,7 @@ public class BallHandling extends SubsystemBase
             load_state = LoadStates.NOT_LOADING;
     }
 
+    /** Toggle between loading and not */
     public void toggleLoading()
     {
         load(load_state == LoadStates.NOT_LOADING);
@@ -123,86 +134,109 @@ public class BallHandling extends SubsystemBase
     public void periodic()
     {
         // Common OFF state
-        if (load_state == LoadStates.OFF  ||
-            shooter_state == ShooterStates.OFF)
+        if (load_state == LoadStates.OFF  ||  shooter_state == ShooterStates.OFF)
+            state_off();
+        else
         {
-            intake_arm.set(false);
+            // Loading/unloading:
+            // Can only be in one state at a time
+            if (load_state == LoadStates.LOADING)
+                state_loading();
+            else if (load_state == LoadStates.NOT_LOADING)
+                state_not_loading();
+
+            // Shooter states:
+            // IDLE might right way go to SPINUP, SPINUP to SHOOTING,
+            // so check all in order, no "else if"
+            if (shooter_state == ShooterStates.IDLE)
+                state_idle();
+            if (shooter_state == ShooterStates.SPINUP)
+                state_spinup();
+            if (shooter_state == ShooterStates.SHOOTING)
+                state_shooting();
+        }
+    }
+
+    private void state_off()
+    {
+        intake_arm.set(false);
+        intake.setVoltage(0);
+        conveyor.setVoltage(0);
+        feeder.setVoltage(0);
+        spinner.stop();
+    }
+
+    private void state_loading()
+    {
+        intake_arm.set(true);
+
+        final boolean have_all_balls = conveyor_sensor.get()  &&  feeder_sensor.get();
+        if (have_all_balls)
+        {
             intake.setVoltage(0);
             conveyor.setVoltage(0);
-            feeder.setVoltage(0);
+        }
+        else
+        {
+            intake.setVoltage(INTAKE_VOLTAGE);
+            conveyor.setVoltage(CONVEYOR_VOLTAGE);
+        }
+    }
+  
+    private void state_not_loading()
+    {
+        // Don't take any new balls in ...
+        intake_arm.set(false);
+        intake.setVoltage(0);
+        
+        // .. but may have one ball on conveyor that needs to move forward
+        final boolean have_single_ball_to_move = conveyor_sensor.get()  &&  !feeder_sensor.get();
+        if (have_single_ball_to_move)
+            conveyor.setVoltage(CONVEYOR_VOLTAGE);
+        else
+            conveyor.setVoltage(0);
+    }
+
+    private void state_idle()
+    {
+        feeder.setVoltage(0.0);
+
+        // Always spin or leave running for 2 sec after last shot
+        if (keep_spinner_running  ||  ! spinner_runtime.hasElapsed(2.0))
+            spinner.run();
+        else
             spinner.stop();
-        }
-
-        // Loading/unloading
-        if (load_state == LoadStates.LOADING)
+        
+        if (shot_requested)
         {
-            intake_arm.set(true);
-
-            boolean have_all_balls = conveyor_sensor.get() && feeder_sensor.get();
-            if (have_all_balls)
-            {
-                intake.setVoltage(0);
-                conveyor.setVoltage(0);
-            }
-            else
-            {
-                intake.setVoltage(INTAKE_VOLTAGE);
-                conveyor.setVoltage(CONVEYOR_VOLTAGE);
-            }
+            shooter_state = ShooterStates.SPINUP;
+            shot_requested = false;
         }
-        else if (load_state == LoadStates.NOT_LOADING)
-        {
-            intake_arm.set(false);
-            intake.setVoltage(0);
-            
-            boolean have_single_ball_to_move_on =
-               conveyor_sensor.get() && !feeder_sensor.get();
-            if (have_single_ball_to_move_on)
-                conveyor.setVoltage(CONVEYOR_VOLTAGE);
-            else
-                conveyor.setVoltage(0);
-        }
+    }
 
-        // Shooter states
-        if (shooter_state == ShooterStates.IDLE)
-        {
-            feeder.setVoltage(0.0);
+    private void state_spinup()
+    {
+        feeder.setVoltage(0.0);
+        spinner.run();
 
-            // Always run, or leave running for 2 sec after last shot
-            if (keep_spinner_running  ||
-                ! spinner_runtime.hasElapsed(2.0))
-                spinner.run();
-            else
-                spinner.stop();
-            
-            if (shot_requested)
-            {
-                shooter_state = ShooterStates.SPINUP;
-                shot_requested = false;
-            }
-        }
-        if (shooter_state == ShooterStates.SPINUP)
-        {
-            feeder.setVoltage(0.0);
-            spinner.run();
+        // Is spinner fast enough?
+        // TODO Find good threshold. Is it 95%??
+        if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("Spinner Setpoint", 0.0))
+            shooter_state = ShooterStates.SHOOTING;
+    }
 
-            // Is spinner fast enough?
-            // TODO Find good threshold. Is it 95%??
-            if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("Spinner Setpoint", 0.0))
-                shooter_state = ShooterStates.SHOOTING;
-        }
-        if (shooter_state == ShooterStates.SHOOTING)
-        {
-            feeder.setVoltage(FEEDER_VOLTAGE);
-            spinner.run();
+    private void state_shooting()
+    {
+        feeder.setVoltage(FEEDER_VOLTAGE);
+        spinner.run();
 
-            // Did we eject a ball?
-            if (ejection_sensor.get())
-            {
-                shooter_state = ShooterStates.IDLE;
-                spinner_runtime.reset();
-                spinner_runtime.start();
-            }
+        // Did we eject a ball?
+        if (ejection_sensor.get())
+        {
+            shooter_state = ShooterStates.IDLE;
+            spinner_runtime.stop();
+            spinner_runtime.reset();
+            spinner_runtime.start();
         }
     }
 }

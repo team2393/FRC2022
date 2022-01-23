@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.cargo.BallHandling;
 
-/** Very simple robot that tests the spinner */
+/** Simple robot that tests ball handling */
 public class BallHandlingTestRobot extends TimedRobot
 {
     private final BallHandling ballhandling = new BallHandling();
@@ -46,7 +46,6 @@ public class BallHandlingTestRobot extends TimedRobot
 
         if (OperatorInterface.toggleSpinner())
             ballhandling.toggleSpinner();
-
 
         if (OperatorInterface.toggleLoading())
             ballhandling.toggleLoading();
