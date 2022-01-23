@@ -39,7 +39,7 @@ public class Spinner extends SubsystemBase
         // We command the primary motor, secondary follows
         secondary.follow(primary);
 
-        SmartDashboard.setDefaultNumber("Spinner Setpoint", 10.0);
+        SmartDashboard.setDefaultNumber("SpinnerSetpoint", 10.0);
     }
     
     /** @param motor Motor to initialize
@@ -92,10 +92,10 @@ public class Spinner extends SubsystemBase
         primary.setVoltage(voltage);
     }
 
-    /** Run at "Spinner Setpoint" RPS */
+    /** Run at "SpinnerSetpoint" RPS */
     public void run()
     {
-        setSpeed(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
+        setSpeed(SmartDashboard.getNumber("SpinnerSetpoint", 0.0));
     }
 
     /** Stop (allow to run down, no hard brake) */

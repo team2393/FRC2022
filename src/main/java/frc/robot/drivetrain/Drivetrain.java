@@ -21,7 +21,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,7 +58,7 @@ public class Drivetrain extends SubsystemBase
     private static final double GEAR_RATIO = 2.0;
 
     /** Gear shifter */
-    private final Solenoid gear = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.GEAR_SHIFTER);
+    private final Solenoid gear = new Solenoid(RobotMap.PCM_TYPE, RobotMap.GEAR_SHIFTER);
 
     /** Are we in high gear right now? */
     private boolean in_high_gear = false;

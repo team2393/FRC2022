@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
@@ -71,9 +72,12 @@ public class RapidReactRobot extends TimedRobot
 
         SmartDashboard.putData(auto_shift);
 
-        // Register commands on dashboard: Reset stuff
+        // Register commands on dashboard
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
+
+        SmartDashboard.putData(new ApplySettingsCommand("Aim High", "aim_high.dat"));
+        SmartDashboard.putData(new ApplySettingsCommand("Aim Low", "aim_low.dat"));
 
         // Camera support
         SmartDashboard.putData(camera_drive);

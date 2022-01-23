@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 /** Information about anything that's plugged into the roboRIO */
 public class RobotMap
 {
@@ -55,7 +57,11 @@ public class RobotMap
     public final static int FEEDER = 9;
 
     // Solenoids
+    // Are we using original PCM (of which we have many)
+    // or new REV PH (more channels, but only one)?
+    public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
     public final static int INTAKE_ARM = 0;
+    public final static int SHOOTER_ANGLE = 1;
     public final static int GEAR_SHIFTER = 6;
 
     // Digital I/O

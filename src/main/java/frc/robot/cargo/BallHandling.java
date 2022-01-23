@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +17,8 @@ public class BallHandling extends SubsystemBase
     private static final double CONVEYOR_VOLTAGE = 4.0;
     private static final double FEEDER_VOLTAGE = 6.0;
 
-    private Solenoid intake_arm = new Solenoid(PneumaticsModuleType.REVPH, RobotMap.INTAKE_ARM);
+    private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
+    private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
     private WPI_TalonFX intake = new WPI_TalonFX(RobotMap.INTAKE);
     private WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
     private WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
@@ -75,6 +75,9 @@ public class BallHandling extends SubsystemBase
         intake.setNeutralMode(NeutralMode.Coast);
 
         // TODO Need to invert some motors?
+
+        // Allow control of shooter angle from smartboard
+        SmartDashboard.setDefaultBoolean("High", false);
     }
 
     private void initializeMotor(final WPI_TalonFX motor)
@@ -133,6 +136,8 @@ public class BallHandling extends SubsystemBase
     @Override
     public void periodic()
     {
+        shooter_angle.set(SmartDashboard.getBoolean("High", false));
+    
         // Common OFF state
         if (load_state == LoadStates.OFF  ||  shooter_state == ShooterStates.OFF)
             state_off();
@@ -221,7 +226,7 @@ public class BallHandling extends SubsystemBase
 
         // Is spinner fast enough?
         // TODO Find good threshold. Is it 95%??
-        if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("Spinner Setpoint", 0.0))
+        if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("SpinnerSetpoint", 0.0))
             shooter_state = ShooterStates.SHOOTING;
     }
 
