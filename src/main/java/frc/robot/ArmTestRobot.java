@@ -10,17 +10,20 @@ import frc.robot.climb.Arm;
 
 /** Robot for testing/calibrating arm
  * 
+ *  Start out with arm all "in" and "down".
+ *  Encoders are reset to zero when starting teleop.
+ * 
  *  Recipe for extension
  *  1) In teleop, right stick forward/backwards
  *     should extend arm out/in.
- *  2) Is right stick forward "out"? Otherwise invert extender motor
+ *  2) Does right joystick forward extend "out"? Otherwise invert extender motor
  *  3) Calibrate extender sensor EXTENDER_COUNTS_PER_METER:
  *     Set EXTENDER_COUNTS_PER_METER = 1,
  *     extend arm some way, measure extension and compute
  *     counts / that_extension
  *  4) Check limit switch.
- *     Does it indicate when "at limit"?
- *     Extender motor should not move further "in" when at limit.
+ *     Does it indicate "retracted" when at limit?
+ *     Extender motor should not move further "in" when fully retracted.
  *  5) Check MAX_EXTENSION
  *     Set MAX_EXTENSION = 0
  *     In teleop, determine maximum extension,
@@ -68,7 +71,7 @@ public class ArmTestRobot extends TimedRobot
         SmartDashboard.setDefaultNumber("P", 0.0);
         SmartDashboard.setDefaultNumber("I", 0.0);
         SmartDashboard.setDefaultNumber("D", 0.0);
-        SmartDashboard.setDefaultNumber("Max Arm V", 6.0));
+        SmartDashboard.setDefaultNumber("Max Arm V", 6.0);
     }
 
     @Override
@@ -88,16 +91,16 @@ public class ArmTestRobot extends TimedRobot
     public void teleopPeriodic()
     {
         // Manually operate arm at some low voltage
-
-        // Use left forward/back to control up/down angle
-        double voltage = OperatorInterface.getSpeed() * 4.0;
-        SmartDashboard.putNumber("Rotator Voltage", voltage); 
-        arm.setRotatorVoltage(voltage);
-
+        
         // Use right forward/back to extend arm out/in
-        voltage = OperatorInterface.extendArm() * 4.0;
+        double voltage = OperatorInterface.extendArm() * 4.0;
         SmartDashboard.putNumber("Extender Voltage", voltage); 
         arm.setExtenderVoltage(voltage);
+
+        // Use left forward/back to control up/down angle
+        voltage = OperatorInterface.getSpeed() * 4.0;
+        SmartDashboard.putNumber("Rotator Voltage", voltage); 
+        arm.setRotatorVoltage(voltage);
     }
 
     @Override
