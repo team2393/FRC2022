@@ -1,5 +1,6 @@
 package frc.robot.cargo;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -52,6 +53,26 @@ public class BallHandling extends SubsystemBase
     private Timer spinner_runtime = new Timer();
 
     private boolean shot_requested = false;
+
+    public BallHandling()
+    {
+        // Apply common settings
+        initializeMotor(intake);
+        initializeMotor(conveyor);
+        initializeMotor(feeder);
+
+        // Intake spinner can coast
+        intake.setNeutralMode(NeutralMode.Coast);
+
+        // TODO Need to invert some motors?
+    }
+
+    private void initializeMotor(WPI_TalonFX motor)
+    {
+        motor.configFactoryDefault();
+        motor.clearStickyFaults();
+        motor.setNeutralMode(NeutralMode.Brake);
+    }
 
     /** Overall Off/enabled */
     public void enable(boolean do_enable)

@@ -11,7 +11,7 @@ public class OpenIntakeCommand extends InstantCommand
     @Override
     public void initialize()
     {
-        // TODO open intake
         System.out.println("Should open intake...");
+        // TODO ball_handling.load(true);
     }
 } 

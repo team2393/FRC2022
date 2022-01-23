@@ -11,7 +11,7 @@ public class CloseIntakeCommand extends InstantCommand
     @Override
     public void initialize()
     {
-        // TODO close intake
         System.out.println("Should close intake...");
+        // TODO ball_handling.load(false);
     }
 } 

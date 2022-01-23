@@ -10,11 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** Command to shoot */
 public class ShootCommand extends CommandBase
 {
-    // TODO handle the shooting of one ball
-    // Do that in here?
-    // Or have a designated "BallHandling" subsystem with states like
-    // IDLE, SPINUP, FEED, EJECT, SPINDOWN?
-
+    // TODO Change into InstantCommand for ball_handling.shoot();
     private final Timer simulation = new Timer();
 
     @Override
