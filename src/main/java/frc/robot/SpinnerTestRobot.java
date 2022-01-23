@@ -18,8 +18,6 @@ public class SpinnerTestRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Spinner Test *****");
-
-        SmartDashboard.setDefaultNumber("Spinner Setpoint", 0.0);
     }
 
     @Override
@@ -52,6 +50,6 @@ public class SpinnerTestRobot extends TimedRobot
     {
         // In auto, ask spinner to run at desired speed
         // spinner.setVoltage(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
-        spinner.setSpeed(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
+        spinner.run();
     }
 }

@@ -37,7 +37,9 @@ public class Spinner extends SubsystemBase
         initializeMotor(secondary, true);
         
         // We command the primary motor, secondary follows
-        secondary.follow(primary); 
+        secondary.follow(primary);
+
+        SmartDashboard.setDefaultNumber("Spinner Setpoint", 10.0);
     }
     
     /** @param motor Motor to initialize
@@ -88,6 +90,18 @@ public class Spinner extends SubsystemBase
     public void setVoltage(final double voltage)
     {
         primary.setVoltage(voltage);
+    }
+
+    /** Run at "Spinner Setpoint" RPS */
+    public void run()
+    {
+        setSpeed(SmartDashboard.getNumber("Spinner Setpoint", 0.0));
+    }
+
+    /** Stop (allow to run down, no hard brake) */
+    public void stop()
+    {
+        setVoltage(0);
     }
 
     /** @param speed Desired speed in revs/sec */

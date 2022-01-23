@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -14,7 +15,6 @@ public class BallHandling extends SubsystemBase
     // TODO Determine good voltages for running intake and feeder
     private static final double INTAKE_VOLTAGE = 3.0;
     private static final double CONVEYOR_VOLTAGE = 4.0;
-    private static final double SPINNER_SPEED = 75.0;
     private static final double FEEDER_VOLTAGE = 6.0;
 
     private Solenoid intake_arm = new Solenoid(PneumaticsModuleType.REVPH, RobotMap.INTAKE_ARM);
@@ -109,7 +109,7 @@ public class BallHandling extends SubsystemBase
             intake.setVoltage(0);
             conveyor.setVoltage(0);
             feeder.setVoltage(0);
-            spinner.setSpeed(0);
+            spinner.stop();
         }
 
         // Loading/unloading
@@ -147,11 +147,12 @@ public class BallHandling extends SubsystemBase
         {
             feeder.setVoltage(0.0);
 
+            // Always run, or leave running for 2 sec after last shot
             if (keep_spinner_running  ||
                 ! spinner_runtime.hasElapsed(2.0))
-                spinner.setSpeed(SPINNER_SPEED);
+                spinner.run();
             else
-                spinner.setSpeed(0);
+                spinner.stop();
             
             if (shot_requested)
             {
@@ -162,16 +163,17 @@ public class BallHandling extends SubsystemBase
         if (shooter_state == ShooterStates.SPINUP)
         {
             feeder.setVoltage(0.0);
-            spinner.setSpeed(SPINNER_SPEED);
+            spinner.run();
 
             // Is spinner fast enough?
-            if (spinner.getSpeed() >= 0.95*SPINNER_SPEED)
+            // TODO Find good threshold. Is it 95%??
+            if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("Spinner Setpoint", 0.0))
                 shooter_state = ShooterStates.SHOOTING;
         }
         if (shooter_state == ShooterStates.SHOOTING)
         {
             feeder.setVoltage(FEEDER_VOLTAGE);
-            spinner.setSpeed(SPINNER_SPEED);
+            spinner.run();
 
             // Did we eject a ball?
             if (ejection_sensor.get())
