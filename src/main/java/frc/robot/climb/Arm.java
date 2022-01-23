@@ -6,6 +6,7 @@ package frc.robot.climb;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -42,7 +43,11 @@ public class Arm extends SubsystemBase
     /** Gravity rotator gain when extender is all the way "out" */
     private static final double ANGLE_GRAVITY_GAIN_OUT = 0.0;
 
+    /** PID controller for rotator angle */
     private final PIDController angle_pid = new PIDController(0, 0, 0);
+
+    /** Maximum voltage used to control rotator angle */
+    private double MAX_ARM_VOLTAGE = 6.0;
 
     // TODO Try sysId tool for "arm",
     // then use PID for rotator speed, profiledPID for angle 
@@ -133,9 +138,10 @@ public class Arm extends SubsystemBase
     }
 
     /** Configure angle PID gains */
-    public void configurePID(final double kp, final double ki, final double kd)
+    public void configurePID(final double kp, final double ki, final double kd, final double max_voltage)
     {
         angle_pid.setPID(kp, ki, kd);
+        MAX_ARM_VOLTAGE = max_voltage;
     }
 
     public void setAngle(final double desired_degrees)
@@ -167,6 +173,9 @@ public class Arm extends SubsystemBase
 
         // Add PID to the feed-forward voltage
         voltage += angle_pid.calculate(angle, desired_degrees);
+
+        // Keep voltage within bounds
+        voltage = MathUtil.clamp(voltage, -MAX_ARM_VOLTAGE, MAX_ARM_VOLTAGE);
 
         rotator.setNeutralMode(NeutralMode.Brake);
         setRotatorVoltage(voltage);

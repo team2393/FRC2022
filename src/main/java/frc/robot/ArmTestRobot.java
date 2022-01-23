@@ -50,7 +50,8 @@ import frc.robot.climb.Arm;
  *     ANGLE_GRAVITY_GAIN_OUT:
  *     Voltage required to hold arm when it's near horizontal (~5..10 degrees)
  *     and extended all the way out.
- *  5) In auto mode, set "Desired Angle" and adjust PID settings to get there
+ *  5) In auto mode, set "Desired Angle"
+ *     and adjust PID settings and "Max Arm V" to get there
  */
 public class ArmTestRobot extends TimedRobot
 {
@@ -67,6 +68,7 @@ public class ArmTestRobot extends TimedRobot
         SmartDashboard.setDefaultNumber("P", 0.0);
         SmartDashboard.setDefaultNumber("I", 0.0);
         SmartDashboard.setDefaultNumber("D", 0.0);
+        SmartDashboard.setDefaultNumber("Max Arm V", 6.0));
     }
 
     @Override
@@ -111,7 +113,8 @@ public class ArmTestRobot extends TimedRobot
         // Allow adjusting PID from dashboard
         arm.configurePID(SmartDashboard.getNumber("P", 0.0),
                          SmartDashboard.getNumber("I", 0.0),
-                         SmartDashboard.getNumber("D", 0.0));
+                         SmartDashboard.getNumber("D", 0.0),
+                         SmartDashboard.getNumber("Max Arm V", 6.0));
         arm.setAngle(SmartDashboard.getNumber("Desired Angle", 0.0));
     }
 }
