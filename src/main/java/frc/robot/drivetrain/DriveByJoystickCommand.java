@@ -13,6 +13,7 @@ public class DriveByJoystickCommand extends CommandBase
 
     public DriveByJoystickCommand(final Drivetrain drivetrain)
     {
+        setName("Joydrive");
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
     }

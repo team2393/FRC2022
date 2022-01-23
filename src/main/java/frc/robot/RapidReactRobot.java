@@ -30,7 +30,10 @@ public class RapidReactRobot extends TimedRobot
     private GuessingUDPClient camera = new GuessingUDPClient();
 
     /** Commands */
-    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);    
+    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain),
+                              auto_shift = new AutoShiftCommand(drivetrain),
+                              camera_drive = new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction);
+
     private final CommandBase reset_command = new InstantCommand()
     {
         public void initialize()
@@ -63,15 +66,17 @@ public class RapidReactRobot extends TimedRobot
         // By default, have it stop.
         // Otherwise, DriveByJoystickCommand or an autonomous move command control it.
         final CommandBase stay_put = new RunCommand(() -> drivetrain.drive(0, 0), drivetrain);
+        stay_put.setName("Stay Put");
         drivetrain.setDefaultCommand(stay_put);
+
+        SmartDashboard.putData(auto_shift);
 
         // Register commands on dashboard: Reset stuff
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
 
         // Camera support
-        SmartDashboard.putData(new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction));
-        SmartDashboard.putData(new AutoShiftCommand(drivetrain));
+        SmartDashboard.putData(camera_drive);
         CameraHelper.registerCommands();
 
         reset();
@@ -81,6 +86,7 @@ public class RapidReactRobot extends TimedRobot
     private void reset()
     {
         drivetrain.reset();
+        auto_shift.cancel();
 
         // TODO Is there more to reset?
     }
@@ -124,9 +130,14 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
+        // GUI can select camera_drive.
+        // If that's not running, re-schedule the plain joydrive
+        if (! camera_drive.isScheduled())
+            joydrive.schedule();
+
+        // auto_shift can be enabled on dashboard, and always allow manual shifting
         if (OperatorInterface.shiftHigh())
             drivetrain.shiftgear(true);
-
         if (OperatorInterface.shiftLow())
             drivetrain.shiftgear(false);
     }
