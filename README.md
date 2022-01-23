@@ -46,10 +46,10 @@ Ran into two issues:
 * Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
 * Vision processing on raspberry pi: Detect blue vs. red cargo. Test with servo. Add DriveAndRotateToVisionCommand.
 * Start skeleton software for any expected robot component: Ball pickup, ball feeder, shooter
-
-Next:
 * Select high/low ejection angle
 * Start skeleton for climber/arm
+
+Next:
 * Add light to camera
 
 February
