@@ -5,7 +5,8 @@ Code for 2022 Robot
 
  * Game manual: https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
  * Software
-   * Basics of Java: https://www.codecademy.com/learn/learn-java, [Java Book](https://www.amazon.com/dp/0596009208)
+   * Basics of Java: https://www.codecademy.com/learn/learn-java, [Java Book](https://www.amazon.com/dp/0596009208),
+     [Free Java Book](https://greenteapress.com/wp/think-java-2e/)
    * Robot "WPILib", the FRC software framework https://docs.wpilib.org/en/stable/
    * Past [getting-started sessions](https://github.com/team2393/FRC/wiki), [code examples](https://github.com/team2393/FRC/tree/master/src/main/java)
    * Cross-the-Road Electronics, Phoenix tuner and manuals for several CAN devices: https://newsite.ctr-electronics.com/
