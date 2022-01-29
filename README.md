@@ -63,3 +63,41 @@ March
 
  * Robot practice runs, improvements, tuning
  * Competitions
+
+
+Profiling
+---------
+
+'VisualVM', available from https://visualvm.github.io,
+allows you to see how much CPU and memory the code is using on the RoboRIO,
+and where it spends its time.
+
+In build.gradle, this addition to the FRCJavaArtifact section
+allows VisualVM to access the JVM running on the robot:
+
+```
+frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+    jvmArgs.add("-Dcom.sun.management.jmxremote=true")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.port=1099")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
+    jvmArgs.add("-Djava.rmi.server.hostname=10.23.93.2")
+}
+```
+
+Assuming you unpacked it to \Users\Public\wpilib,
+you may have to start it from a command prompt to pass the JDK location:
+
+```
+cd \Users\Public\wpilib\visualvm\bin
+visualvm --jdkhome \Users\Public\wpilib\2022\jdk
+```
+
+To connect to the program running on the robot:
+ * File, Add JMX Connection
+ * 'Connection:' 172.22.11.2:1099 respectively 10.23.93.2:1099
+ * Check 'Do not require SSL connection'
+ * A new entry with a 'pid' should appear under the 'Remote' list.
+   Double-click, then check 'Monitor', 'Sample.. CPU' etc.
+
