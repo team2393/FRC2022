@@ -18,8 +18,15 @@ public class ColorSensorTestRobot extends TimedRobot
     /** Threshold for recognizing color, 0..1 */
     private static final double THRESHOLD = 0.8;
 
-    /** Sensor, connected to I2C socket on RIO */
-    private final ColorSensorV3 sensor = new ColorSensorV3(I2C.Port.kOnboard);
+    /** Sensor, connected to I2C socket on RIO
+     *  or MXP like this:
+     * 
+     *  GND:  MXP 30
+     *  3.3V: MXP 33
+     *  SCL:  MXP 32
+     *  SDA:  MXP 34
+     */
+    private final ColorSensorV3 sensor = new ColorSensorV3(I2C.Port.kMXP);
 
     /** Values for red and blue cargo balls
      *  with light on sensor on.
@@ -46,16 +53,29 @@ public class ColorSensorTestRobot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
+        int distance = sensor.getProximity();
+        
         // Get and show RGB
         final Color color = sensor.getColor();
         SmartDashboard.putNumber("R", color.red);
         SmartDashboard.putNumber("G", color.green);
         SmartDashboard.putNumber("B", color.blue);
+        SmartDashboard.putNumber("Distance", distance);
 
+        if (distance > 200)
+        {
+            if (color.red > color.blue)
+                SmartDashboard.putString("Simple Check", "Red?");
+            else
+                SmartDashboard.putString("Simple Check", "Blue?");
+        }
+        else
+            SmartDashboard.putString("Simple Check", "Nothing");
+       
         // See if it's close enough to a ball color
         ColorMatchResult check = match.matchClosestColor(color);
-        if (check == null)
-            SmartDashboard.putString("Color", "null");
+        if (check == null  ||  distance < 200)
+            SmartDashboard.putString("Color", "Nothing");
         else if (check.confidence >= THRESHOLD  &&  check.color.equals(red))
             SmartDashboard.putString("Color", String.format("Red %.1f", check.confidence));
         else if (check.confidence >= THRESHOLD  &&  check.color.equals(blue))
