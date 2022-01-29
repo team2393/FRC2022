@@ -20,7 +20,8 @@ public class PigeonTestRobot extends TimedRobot
         System.out.println("***** Team 2393 Pigeon Test *****");
 
         pigeon.configFactoryDefault();
-        pigeon.clearStickyFaults();
+        // Not supported
+        // pigeon.clearStickyFaults();
     }
 
     @Override
