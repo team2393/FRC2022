@@ -16,7 +16,7 @@ public class BallHandling extends SubsystemBase
     private static final double INTAKE_VOLTAGE = 3.0;
     private static final double CONVEYOR_VOLTAGE = 4.0;
     private static final double FEEDER_VOLTAGE = 6.0;
-
+    
     private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
     private WPI_TalonFX intake = new WPI_TalonFX(RobotMap.INTAKE);
@@ -25,10 +25,10 @@ public class BallHandling extends SubsystemBase
     private Spinner spinner = new Spinner();
     private DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
     private DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
-
+    
     // Could get replaced by watching spinner current
     private DigitalInput ejection_sensor = new DigitalInput(RobotMap.EJECTION_SENSOR);
-
+    
     enum LoadStates
     {
         /** All off */
@@ -38,9 +38,9 @@ public class BallHandling extends SubsystemBase
         /** Intake closed */
         NOT_LOADING
     }
-
+    
     private LoadStates load_state = LoadStates.OFF;
-
+    
     enum ShooterStates
     {
         /** All off */
@@ -52,25 +52,31 @@ public class BallHandling extends SubsystemBase
         /** Ball should come out now */
         SHOOTING
     }
-
+    
     private ShooterStates shooter_state = ShooterStates.OFF;
-
+    
     /** Should spinner run all the time? Or only start up during SPINUP? */
     private boolean keep_spinner_running = false;
-
+    
     /** Timer for spinner running after last shot */
     private Timer spinner_runtime = new Timer();
-
+    
+    /** Timer for how long we've been trying to perform one shot */
+    private Timer shot_attempt_timer = new Timer();
+    
     /** Has a shot been requested? */
     private boolean shot_requested = false;
 
+    /** Timeout used for shot_requested */
+    private static final double SHOT_TIMEOUT = 10.0;
+    
     public BallHandling()
     {
         // Apply common settings
         initializeMotor(intake);
         initializeMotor(conveyor);
         initializeMotor(feeder);
-
+        
         // Intake spinner can coast
         intake.setNeutralMode(NeutralMode.Coast);
 
@@ -215,6 +221,8 @@ public class BallHandling extends SubsystemBase
         if (shot_requested)
         {
             shooter_state = ShooterStates.SPINUP;
+            shot_attempt_timer.reset();
+            shot_attempt_timer.start();
             shot_requested = false;
         }
     }
@@ -228,6 +236,11 @@ public class BallHandling extends SubsystemBase
         // TODO Find good threshold. Is it 95%??
         if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("SpinnerSetpoint", 0.0))
             shooter_state = ShooterStates.SHOOTING;
+        else if (shot_attempt_timer.hasElapsed(SHOT_TIMEOUT))
+        {
+            shooter_state = ShooterStates.SHOOTING;
+            System.out.println("Not reaching spinner setpoint, shooting anyway");
+        }
     }
 
     private void state_shooting()
@@ -239,6 +252,14 @@ public class BallHandling extends SubsystemBase
         if (ejection_sensor.get())
         {
             shooter_state = ShooterStates.IDLE;
+            spinner_runtime.stop();
+            spinner_runtime.reset();
+            spinner_runtime.start();
+        }
+        else if (shot_attempt_timer.hasElapsed(SHOT_TIMEOUT))
+        {
+            shooter_state = ShooterStates.IDLE;
+            System.out.println("No ball shot? Giving up");
             spinner_runtime.stop();
             spinner_runtime.reset();
             spinner_runtime.start();

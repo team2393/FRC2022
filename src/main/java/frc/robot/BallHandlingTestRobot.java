@@ -7,7 +7,40 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.cargo.BallHandling;
 
-/** Simple robot that tests ball handling */
+/** Simple robot that tests ball handling
+ * 
+ *  In teleop:
+ *  * Nothing should happen
+ *  * Push A to toggle loading 'on':
+ *    Intake should move out/open
+ *    Intake and conveyor should turn on
+ *  * Push A to toggle loading 'off':
+ *    Intake should move in
+ *    Intake and conveyor should turn off
+ *  * Push A to toggle loading back 'on':
+ *    Intake should move out/open
+ *    Intake and conveyor should turn on
+ *  * Feed one ball, should get pulled in, intake and conveyor keep running
+ *  * Feed second ball, intake and conveyor should stop
+ *  * Push A to toggle loading 'on/off',
+ *    intake should open/close but intake motor and conveyor stay off
+ * 
+ *  * Push 'X' to toggle spinner on/off
+ *    Spinner should turn on/off
+ * 
+ *  * Push left bumper to shoot
+ *    Spinner should turn on in case it wasn't already running.
+ *    Wait until spinner fast enough (95% of desired speed. Is 95% a good number?)
+ *    Feeder moves ball up to spinner.
+ *    Feeder stops one ball has been ejected.
+ *    Spinner either remains on for just 2 seconds
+ *    or until 'spinner always on' toggled to off via 'X'
+ *
+ *  * Try shooting without balls loaded:
+ *    Spinner should run up,
+ *    feeder runs up,
+ *    shot times out after 10 seconds.
+ */
 public class BallHandlingTestRobot extends TimedRobot
 {
     private final BallHandling ballhandling = new BallHandling();
