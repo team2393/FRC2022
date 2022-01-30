@@ -11,6 +11,10 @@ import frc.robot.cargo.BallHandling;
  * 
  *  In teleop:
  *  * Nothing should happen
+ *  * Check dashboard for "Ball in Conveyor", "Ball in Feeder"
+ *    and "Ball Ejected" sensors.
+ *    Do they indicate a "Ball" when something is placed at each
+ *    location?
  *  * Push A to toggle loading 'on':
  *    Intake should move out/open
  *    Intake and conveyor should turn on
@@ -24,6 +28,9 @@ import frc.robot.cargo.BallHandling;
  *  * Feed second ball, intake and conveyor should stop
  *  * Push A to toggle loading 'on/off',
  *    intake should open/close but intake motor and conveyor stay off
+ * 
+ *  * On Dashboard, check if "High" allows moving the shooter angle solenoid
+ *    to the high (true) and low (false) setup.
  * 
  *  * Push 'X' to toggle spinner on/off
  *    Spinner should turn on/off
