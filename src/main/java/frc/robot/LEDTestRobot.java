@@ -20,6 +20,15 @@ public class LEDTestRobot extends TimedRobot
     }
 
     @Override
+    public void disabledPeriodic()
+    {
+        // Digital output can be controlled even while disabled
+        // and disconnected from driver station.
+        // Toggle LED on/off every two seconds
+        led.set((System.currentTimeMillis() / 2000) % 2 == 0);
+    }
+
+    @Override
     public void teleopPeriodic()
     {
         // In teleop, manually turn LED on/off via the 'USER' button
