@@ -142,6 +142,12 @@ public class BallHandling extends SubsystemBase
     @Override
     public void periodic()
     {
+        // Update indicators
+        SmartDashboard.putBoolean("Ball in Conveyor", conveyor_sensor.get());
+        SmartDashboard.putBoolean("Ball in Feeder", feeder_sensor.get());
+        SmartDashboard.putBoolean("Ball Ejected", ejection_sensor.get());
+
+        // Control shooter angle from dashboard
         shooter_angle.set(SmartDashboard.getBoolean("High", false));
     
         // Common OFF state
