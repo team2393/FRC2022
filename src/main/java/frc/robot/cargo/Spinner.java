@@ -9,9 +9,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.util.KeepOnFilter;
 
 /** Spinner used to eject balls */
 public class Spinner extends SubsystemBase
@@ -90,6 +92,38 @@ public class Spinner extends SubsystemBase
     public void setVoltage(final double voltage)
     {
         primary.setVoltage(voltage);
+    }
+
+    /** @return Current drawn by motor */
+    public double getCurrent()
+    {
+        return primary.getStatorCurrent();
+    }
+
+    // TODO How to best detect drop in motor current?
+    // High pass filter shows change in value, any change slower than 0.1 seconds are ignored.
+    // This filters out small changes, but rapid drop in current as ball is ejected
+    // gets detected.
+    private final LinearFilter highpass = LinearFilter.highPass(0.1, 0.02);
+    // Filter computes first derivative, i.e. (this_reading - last_reading),
+    // for last two samples
+    private final LinearFilter change_filter = LinearFilter.backwardFiniteDifference(1, 2, 0.02);
+
+    private final KeepOnFilter remember_shot = new KeepOnFilter(1.0);
+
+    /** @return Change in motor current */
+    public double getCurrentChange()
+    {
+        // Try highpass and change_filter
+        // Try different settings to find good current change threshold
+        // for detecting ejected ball
+        return highpass.calculate(getCurrent());
+    }
+
+    /** @return Does current drop suggest a ball was ejected? */
+    public boolean isBallEjected()
+    {
+        return remember_shot.compute(getCurrentChange() < -1.0);
     }
 
     /** Run at "SpinnerSetpoint" RPS */
