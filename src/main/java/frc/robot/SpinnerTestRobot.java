@@ -29,6 +29,8 @@ import frc.robot.cargo.Spinner;
  *  [ ] In autonomous, at setpoint, feed a ball
  *      and observe "Spinner Current" and "Spinner Current Change".
  *      See Spinner.getCurrentChange() to detect ejected ball.
+ *      Try instead to look for drop in RPM.
+ *      Which one better detects an ejected ball?
  * 
  *  [ ] Set appropriate threshold and 'keep on filter' time
  *      to get reliable "Ball Ejected" indication

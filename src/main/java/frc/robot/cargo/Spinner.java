@@ -123,7 +123,8 @@ public class Spinner extends SubsystemBase
     /** @return Does current drop suggest a ball was ejected? */
     public boolean isBallEjected()
     {
-        return remember_shot.compute(getCurrentChange() < -1.0);
+        // TODO Try drop in RPM vs. jump in current
+        return remember_shot.compute(getCurrentChange() > 1.0);
     }
 
     /** Run at "SpinnerSetpoint" RPS */
