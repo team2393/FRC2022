@@ -10,7 +10,7 @@ import frc.robot.climb.Arm;
 
 /** Robot for testing/calibrating arm
  * 
- *  Start out with arm all "in" and "down".
+ *  Start out with arm all pulled "in" (no extension) and "up".
  *  Encoders are reset to zero when starting teleop.
  * 
  *  Recipe for extension
@@ -37,24 +37,8 @@ import frc.robot.climb.Arm;
  *     and reports exactly 0 m extension when done
  *
  *  Recipe for angle
- *  1) In teleop, left stick forward/backwards
- *     should rotate arm up/down.
- *  2) Is forward "up"? Otherwise invert rotator motor
- *  3) Calibrate angle sensor ANGLE_COUNTS_PER_DEGREE:
- *     Set ANGLE_COUNTS_PER_DEGREE = 1,
- *     move arm to some angle,
- *     measure angle and compute counts/that_angle
- *  4) In teleop, move arm slowly to determine the following
- *     ANGLE_STATIC_GAIN:
- *     Minimum voltage required to move arm when it's near 90 degrees (all up)
- *     ANGLE_GRAVITY_GAIN_IN:
- *     Voltage required to hold(!) arm when it's near horizontal (~5..10 degrees)
- *     and extended all the way in. 
- *     ANGLE_GRAVITY_GAIN_OUT:
- *     Voltage required to hold arm when it's near horizontal (~5..10 degrees)
- *     and extended all the way out.
- *  5) In auto mode, set "Desired Angle"
- *     and adjust PID settings and "Max Arm V" to get there
+ *  1) In teleop, right bumber should toggle arm up/down
+ *  5) In auto mode, arm should go up
  */
 public class ArmTestRobot extends TimedRobot
 {
@@ -85,6 +69,7 @@ public class ArmTestRobot extends TimedRobot
     public void teleopInit()
     {
         arm.reset();
+        OperatorInterface.reset();
     }
 
     @Override
@@ -98,9 +83,8 @@ public class ArmTestRobot extends TimedRobot
         arm.setExtenderVoltage(voltage);
 
         // Use left forward/back to control up/down angle
-        voltage = OperatorInterface.getSpeed() * 4.0;
-        SmartDashboard.putNumber("Rotator Voltage", voltage); 
-        arm.setRotatorVoltage(voltage);
+        if (OperatorInterface.toggleArmAngle())
+            arm.setAngle(! arm.getAngle());
     }
 
     @Override
@@ -112,12 +96,6 @@ public class ArmTestRobot extends TimedRobot
     public void autonomousPeriodic()
     {
         arm.homing();
-        
-        // Allow adjusting PID from dashboard
-        arm.configurePID(SmartDashboard.getNumber("P", 0.0),
-                         SmartDashboard.getNumber("I", 0.0),
-                         SmartDashboard.getNumber("D", 0.0),
-                         SmartDashboard.getNumber("Max Arm V", 6.0));
-        arm.setAngle(SmartDashboard.getNumber("Desired Angle", 0.0));
+        arm.setAngle(false);        
     }
 }

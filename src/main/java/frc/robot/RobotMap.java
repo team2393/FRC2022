@@ -49,19 +49,18 @@ public class RobotMap
     public final static int SECONDARY_RIGHT_DRIVE = 1;
     public final static int PRIMARY_SPINNER = 5;
     public final static int SECONDARY_SPINNER = 6;
-    public static final int ARM_ROTATOR = 7;
-    public static final int ARM_EXTENTER = 8;
-
-    public final static int INTAKE = 7;
-    public final static int CONVEYOR = 8;
-    public final static int FEEDER = 9;
-
+    public static final int ARM_EXTENTER = 7;
+    public final static int INTAKE = 8;
+    public final static int CONVEYOR = 9;
+    public final static int FEEDER = 10;
+    
     // Solenoids
     // Are we using original PCM (of which we have many)
     // or new REV PH (more channels, but only one)?
     public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
     public final static int INTAKE_ARM = 0;
     public final static int SHOOTER_ANGLE = 1;
+    public static final int ARM_ROTATOR = 2;
     public final static int GEAR_SHIFTER = 6;
 
     // Digital I/O
