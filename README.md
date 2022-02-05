@@ -19,13 +19,12 @@ Then get GIT from https://git-scm.com/downloads .
 Finally, open VS Code, and select the View menu, Command Palette, Git: Clone, `https://github.com/team2393/FRC2022.git` .
 When prompted for the location of the code, best use a `git/` subfolder of your home directory.
 
-If you're asked to commit changes, you'll also need to
+If you're later asked to commit changes, you'll also need to
   1) Get a github account
   2) Get added to the people with write access to the repository
   3) Create an "access token", https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-Git should remember the last used credentials:
-  git config credential.helper manager
+If git doesn't remember the last used credentials:  `git config credential.helper manager`
 
 Basic Plan and Progress
 -----------------------
@@ -38,22 +37,17 @@ January 2022
 * PID for speed control, PID for position control
 * Drivetrain: Basic teleop, calibrate encoders, speed control
 * Spinner: Basic teleop, speed control
-
-Ran into two issues:
-* In spinner teleop test, which works fine on another laptop, the robot room laptop stops reacting to the joystick.
-  Looks like ongoing issue https://github.com/wpilibsuite/allwpilib/issues/3896 (resolved)
 * The Analog Devices gyro that we used last year only reports 0 degrees, never updating.
   Looks like known issue https://docs.wpilib.org/en/stable/docs/yearly-overview/known-issues.html?highlight=gyro (avoid by using pigeon)
-  
+* Color sensor might be usable to detect balls and their color, but needs to be plugged into MXP, see known issue
+  on on-board I2C lockup
 * Test new REV power distribution and pneumatics hub
 * Drivetrain: Add gyro (pigeon), odometry, trajectory generation, autonomous drive
 * Vision processing on raspberry pi: Detect blue vs. red cargo. Test with servo. Add DriveAndRotateToVisionCommand.
 * Start skeleton software for any expected robot component: Ball pickup, ball feeder, shooter
 * Select high/low ejection angle
 * Start skeleton for climber/arm
-
-Next:
-* Add light to camera
+* Added light to camera
 
 February
 
