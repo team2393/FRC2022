@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-/** Support arm which can extend and rotate */
+/** Support actve arm which can extend and passive arm which rotates */
 public class Arm extends SubsystemBase
 {
-    private Solenoid rotator = new Solenoid(RobotMap.PCM_TYPE, RobotMap.ARM_ROTATOR);
-    private WPI_TalonFX extender = new WPI_TalonFX(RobotMap.ARM_EXTENTER);
+    private Solenoid passive_rotator = new Solenoid(RobotMap.PCM_TYPE, RobotMap.ARM_ROTATOR);
+    private WPI_TalonFX active_extender = new WPI_TalonFX(RobotMap.ARM_EXTENTER);
     private DigitalInput is_retracted = new DigitalInput(RobotMap.ARM_EXTENDER_AT_IN_LIMIT);
  
     /** Extender encoder counts per meter */
@@ -35,10 +35,10 @@ public class Arm extends SubsystemBase
 
     public Arm()
     {
-        extender.configFactoryDefault();
-        extender.clearStickyFaults();
-        extender.setNeutralMode(NeutralMode.Brake);
-        extender.setInverted(false);
+        active_extender.configFactoryDefault();
+        active_extender.clearStickyFaults();
+        active_extender.setNeutralMode(NeutralMode.Brake);
+        active_extender.setInverted(false);
 
         reset();
     }
@@ -48,8 +48,8 @@ public class Arm extends SubsystemBase
      */
     public void reset()
     {
-        extender.setSelectedSensorPosition(0);
-        rotator.set(false);
+        active_extender.setSelectedSensorPosition(0);
+        passive_rotator.set(false);
     }
 
     /** @return Is arm extension all the way "in", fully retracted? */
@@ -73,7 +73,7 @@ public class Arm extends SubsystemBase
         if (isRetracted())
         {
             setExtenderVoltage(0);
-            extender.setSelectedSensorPosition(0);
+            active_extender.setSelectedSensorPosition(0);
             return true;
         }
         
@@ -84,13 +84,13 @@ public class Arm extends SubsystemBase
     /** @param down Rotate arm down? Otherwise up. */
     public void setAngle(final boolean down)
     {
-        rotator.set(down);
+        passive_rotator.set(down);
     }
 
     /** @return Is arm down? */
     public boolean getAngle()
     {
-        return rotator.get();
+        return passive_rotator.get();
     }
 
     /** @param voltage Entender voltage, positive for "out" */
@@ -101,29 +101,29 @@ public class Arm extends SubsystemBase
         {   // Moving out: Check that we stay below max extension
             // (ignore when  max. is not configured)
             if (MAX_EXTENSION <= 0.0  ||  getExtension() < MAX_EXTENSION)
-                extender.setVoltage(voltage);
+                active_extender.setVoltage(voltage);
             else
-                extender.setVoltage(0);
+                active_extender.setVoltage(0);
         }
         else
         {   // Moving in: Stop when at limit
             if (isRetracted())
-                extender.setVoltage(0);
+                active_extender.setVoltage(0);
             else
-                extender.setVoltage(voltage);
+                active_extender.setVoltage(voltage);
         }
     }
 
     /** @return Extension of arm in meters */
     public double getExtension()
     {
-        return extender.getSelectedSensorPosition() / EXTENDER_COUNTS_PER_METER;
+        return active_extender.getSelectedSensorPosition() / EXTENDER_COUNTS_PER_METER;
     }
 
     @Override
     public void periodic()
     {
-        SmartDashboard.putBoolean("Arm Down", rotator.get());
+        SmartDashboard.putBoolean("Arm Down", passive_rotator.get());
         SmartDashboard.putNumber("Arm Extension", getExtension());
         SmartDashboard.putBoolean("Arm Retracted", isRetracted());
     }

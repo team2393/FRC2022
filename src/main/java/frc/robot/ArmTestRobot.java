@@ -13,7 +13,7 @@ import frc.robot.climb.Arm;
  *  Start out with arm all pulled "in" (no extension) and "up".
  *  Encoders are reset to zero when starting teleop.
  * 
- *  Recipe for extension
+ *  Recipe for extension of active arm
  *  1) In teleop, right stick forward/backwards
  *     should extend arm out/in.
  *  2) Does right joystick forward extend "out"? Otherwise invert extender motor
@@ -36,8 +36,8 @@ import frc.robot.climb.Arm;
  *     Then switch to autonomous and verify that arm moves all "in",
  *     and reports exactly 0 m extension when done
  *
- *  Recipe for angle
- *  1) In teleop, right bumber should toggle arm up/down
+ *  Recipe for passive arm
+ *  1) In teleop, right bumber should toggle passive arm up/down
  *  5) In auto mode, arm should go up
  */
 public class ArmTestRobot extends TimedRobot
