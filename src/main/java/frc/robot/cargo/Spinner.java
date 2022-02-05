@@ -124,6 +124,7 @@ public class Spinner extends SubsystemBase
     public boolean isBallEjected()
     {
         // TODO Try drop in RPM vs. jump in current
+        // TODO Check Math.abs(...)?
         return remember_shot.compute(getCurrentChange() > 1.0);
     }
 

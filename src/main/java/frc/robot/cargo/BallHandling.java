@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.cargo.CargoSensor.CargoInfo;
 
 public class BallHandling extends SubsystemBase
 {
@@ -23,11 +24,14 @@ public class BallHandling extends SubsystemBase
     private WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
     private WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
     private Spinner spinner = new Spinner();
-    private DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
+    private CargoSensor conveyor_sensor = new CargoSensor();
     private DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
     
     // Could get replaced by watching spinner current
     private DigitalInput ejection_sensor = new DigitalInput(RobotMap.EJECTION_SENSOR);
+
+    /** Reading of conveyor_sensor for current period */
+    private CargoInfo cargo_info = CargoInfo.NOTHING;
     
     enum LoadStates
     {
@@ -142,8 +146,11 @@ public class BallHandling extends SubsystemBase
     @Override
     public void periodic()
     {
+        // Read conveyor sensor to get current data
+        cargo_info = conveyor_sensor.read();
+
         // Update indicators
-        SmartDashboard.putBoolean("Ball in Conveyor", conveyor_sensor.get());
+        SmartDashboard.putBoolean("Ball in Conveyor", cargo_info != CargoInfo.NOTHING);
         SmartDashboard.putBoolean("Ball in Feeder", feeder_sensor.get());
         SmartDashboard.putBoolean("Ball Ejected", ejection_sensor.get());
 
@@ -187,7 +194,7 @@ public class BallHandling extends SubsystemBase
     {
         intake_arm.set(true);
 
-        final boolean have_all_balls = conveyor_sensor.get()  &&  feeder_sensor.get();
+        final boolean have_all_balls = cargo_info != CargoInfo.NOTHING  &&  feeder_sensor.get();
         if (have_all_balls)
         {
             intake.setVoltage(0);
@@ -207,7 +214,7 @@ public class BallHandling extends SubsystemBase
         intake.setVoltage(0);
         
         // .. but may have one ball on conveyor that needs to move forward
-        final boolean have_single_ball_to_move = conveyor_sensor.get()  &&  !feeder_sensor.get();
+        final boolean have_single_ball_to_move = cargo_info != CargoInfo.NOTHING  &&  !feeder_sensor.get();
         if (have_single_ball_to_move)
             conveyor.setVoltage(CONVEYOR_VOLTAGE);
         else
