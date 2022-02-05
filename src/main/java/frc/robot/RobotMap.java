@@ -49,10 +49,11 @@ public class RobotMap
     public final static int SECONDARY_RIGHT_DRIVE = 1;
     public final static int PRIMARY_SPINNER = 5;
     public final static int SECONDARY_SPINNER = 6;
-    public static final int ARM_EXTENTER = 7;
-    public final static int INTAKE = 8;
-    public final static int CONVEYOR = 9;
-    public final static int FEEDER = 10;
+    public static final int LEFT_ARM_EXTENDER = 7;
+    public static final int RIGHT_ARM_EXTENDER = 8;
+    public final static int INTAKE = 9;
+    public final static int CONVEYOR = 10;
+    public final static int FEEDER = 11;
     
     // Solenoids
     // Are we using original PCM (of which we have many)
@@ -67,5 +68,6 @@ public class RobotMap
     public final static int CONVEYOR_SENSOR = 0;
     public final static int FEEDER_SENSOR = 1;
     public final static int EJECTION_SENSOR = 2;
-    public static final int ARM_EXTENDER_AT_IN_LIMIT = 3;
+    public static final int LEFT_ARM_RETRACTED = 3;
+    public static final int RIGHT_ARM_RETRACTED = 4;
 }
