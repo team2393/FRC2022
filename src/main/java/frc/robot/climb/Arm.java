@@ -94,6 +94,7 @@ public class Arm extends SubsystemBase
     }
 
     /** @param voltage Entender voltage, positive for "out" */
+    // need to add a solenoid for safety arm
     public void setExtenderVoltage(final double voltage)
     {
         if (voltage >= 0)

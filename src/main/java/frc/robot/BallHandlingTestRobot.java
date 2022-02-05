@@ -18,6 +18,8 @@ import frc.robot.cargo.BallHandling;
  *  * Push A to toggle loading 'on':
  *    Intake should move out/open
  *    Intake and conveyor should turn on
+ *    Might want to have a seperate button for intake out and intake and conveyor
+ *    to turn on as it might need time to get up to speed (like 2016 robot)
  *  * Push A to toggle loading 'off':
  *    Intake should move in
  *    Intake and conveyor should turn off
