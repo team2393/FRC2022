@@ -26,6 +26,7 @@ public class ChangeFilterTestRobot extends TimedRobot
     private final LinearFilter highpass = LinearFilter.highPass(0.1, 0.02);
  
     private final KeepOnFilter keep_on = new KeepOnFilter(2.0);
+    private final KeepOnFilter ball_ejected = new KeepOnFilter(2.0);
 
     @Override
     public void robotInit()
@@ -51,6 +52,7 @@ public class ChangeFilterTestRobot extends TimedRobot
         SmartDashboard.putNumber("Change3", change3);
         SmartDashboard.putNumber("Change2", change2);
         SmartDashboard.putNumber("Highpass", high);
+        SmartDashboard.putBoolean("Ball Ejected", ball_ejected.compute(Math.abs(high) > 0.1));
 
         // Briefly pressing 'shoot' causes indication for 2 seconds
         SmartDashboard.putBoolean("Keep On", keep_on.compute(OperatorInterface.doShoot()));
