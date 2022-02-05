@@ -24,6 +24,8 @@ If you're asked to commit changes, you'll also need to
   2) Get added to the people with write access to the repository
   3) Create an "access token", https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+Git should remember the last used credentials:
+  git config credential.helper manager
 
 Basic Plan and Progress
 -----------------------
