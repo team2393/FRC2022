@@ -12,9 +12,11 @@ import frc.robot.cargo.Spinner;
 /** Simple robot that tests the spinner
  * 
  *  [ ] In teleop, check "Spinner Rev".
+ *      Need to enable teleop to zero the encoder.
+ *      Caution, don't touch the joystick! 
  *      Manually turn spinner by 10 revs,
  *      check if "Spinner Rev" shows 10.
- *      If not, fix Spinner.STEPS_PER_REV.
+ *      If not, adjust Spinner.STEPS_PER_REV.
  *  [ ] Control spinner voltage -12..12 through joystick 'speed'
  *      "Forward" must move spinner in "ejection" direction.
  *  [ ] Use sysId tool with "General Mechanism",
@@ -30,7 +32,7 @@ import frc.robot.cargo.Spinner;
  *      and observe "Spinner Current" and "Spinner Current Change".
  *      See Spinner.getCurrentChange() to detect ejected ball.
  *      Try instead to look for drop in RPM.
- *      Which one better detects an ejected ball?
+ *      Which one is best to detect an ejected ball?
  * 
  *  [ ] Set appropriate threshold and 'keep on filter' time
  *      to get reliable "Ball Ejected" indication
