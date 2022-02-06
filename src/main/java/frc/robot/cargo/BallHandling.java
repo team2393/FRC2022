@@ -234,6 +234,7 @@ public class BallHandling extends SubsystemBase
         if (shot_requested)
         {
             shooter_state = ShooterStates.SPINUP;
+            System.out.println("Spinup...");
             shot_attempt_timer.reset();
             shot_attempt_timer.start();
             shot_requested = false;
@@ -248,7 +249,11 @@ public class BallHandling extends SubsystemBase
         // Is spinner fast enough?
         // TODO Find good threshold. Is it 95%??
         if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("SpinnerSetpoint", 0.0))
+        {
             shooter_state = ShooterStates.SHOOTING;
+            System.out.println("Shooting...");
+
+        }
         else if (shot_attempt_timer.hasElapsed(SHOT_TIMEOUT))
         {
             shooter_state = ShooterStates.SHOOTING;
@@ -265,6 +270,7 @@ public class BallHandling extends SubsystemBase
         if (ejection_sensor.get())
         {
             shooter_state = ShooterStates.IDLE;
+            System.out.println("Shot!");
             spinner_runtime.stop();
             spinner_runtime.reset();
             spinner_runtime.start();

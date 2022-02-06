@@ -109,7 +109,8 @@ public class Spinner extends SubsystemBase
     // for last two samples
     private final LinearFilter change_filter = LinearFilter.backwardFiniteDifference(1, 2, 0.02);
 
-    private final KeepOnFilter remember_shot = new KeepOnFilter(1.0);
+    // Remember that we saw a ball get ejected for a little while
+    private final KeepOnFilter remember_shot = new KeepOnFilter(0.2);
 
     /** @return Change in motor current */
     public double getCurrentChange()
