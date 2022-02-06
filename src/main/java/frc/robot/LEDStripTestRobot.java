@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.led.BurstCommand;
 import frc.robot.led.CycleColorListCommand;
 import frc.robot.led.TurnIndicatorCommand;
+import frc.robot.led.TwoColorSwapCommand;
 import frc.robot.led.LEDStrip;
 import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
@@ -73,6 +75,12 @@ public class LEDStripTestRobot extends TimedRobot
                 new WaitCommand(1.0),
 
                 // Run group until one of them finishes...
+                new ParallelRaceGroup(new TwoColorSwapCommand(strip, 0.2, Color.kGold, Color.kGreen),
+                                      new WaitCommand(4.0)),
+
+                new ParallelRaceGroup(new BurstCommand(strip, 0.05, Color.kBlueViolet),
+                                      new WaitCommand(5.0)),
+            
                 new ParallelRaceGroup(new OscillateCommand(strip), new WaitCommand(3.0)),
 
                 new ParallelRaceGroup(rainbow, new WaitCommand(5.0)),
