@@ -2,6 +2,7 @@ package frc.robot.cargo;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,7 +21,10 @@ public class BallHandling extends SubsystemBase
     
     private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
-    private WPI_TalonFX intake = new WPI_TalonFX(RobotMap.INTAKE);
+
+    private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
+    private WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
+    
     private WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
     private WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
     private Spinner spinner = new Spinner();
@@ -77,12 +81,14 @@ public class BallHandling extends SubsystemBase
     public BallHandling()
     {
         // Apply common settings
-        initializeMotor(intake);
         initializeMotor(conveyor);
         initializeMotor(feeder);
         
-        // Intake spinner can coast
-        intake.setNeutralMode(NeutralMode.Coast);
+        // Intake spinners can coast
+        initializeIntakeMotor(intake);
+        initializeIntakeMotor(secondary_intake);
+        secondary_intake.setInverted(true);
+        secondary_intake.follow(intake);
 
         // TODO Need to invert some motors?
 
@@ -95,6 +101,13 @@ public class BallHandling extends SubsystemBase
         motor.configFactoryDefault();
         motor.clearStickyFaults();
         motor.setNeutralMode(NeutralMode.Brake);
+    }
+
+    private void initializeIntakeMotor(final WPI_TalonSRX motor)
+    {
+        motor.configFactoryDefault();
+        motor.clearStickyFaults();
+        motor.setNeutralMode(NeutralMode.Coast);
     }
 
     /** Overall Off/enabled */

@@ -16,10 +16,12 @@ import frc.robot.cargo.BallHandling;
  *    Do they indicate a "Ball" when something is placed at each
  *    location?
  *  * Push A to toggle loading 'on':
- *    Intake should move out/open
- *    Intake and conveyor should turn on
- *    Might want to have a seperate button for intake out and intake and conveyor
- *    to turn on as it might need time to get up to speed (like 2016 robot)
+ *    Intake should move out/open.
+ *    Intake and conveyor should turn on.
+ *    Verify that intake (two motors) and conveyor move "in".
+ *    Do intake and conveyor motors get up to speed or do
+ *    we need to extend the state machine to separate opening/closing
+ *    intake from running the motors (like 2016 robot)?
  *  * Push A to toggle loading 'off':
  *    Intake should move in
  *    Intake and conveyor should turn off
@@ -30,6 +32,9 @@ import frc.robot.cargo.BallHandling;
  *  * Feed second ball, intake and conveyor should stop
  *  * Push A to toggle loading 'on/off',
  *    intake should open/close but intake motor and conveyor stay off
+ *    when there are already two balls
+ * 
+ *    TODO Later add check of ball color and reject wrong colored ball?
  * 
  *  * On Dashboard, check if "High" allows moving the shooter angle solenoid
  *    to the high (true) and low (false) setup.

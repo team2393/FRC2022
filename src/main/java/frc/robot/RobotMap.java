@@ -43,6 +43,7 @@ public class RobotMap
     // 2) Color LED strip power?
 
     // Motors connected via CAN bus
+    // Falcon unless otherwise specified
     public final static int PRIMARY_LEFT_DRIVE = 4;
     public final static int SECONDARY_LEFT_DRIVE = 2;
     public final static int PRIMARY_RIGHT_DRIVE = 3;
@@ -51,9 +52,10 @@ public class RobotMap
     public final static int SECONDARY_SPINNER = 6;
     public static final int LEFT_ARM_EXTENDER = 7;
     public static final int RIGHT_ARM_EXTENDER = 8;
-    public final static int INTAKE = 9;
-    public final static int CONVEYOR = 10;
-    public final static int FEEDER = 11;
+    public final static int LEFT_INTAKE = 9;   // TalonFX
+    public final static int RIGHT_INTAKE = 10; // TalonFX
+    public final static int CONVEYOR = 11;
+    public final static int FEEDER = 12;
     
     // Solenoids
     // Are we using original PCM (of which we have many)
