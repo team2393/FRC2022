@@ -72,4 +72,7 @@ public class RobotMap
     public final static int EJECTION_SENSOR = 2;
     public static final int LEFT_ARM_RETRACTED = 3;
     public static final int RIGHT_ARM_RETRACTED = 4;
+
+    // PMW Channels
+    public final static int LED_STRING = 5;
 }
