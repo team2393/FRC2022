@@ -26,9 +26,10 @@ public class OscillateCommand extends CommandBase
         final double phase = 2*Math.PI * Timer.getFPGATimestamp();
         final int pos = N/2 + (int) ((N/2 - size + 1) * Math.sin(phase));
 
-        for (int i=0; i<N; ++i)
-            strip.set(i, 0, 0, 10);
+        // Background color
+        strip.setAll(0, 0, 10);
 
+        // Moving green section
         int start, end;
         if (pos > N/2)
         {

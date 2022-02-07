@@ -39,6 +39,8 @@ public class TrafficLightCommand extends CommandBase
     {
         if (timer.advanceIfElapsed(period))
         {
+            // Shorter:
+            // state = state.values()[(state.ordinal() + 1) % 3];
             if (state == State.RED)
                 state = State.GREEN;
             else if (state == State.GREEN)
@@ -49,17 +51,17 @@ public class TrafficLightCommand extends CommandBase
 
         strip.setAll(Color.kBlack);
         if (state == State.RED)
-        {
+        {   // Top section red
             for (int i=0; i<N/3; ++i)
                 strip.set(i, Color.kRed);
         }
         else if (state == State.GREEN)
-        {
+        {   // Bottom section green
             for (int i=2*N/3; i<N; ++i)
                 strip.set(i, Color.kGreen);
         }
         else
-        {
+        {   // Middle section yellow
             for (int i=N/3; i<2*N/3; ++i)
                 strip.set(i, Color.kYellow);
         }
