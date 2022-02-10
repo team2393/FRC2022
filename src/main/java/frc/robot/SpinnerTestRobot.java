@@ -11,21 +11,21 @@ import frc.robot.cargo.Spinner;
 
 /** Simple robot that tests the spinner
  * 
- *  [ ] In teleop, check "Spinner Rev".
+ *  [x] In teleop, check "Spinner Rev".
  *      Need to enable teleop to zero the encoder.
  *      Caution, don't touch the joystick! 
  *      Manually turn spinner by 10 revs,
  *      check if "Spinner Rev" shows 10.
  *      If not, adjust Spinner.STEPS_PER_REV.
- *  [ ] Control spinner voltage -12..12 through joystick 'speed'
+ *  [x] Control spinner voltage -12..12 through joystick 'speed'
  *      "Forward" must move spinner in "ejection" direction.
- *  [ ] Use sysId tool with "General Mechanism",
+ *  [x] Use sysId tool with "General Mechanism",
  *      Two motors, second one inverted,
  *      Built-in encoder, 2048 counts per rev,
  *      log as "Simple" mechanism, Rotations, 1 unit per rotation,
  *      run the tests, get feed forward and PID settings.
  * 
- *  [ ] In autonomous, enter desired "SpinnerSetpoint"
+ *  [x] In autonomous, enter desired "SpinnerSetpoint"
  *      and check if spinner gets there
  * 
  *  [ ] In autonomous, at setpoint, feed a ball

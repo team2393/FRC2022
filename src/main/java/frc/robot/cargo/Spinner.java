@@ -19,22 +19,20 @@ import frc.robot.util.KeepOnFilter;
 public class Spinner extends SubsystemBase
 {
     /** Encoder steps per revolution of spinner wheel */
-    // TODO Calibrate on real robot
     private final double STEPS_PER_REV = 2048 * 1;
     
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
     
-    // TODO Find good values!
-    // SysId on plywood prototype
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.8287, 0.1148, 0.011757);
-    private final PIDController pid = new PIDController(0.14831, 0, 0);
+    // Values based on SysId
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.62408, 0.10847, 0.0044311);
+    private final PIDController pid = new PIDController(0.09015, 0, 0);
 
     public Spinner()
     {
         // Primary and secondary motors are on opposite sides of spinner,
         // one needs to be inverted.
-        // TODO Invert such that positive speed setting will 'eject' balls
+        // Configured such that positive speed setting will 'eject' balls
         initializeMotor(primary, false);
         initializeMotor(secondary, true);
         
@@ -60,7 +58,6 @@ public class Spinner extends SubsystemBase
         motor.setNeutralMode(NeutralMode.Coast);
         motor.setInverted(invert);
     }
-
 
     /** Reset position encoder */
     public void reset()
