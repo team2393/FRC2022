@@ -52,6 +52,8 @@ public class LEDStripTestRobot extends TimedRobot
         new TurnIndicatorCommand(strip).schedule();
     }
 
+    private CommandBase auto_sequence;
+
     @Override
     public void autonomousInit()
     {
@@ -63,7 +65,7 @@ public class LEDStripTestRobot extends TimedRobot
                                                             Color.kGreen);
 
         // .. combined into sequence ..
-        SequentialCommandGroup sequence =
+        auto_sequence =
             new SequentialCommandGroup(
                 new SetColorCommand(strip, 255, 0, 0),
                 new WaitCommand(1.0),
@@ -95,7 +97,11 @@ public class LEDStripTestRobot extends TimedRobot
                 new SetColorCommand(strip, 5, 0, 0),
                 new PrintCommand("Done")
                 );
+    }
 
-        sequence.schedule();
+    @Override
+    public void autonomousPeriodic()
+    {
+        auto_sequence.schedule();
     }
 }
