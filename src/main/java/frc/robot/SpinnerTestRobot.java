@@ -53,9 +53,10 @@ public class SpinnerTestRobot extends TimedRobot
     {
         CommandScheduler.getInstance().run();
         
-        // Spinner itself displays speed on dashboard.
-        // Add details needed to configure/tune the spinner.
+        // Spinner itself displays speed in RPS on dashboard.
+        // Add RPM and details needed to configure/tune the spinner.
         SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
+        SmartDashboard.putNumber("Spinner RPM", spinner.getSpeed() * 60.0);
         SmartDashboard.putNumber("Spinner Voltage", spinner.getVoltage());
         SmartDashboard.putNumber("Spinner Current", spinner.getCurrent()); 
         SmartDashboard.putNumber("Spinner Current Change", spinner.getCurrentChange()); 
