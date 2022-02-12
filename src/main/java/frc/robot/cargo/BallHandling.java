@@ -100,6 +100,8 @@ public class BallHandling extends SubsystemBase
     {
         motor.configFactoryDefault();
         motor.clearStickyFaults();
+        // Conveyor and feeder must break and accelerate crisply
+        // for accurate ball movement
         motor.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -107,7 +109,9 @@ public class BallHandling extends SubsystemBase
     {
         motor.configFactoryDefault();
         motor.clearStickyFaults();
+        // Intake can be smooth to preserve mechanics
         motor.setNeutralMode(NeutralMode.Coast);
+        motor.configOpenloopRamp(0.5);
     }
 
     /** Overall Off/enabled */
