@@ -28,13 +28,13 @@ deploy {
 
                 frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
                     // Enable VisualVM connection
-                    // Conflicts with Phoenix tuner?
-                //     jvmArgs.add("-Dcom.sun.management.jmxremote=true")
-                //     jvmArgs.add("-Dcom.sun.management.jmxremote.port=1099")
-                //     jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
-                //     jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
-                //     jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
-                //     jvmArgs.add("-Djava.rmi.server.hostname=10.23.93.2")
+                    // Default port 1099 Conflicts with Phoenix tuner?
+                    jvmArgs.add("-Dcom.sun.management.jmxremote=true")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.port=1199")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
+                    jvmArgs.add("-Djava.rmi.server.hostname=10.23.93.2")
                 }
 
                 // Static files artifact

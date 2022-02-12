@@ -93,6 +93,7 @@ visualvm --jdkhome \Users\Public\wpilib\2022\jdk
 To connect to the program running on the robot:
  * File, Add JMX Connection
  * 'Connection:' 172.22.11.2:1099 respectively 10.23.93.2:1099
+   (may uwse 1199 because of conflict with CAN supports)
  * Check 'Do not require SSL connection'
  * A new entry with a 'pid' should appear under the 'Remote' list.
    Double-click, then check 'Monitor', 'Sample.. CPU' etc.
