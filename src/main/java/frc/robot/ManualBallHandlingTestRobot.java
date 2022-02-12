@@ -5,6 +5,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +42,18 @@ public class ManualBallHandlingTestRobot extends TimedRobot
     public void robotPeriodic()
     {
         CommandScheduler.getInstance().run();
+
+        // Spinner itself displays speed in RPS on dashboard.
+        // Add RPM and details needed to configure/tune the spinner.
+        SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
+        SmartDashboard.putNumber("Spinner RPM", spinner.getSpeed() * 60.0);
+        SmartDashboard.putNumber("Spinner Voltage", spinner.getVoltage());
+        SmartDashboard.putNumber("Spinner Current", spinner.getCurrent()); 
+        SmartDashboard.putNumber("Spinner Current Change", spinner.getCurrentChange()); 
+        SmartDashboard.putBoolean("Spinner Ball Ejected", spinner.isBallEjected()); 
+
+        // Send out on each period to get better plots
+        NetworkTableInstance.getDefault().flush();
     }
 
     @Override
