@@ -1,3 +1,6 @@
+// Copyright (c) Team 2393, FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -6,6 +9,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.cargo.BallHandling;
 
+/** Test intake solenoid and motors */
 public class ManualIntakeTestRobot extends TimedRobot
 {
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
