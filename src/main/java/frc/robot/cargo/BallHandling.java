@@ -96,7 +96,7 @@ public class BallHandling extends SubsystemBase
         SmartDashboard.setDefaultBoolean("High", false);
     }
 
-    private void initializeMotor(final WPI_TalonFX motor)
+    public static void initializeMotor(final WPI_TalonFX motor)
     {
         motor.configFactoryDefault();
         motor.clearStickyFaults();

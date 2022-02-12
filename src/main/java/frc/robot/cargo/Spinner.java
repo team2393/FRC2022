@@ -39,6 +39,8 @@ public class Spinner extends SubsystemBase
         // We command the primary motor, secondary follows
         secondary.follow(primary);
 
+        reset();
+
         SmartDashboard.setDefaultNumber("SpinnerSetpoint", 10.0);
     }
     
