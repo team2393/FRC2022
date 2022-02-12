@@ -61,6 +61,16 @@ March
  * Competitions
 
 
+Raspberry Pi
+------------
+
+http://10.29.93.36, see also FRC2022Pi repo
+
+Limelight
+---------
+
+http://limelight.local:5801/, then set IP address to 10.23.93.46
+
 Profiling
 ---------
 
