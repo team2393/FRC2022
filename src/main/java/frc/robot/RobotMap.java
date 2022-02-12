@@ -60,7 +60,7 @@ public class RobotMap
     // Solenoids
     // Are we using original PCM (of which we have many)
     // or new REV PH (more channels, but only one)?
-    public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
+    public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
     public final static int INTAKE_ARM = 0;
     public final static int SHOOTER_ANGLE = 1;
     public static final int ARM_ROTATOR = 2;

@@ -103,7 +103,7 @@ public class BallHandling extends SubsystemBase
         motor.setNeutralMode(NeutralMode.Brake);
     }
 
-    private void initializeIntakeMotor(final WPI_TalonSRX motor)
+    public static void initializeIntakeMotor(final WPI_TalonSRX motor)
     {
         motor.configFactoryDefault();
         motor.clearStickyFaults();

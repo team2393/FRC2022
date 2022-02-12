@@ -13,6 +13,6 @@ public final class Main
     /** Change to select which robot code you want to run */
     public static void main(String... args)
     {
-        RobotBase.startRobot(SpinnerTestRobot::new);
+        RobotBase.startRobot(ManualIntakeTestRobot::new);
     }
 }
