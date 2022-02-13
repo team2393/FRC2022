@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -128,16 +129,26 @@ public class Spinner extends SubsystemBase
         return remember_shot.compute(getCurrentChange() > 1.0);
     }
 
-    /** Run at "SpinnerSetpoint" RPS */
-    public void run()
-    {
-        setSpeed(SmartDashboard.getNumber("SpinnerSetpoint", 0.0));
-    }
+    // Speed is controlled by FF and PID,
+    // with additional consideration for the initial ramp-up after
+    // being stopped.
+
+    /** Are we in the initial voltage rampup after being stopped? */
+    private boolean initial_rampup = true;
+
+    /** Voltage until which we perform the slow initial rampup */
+    private static final double INITIAL_RAMPUP_THRESHOLD = 4.0;
+
+    /** Slow voltage rampup from stopped state to full 12V to about 3 second */
+    private final SlewRateLimiter startup_slew = new SlewRateLimiter(12.0/3);
 
     /** Stop (allow to run down, no hard brake) */
     public void stop()
     {
         setVoltage(0);
+        // Prepare to start over with initial rampup
+        initial_rampup = true;
+        startup_slew.reset(0);
     }
 
     /** @param speed Desired speed in revs/sec */
@@ -145,10 +156,26 @@ public class Spinner extends SubsystemBase
     {
         // Use FF and PID to estimate voltage needed for that speed
         double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
+
+        // TODO Test if this is a good idea; find suitable slew rate and threshold
+        // if (initial_rampup)
+        // {   // While in initial rampup, slow the voltage changes ...
+        //     voltage = startup_slew.calculate(voltage);
+        //     // .. until we reach the threshold voltage
+        //     if (Math.abs(voltage) > INITIAL_RAMPUP_THRESHOLD)
+        //         initial_rampup = false;
+        // }
+
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
         setVoltage(voltage);
     }
     
+    /** Run at "SpinnerSetpoint" RPS */
+    public void run()
+    {
+        setSpeed(SmartDashboard.getNumber("SpinnerSetpoint", 0.0));
+    }
+
     @Override
     public void periodic()
     {
