@@ -8,7 +8,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.drivetrain.Drivetrain;
 
-/** Robot for testing/calibrating drivetrain */
+/** Robot for testing/calibrating drivetrain
+ * 
+ *  [ ] In teleop, check if 'forward' is forward and 'right' is right
+ *  [ ] Check Drivetrain.STEPS_PER_METER calibration.
+ *  [ ] Note "Drivetrain meters per rev: ____"
+ *      printed out during startup
+ *  [ ] Use sysId to determine FF and PID settings.
+ *      Setup:
+ *      'Drivetrain' two Falcon pairs,
+ *      Built-in encoder, 2048 counts/rev, 1:1 gearing.
+ *      In "Logger", enter the meters per rev for Units Per Rotoation.
+ *  [ ] Update FF, PID and TRACK_WIDTH from sysId results
+ *  [ ] Configure PID to meet "Desired Speed" in autonomous
+ *  [ ] Test autonomous paths in RapidReactRobot
+*/
 public class DrivetrainTestRobot extends TimedRobot
 {
     private final Drivetrain drivetrain = new Drivetrain();
