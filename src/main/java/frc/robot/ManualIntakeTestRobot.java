@@ -7,9 +7,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.cargo.BallHandling;
 
-/** Test intake solenoid and motors */
+/** Test intake solenoid and motors
+ * 
+ *  In teleop, check direction of motors and solenoid.
+ *  Determine good BallHandling.INTAKE_VOLTAGE,
+ *  then try autonomous
+ */
 public class ManualIntakeTestRobot extends TimedRobot
 {
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
@@ -30,11 +36,26 @@ public class ManualIntakeTestRobot extends TimedRobot
     }
 
     @Override
+    public void disabledInit()
+    {
+        intake_arm.set(false);
+    }
+
+    @Override
     public void teleopPeriodic()
     {
         if (OperatorInterface.toggleLoading())
             intake_arm.toggle();
+
         double voltage = OperatorInterface.getSpeed();
         intake.setVoltage(voltage);
+        SmartDashboard.putNumber("Intake Voltage", voltage);
+    }
+
+    @Override
+    public void autonomousPeriodic()
+    {
+        intake_arm.set(true);
+        intake.setVoltage(BallHandling.INTAKE_VOLTAGE);
     }
 }

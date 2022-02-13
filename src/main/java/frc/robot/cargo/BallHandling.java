@@ -15,9 +15,9 @@ import frc.robot.cargo.CargoSensor.CargoInfo;
 public class BallHandling extends SubsystemBase
 {
     // TODO Determine good voltages for running intake and feeder
-    private static final double INTAKE_VOLTAGE = 3.0;
-    private static final double CONVEYOR_VOLTAGE = 4.0;
-    private static final double FEEDER_VOLTAGE = 6.0;
+    public static final double INTAKE_VOLTAGE = 3.0;
+    public static final double CONVEYOR_VOLTAGE = 4.0;
+    public static final double FEEDER_VOLTAGE = 6.0;
     
     private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
