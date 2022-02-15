@@ -92,12 +92,12 @@ public class ArmTestRobot extends TimedRobot
     {
         // Manually operate arm at some low voltage
         
-        // Use right forward/back to extend arm out/in
+        // Use POV up/down to extend arm out/in
         double voltage = OperatorInterface.extendArm() * 4.0;
         SmartDashboard.putNumber("Extender Voltage", voltage); 
         arm.setExtenderVoltage(voltage);
 
-        // Use left forward/back to control up/down angle
+        // Use right bumper to control up/down angle
         if (OperatorInterface.toggleArmAngle())
             passive.setAngle(! passive.getAngle());
     }

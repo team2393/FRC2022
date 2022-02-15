@@ -133,22 +133,28 @@ public class Spinner extends SubsystemBase
     // with additional consideration for the initial ramp-up after
     // being stopped.
 
+    enum State
+    {
+        STOPPED,
+        STARTUP,
+        RUNNING    
+    }
+
     /** Are we in the initial voltage rampup after being stopped? */
-    private boolean initial_rampup = true;
+    private State state = State.STOPPED;
 
     /** Voltage until which we perform the slow initial rampup */
     private static final double INITIAL_RAMPUP_THRESHOLD = 4.0;
 
     /** Slow voltage rampup from stopped state to full 12V to about 3 second */
-    private final SlewRateLimiter startup_slew = new SlewRateLimiter(12.0/3);
+    private final SlewRateLimiter startup_slew = new SlewRateLimiter(3.5);
 
     /** Stop (allow to run down, no hard brake) */
     public void stop()
     {
         setVoltage(0);
         // Prepare to start over with initial rampup
-        initial_rampup = true;
-        startup_slew.reset(0);
+        state = State.STOPPED;
     }
 
     /** @param speed Desired speed in revs/sec */
@@ -158,13 +164,18 @@ public class Spinner extends SubsystemBase
         double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
 
         // TODO Test if this is a good idea; find suitable slew rate and threshold
-        // if (initial_rampup)
-        // {   // While in initial rampup, slow the voltage changes ...
-        //     voltage = startup_slew.calculate(voltage);
-        //     // .. until we reach the threshold voltage
-        //     if (Math.abs(voltage) > INITIAL_RAMPUP_THRESHOLD)
-        //         initial_rampup = false;
-        // }
+        if (state == State.STOPPED)
+        {
+            startup_slew.reset(0);
+            state = State.STARTUP;
+        }
+        if (state == State.STARTUP)
+        {   // While in initial rampup, slow the voltage changes ...
+            voltage = startup_slew.calculate(voltage);
+            // .. until we reach the threshold voltage
+            if (Math.abs(voltage) > INITIAL_RAMPUP_THRESHOLD)
+                state = State.RUNNING;
+        }
 
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
         setVoltage(voltage);

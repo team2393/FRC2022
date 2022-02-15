@@ -18,14 +18,16 @@ public class OperatorInterface
         // Call all the 'pressed' methods that we use once
         // so they start out 'false', not remmebering some past presses
         joystick.getAButtonPressed();
+        joystick.getBButtonPressed();
         joystick.getXButtonPressed();
+        joystick.getYButtonPressed();
         joystick.getRightBumperPressed();
     }
 
     /** @return Speed that driver requests, -1..1, positive is "forward" (Left stick for/back) */
     public static double getSpeed()
     {
-        if (joystick.getRightTriggerAxis() > 0.5)
+        if (joystick.getLeftTriggerAxis() > 0.5)
             return -joystick.getLeftY() / 2;
         return -joystick.getLeftY();
     }
@@ -33,15 +35,15 @@ public class OperatorInterface
     /** @return Rotation that driver requests, -1..1, positive is "right" or "clockwise" (Right stick left/right) */
     public static double getRotation()
     {
-        if (joystick.getRightTriggerAxis() > 0.5)
+        if (joystick.getLeftTriggerAxis() > 0.5)
             return joystick.getRightX() / 2;
         return joystick.getRightX();
     }
 
-    /** @return Do we want to shoot? (Left bumper) */
+    /** @return Do we want to shoot? (A) */
     public static boolean doShoot()
     {
-        return joystick.getLeftBumper();
+        return joystick.getAButtonPressed();
     }
 
     /** @return Do we want to always run the spinner? Toggles on each press (X) */
@@ -50,24 +52,22 @@ public class OperatorInterface
         return joystick.getXButtonPressed();
     }
 
-    /** @return Toggle load/don't load (A) */
+    /** @return Toggle load/don't load (B) */
     public static boolean toggleLoading()
     {
-        return joystick.getAButtonPressed();
+        return joystick.getBButtonPressed();
     }
 
-    /** @return Shift into high gear?  (POV up) */
+    /** @return Shift into high gear?  (Left stick push) */
     public static boolean shiftHigh()
     {
-        // Push POV up, "north"
-        return joystick.getPOV() == 0;
+        return joystick.getLeftStickButton();
     }
 
-    /** @return Shift into low gear? (POV down) */
+    /** @return Shift into low gear? (Right stick push) */
     public static boolean shiftLow()
     {
-        // Push POV down, "south"
-        return joystick.getPOV() == 180;
+        return joystick.getRightStickButton();
     }
 
     /** @return Toggle climbing arm down/up (right bumper) */
@@ -76,9 +76,13 @@ public class OperatorInterface
         return joystick.getRightBumperPressed();
     }
 
-    /** @return Extend arm, positive for 'out' (Right stick for/back) */
+    /** @return Extend arm, positive for 'out' (POV up/down) */
     public static double extendArm()
     {
-        return -joystick.getRightY();
+        if (joystick.getPOV() == 0)
+            return 1.0;
+        else if (joystick.getPOV() == 180)
+            return -1.0;
+        return 0.0;
     }
 }

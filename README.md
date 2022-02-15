@@ -69,7 +69,10 @@ http://10.29.93.36, see also FRC2022Pi repo
 Limelight
 ---------
 
-http://limelight.local:5801/, then set IP address to 10.23.93.46
+http://limelight.local:5801/, then set IP address to 10.23.93.62,
+allowing access as http://10.23.93.62:5801/
+
+Example pipelines are in limelight folder.
 
 Profiling
 ---------

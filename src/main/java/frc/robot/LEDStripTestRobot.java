@@ -19,6 +19,7 @@ import frc.robot.led.LEDStrip;
 import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
 import frc.robot.led.SetColorCommand;
+import frc.robot.led.SpeedIndicatorCommand;
 import frc.robot.led.TrafficLightCommand;
 
 /** Robot that tests LED strip */
@@ -49,7 +50,8 @@ public class LEDStripTestRobot extends TimedRobot
     @Override
     public void teleopInit()
     {
-        new TurnIndicatorCommand(strip).schedule();
+        new SpeedIndicatorCommand(strip).schedule();
+        // new TurnIndicatorCommand(strip).schedule();
     }
 
     private CommandBase auto_sequence;
