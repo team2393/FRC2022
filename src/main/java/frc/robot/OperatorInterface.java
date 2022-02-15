@@ -58,6 +58,12 @@ public class OperatorInterface
         return joystick.getBButtonPressed();
     }
 
+    /** @return Reverse intake (POV right) */
+    public static boolean reverseIntake()
+    {
+        return joystick.getPOV() == 90;
+    }
+
     /** @return Shift into high gear?  (Left stick push) */
     public static boolean shiftHigh()
     {

@@ -43,6 +43,8 @@ public class BallHandling extends SubsystemBase
         OFF,
         /** Intake open, loading balls */
         LOADING,
+        /** Remove balls, 'unclog', overrides ShooterStates */
+        REVERSE,
         /** Intake closed */
         NOT_LOADING
     }
@@ -152,7 +154,15 @@ public class BallHandling extends SubsystemBase
     /** Toggle between loading and not */
     public void toggleLoading()
     {
+        // From NOT_LOADING, go to LOADING.
+        // From LOADING or REVERSE go to NOT_LOADING
         load(load_state == LoadStates.NOT_LOADING);
+    }
+
+    /** Reverse intake, 'unclog' stuck balls */
+    public void reverse()
+    {
+        load_state = LoadStates.REVERSE;        
     }
 
     /** Try to shoot ASAP */
@@ -178,6 +188,8 @@ public class BallHandling extends SubsystemBase
         // Common OFF state
         if (load_state == LoadStates.OFF  ||  shooter_state == ShooterStates.OFF)
             state_off();
+        else if (load_state == LoadStates.REVERSE)
+            state_reverse();
         else
         {
             // Loading/unloading:
@@ -208,6 +220,17 @@ public class BallHandling extends SubsystemBase
         spinner.stop();
     }
 
+    private void state_reverse()
+    {
+        intake_arm.set(true);
+
+        // Run motors backwards, but slowly
+        intake.setVoltage(-INTAKE_VOLTAGE/2);
+        conveyor.setVoltage(-CONVEYOR_VOLTAGE/2);
+        feeder.setVoltage(-FEEDER_VOLTAGE/2);
+        spinner.stop();
+    }
+
     private void state_loading()
     {
         intake_arm.set(true);
@@ -224,7 +247,7 @@ public class BallHandling extends SubsystemBase
             conveyor.setVoltage(CONVEYOR_VOLTAGE);
         }
     }
-  
+
     private void state_not_loading()
     {
         // Don't take any new balls in ...

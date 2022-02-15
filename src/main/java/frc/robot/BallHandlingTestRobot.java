@@ -96,5 +96,8 @@ public class BallHandlingTestRobot extends TimedRobot
 
         if (OperatorInterface.toggleLoading())
             ballhandling.toggleLoading();
+        
+        if (OperatorInterface.reverseIntake())
+            ballhandling.reverse();
     }
 }
