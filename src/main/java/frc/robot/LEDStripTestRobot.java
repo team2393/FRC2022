@@ -19,6 +19,7 @@ import frc.robot.led.LEDStrip;
 import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
 import frc.robot.led.SetColorCommand;
+import frc.robot.led.ShootIndicatorCommand;
 import frc.robot.led.SpeedIndicatorCommand;
 import frc.robot.led.TrafficLightCommand;
 
@@ -50,8 +51,17 @@ public class LEDStripTestRobot extends TimedRobot
     @Override
     public void teleopInit()
     {
-        new SpeedIndicatorCommand(strip).schedule();
-        // new TurnIndicatorCommand(strip).schedule();
+        //new SpeedIndicatorCommand(strip).schedule();
+        new TurnIndicatorCommand(strip).schedule();
+    }
+    
+    @Override
+    public void teleopPeriodic()
+    {
+        if (OperatorInterface.doShoot())
+            new ShootIndicatorCommand(strip, Color.kGreen).schedule();
+        if (OperatorInterface.toggleLoading())
+            new ShootIndicatorCommand(strip, Color.kRed).schedule();
     }
 
     private CommandBase auto_sequence;
@@ -77,6 +87,11 @@ public class LEDStripTestRobot extends TimedRobot
 
                 new SetColorCommand(strip, 0, 0, 255),
                 new WaitCommand(1.0),
+
+                new ParallelRaceGroup(new ShootIndicatorCommand(strip, Color.kGreen),
+                                      new WaitCommand(3.0)),
+                new ParallelRaceGroup(new ShootIndicatorCommand(strip, Color.kGold),
+                                      new WaitCommand(3.0)),
 
                 // Run group until one of them finishes...
                 new ParallelRaceGroup(new TwoColorSwapCommand(strip, 0.2, Color.kGold, Color.kGreen),
