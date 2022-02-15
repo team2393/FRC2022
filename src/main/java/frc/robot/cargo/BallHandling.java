@@ -16,8 +16,8 @@ public class BallHandling extends SubsystemBase
 {
     // TODO Determine good voltages for running intake and feeder
     public static final double INTAKE_VOLTAGE = 3.0;
-    public static final double CONVEYOR_VOLTAGE = 4.0;
-    public static final double FEEDER_VOLTAGE = 6.0;
+    public static final double CONVEYOR_VOLTAGE = 3.0;
+    public static final double FEEDER_VOLTAGE = 3.0;
     
     private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
@@ -82,6 +82,7 @@ public class BallHandling extends SubsystemBase
     {
         // Apply common settings
         initializeMotor(conveyor);
+        conveyor.setInverted(true);
         initializeMotor(feeder);
         
         // Intake spinners can coast

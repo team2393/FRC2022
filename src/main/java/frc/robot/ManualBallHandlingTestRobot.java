@@ -35,6 +35,7 @@ public class ManualBallHandlingTestRobot extends TimedRobot
 
         // Apply common settings
         BallHandling.initializeMotor(conveyor);
+        conveyor.setInverted(true);
         BallHandling.initializeMotor(feeder);        
     }
 
