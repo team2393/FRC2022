@@ -67,7 +67,7 @@ public class RobotMap
     public final static int GEAR_SHIFTER = 6;
 
     // Digital I/O
-    // public final static int CONVEYOR_SENSOR = 0;  Using CargoSensor
+    public final static int CONVEYOR_SENSOR = 0; //  Using CargoSensor ?
     public final static int FEEDER_SENSOR = 1;
     public final static int EJECTION_SENSOR = 2;
     public static final int LEFT_ARM_RETRACTED = 3;

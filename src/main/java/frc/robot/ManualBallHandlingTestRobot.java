@@ -6,6 +6,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,10 @@ public class ManualBallHandlingTestRobot extends TimedRobot
     private WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
     private WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
     private Spinner spinner = new Spinner();
+
+    // Conveyor sensor might be replaced by CargoSensor
+    private DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
+    private DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
 
     @Override
     public void robotInit()
@@ -52,6 +57,9 @@ public class ManualBallHandlingTestRobot extends TimedRobot
         SmartDashboard.putNumber("Spinner Current", spinner.getCurrent()); 
         SmartDashboard.putNumber("Spinner Current Change", spinner.getCurrentChange()); 
         SmartDashboard.putBoolean("Spinner Ball Ejected", spinner.isBallEjected()); 
+
+        SmartDashboard.putBoolean("Ball in Conveyor", conveyor_sensor.get());
+        SmartDashboard.putBoolean("Ball in Feeder", feeder_sensor.get());
 
         // Send out on each period to get better plots
         NetworkTableInstance.getDefault().flush();
