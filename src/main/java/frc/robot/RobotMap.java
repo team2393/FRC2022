@@ -10,37 +10,35 @@ public class RobotMap
 {
     // ** Power Distribution Panel **
     //
-    // * 40 Amp connectors
-    // 0 Drive motor                 15 Drive motor
-    // 1 Drive motor                 14 Drive motor
-    // 2 Spinner motor               13 Spinner motor
-    // 3                             12 Feeder motor(s)? Conveyor motor(s)? Intake motor(s)?
+    // * Ports with 40 Amp fuses
+    //  0 Drive motor                 19 Drive motor
+    //  1 Drive motor                 18 Drive motor
+    //  2 Spinner motor               17 Spinner motor
+    //  3 Feeder motor 1              16 Feeder motor 2
+    //  4 Left arm                    15 Right Arm
     //
-    // * Less-than-40 Amp ports
-    // 4                             11 
-    // 5                             10 
-    // 6                              9 
-    // 7                              8 
+    //  * 20 Amp ports
+    //  5 Conveyor motor              14 Intake motor
+    //  6 Pneumatic Hub               13 
+    //  7 Limelight                   12
+    //  8                             11
+    //  * 10 Amp ports
+    //  9 VRM for sensors             10 Camera LED ring
     //
-    // PDP controller port -> RoboRIO
-    // PDP PCM port -> PCM, compressor, solenoids
-    //
-    // PDP VRM port ->
-    // VRM 12V, 2A
-    // 1) Radio
-    // 2) must not be used, see game manual!
+    // Port 20, 10 Amp: Radio Power Module
+    // Port 21, 10 Amp: RoboRIO
     //
     // VRM 12V, 500mA
-    // 1) Some ball sensor?
-    // 2) 
+    // 1) Conveyor sensor
+    // 2) Feeder Sensor
     //
     // VRM 5V, 500mA
     // 1)
     // 2)
     //
     // VRM 5V, 2A
-    // 1) Raspberry Pi power?
-    // 2) Color LED strip power?
+    // 1) Raspberry Pi
+    // 2)
 
     // Motors connected via CAN bus
     // Falcon unless otherwise specified
