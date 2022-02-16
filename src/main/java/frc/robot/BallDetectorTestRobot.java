@@ -16,7 +16,7 @@ public class BallDetectorTestRobot extends TimedRobot
      *           brown   = 12V
      *           blue    = Gnd
      */
-    private final DigitalInput fiberopticswtich = new DigitalInput(7);
+    private final DigitalInput fiberopticswitch = new DigitalInput(7);
         
     @Override
     public void robotInit()
@@ -30,7 +30,7 @@ public class BallDetectorTestRobot extends TimedRobot
     {
         // false: Light, no ball
         // true:  Not connected, no light, ball in path of light
-        if (fiberopticswtich.get())
+        if (fiberopticswitch.get())
             SmartDashboard.putString("Ball Detector", "Ball?");
         else
             SmartDashboard.putString("Ball Detector", "No Ball!");
