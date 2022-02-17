@@ -52,8 +52,9 @@ January 2022
 February
 
  * As robot is being built, have software ready for all components
- * Test each component, have DriveTest, LiftTest, GadgetXYZTest .. robot code for each component to allow testing just that component
- * Add functional component software to overall robot code
+ * Test each component, have Drivetrain, ManualBallHanndling, Arm.. test robot code for each component to allow testing just that component
+ * Prepare manual switch plugs to simulate ball sensors during testing
+ * Add functional software for each subsystem to overall robot code
 
 March
 
