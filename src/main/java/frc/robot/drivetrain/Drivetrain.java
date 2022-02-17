@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -38,11 +39,6 @@ public class Drivetrain extends SubsystemBase
 
     /** Kinematics convert between speed of left/right wheels and speed of robot */
     private static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(TRACK_WIDTH);
-
-    /** Maximum speed in meters/sec, acceleration in (m/s)/s */        
-    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
-                                                               .addConstraint(new CentripetalAccelerationConstraint(1.0))
-                                                               .setKinematics(kinematics);
 
     /** Encoder steps per meter of drive chassis movement */
     // Start with "1" so "distance" is in units of encoder steps.
@@ -75,7 +71,7 @@ public class Drivetrain extends SubsystemBase
     // TODO Tune FF settings, then PID settings with actual robot
 
     /** FF for motor speed from SysId */
-    private final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.54799, 3.8445, 0.19083);
+    private static final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.54799, 3.8445, 0.19083);
 
     /** PIDs for motor speed
      * 
@@ -91,6 +87,12 @@ public class Drivetrain extends SubsystemBase
      */
     private final PIDController left_speed_pid = new PIDController(0, 0, 0),
                                 right_speed_pid = new PIDController(0, 0, 0);
+
+    /** Maximum speed in meters/sec, acceleration in (m/s)/s */        
+    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
+                                        .addConstraint(new CentripetalAccelerationConstraint(1.0))
+     // TODO Limit voltage?             .addConstraint(new DifferentialDriveVoltageConstraint(speed_feedforward, kinematics, 8.0))
+                                        .setKinematics(kinematics);
 
     /** Heading and tilt angle sensor */
     private final PigeonIMU pigeon = new PigeonIMU(0);
