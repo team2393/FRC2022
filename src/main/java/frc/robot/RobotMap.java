@@ -11,17 +11,18 @@ public class RobotMap
     // ** Power Distribution Panel **
     //
     // * Ports with 40 Amp fuses
-    //  0 Drive motor                 19 Drive motor
-    //  1 Drive motor                 18 Drive motor
-    //  2 Spinner motor               17 Spinner motor
-    //  3 Feeder motor 1              16 Feeder motor 2
+    //  0 Drive motor 1/4             19 Drive motor 3/4
+    //  1 Drive motor 2/4             18 Drive motor 4/4
+    //  2 Spinner motor 1/2           17 Spinner motor 2/2
+    //  3 Intake motor 1/2            16 Intake motor 2/2
     //  4 Left arm                    15 Right Arm
     //
     //  * 20 Amp ports
-    //  5 Conveyor motor              14 Intake motor
+    //  5 Conveyor motor              14 Feeder motor
     //  6 Pneumatic Hub               13 
     //  7 Limelight                   12
     //  8                             11
+    //
     //  * 10 Amp ports
     //  9 VRM for sensors             10 Camera LED ring
     //
