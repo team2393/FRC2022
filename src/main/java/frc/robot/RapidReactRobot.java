@@ -140,9 +140,12 @@ public class RapidReactRobot extends TimedRobot
             joydrive.schedule();
 
         // auto_shift can be enabled on dashboard, and always allow manual shifting
+        // TODO Replace manual shift with scheduling/cancelling auto_shift
         if (OperatorInterface.shiftHigh())
+            // auto_shift.schedule();
             drivetrain.shiftgear(true);
         if (OperatorInterface.shiftLow())
+            // auto_shift.cancel();
             drivetrain.shiftgear(false);
     }
 
