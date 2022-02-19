@@ -37,6 +37,12 @@ public class BallHandling extends SubsystemBase
     // Could get replaced by watching spinner current
     private DigitalInput ejection_sensor = new DigitalInput(RobotMap.EJECTION_SENSOR);
 
+    // Most recent state of sensors
+    // (so we read only once and might be able to add a delay)
+    private boolean ball_in_conveyor,
+                    ball_in_feeder,
+                    ball_ejected;
+
     /** Reading of conveyor_sensor for current period */
     // private CargoInfo cargo_info = CargoInfo.NOTHING;
     
@@ -174,17 +180,38 @@ public class BallHandling extends SubsystemBase
         shot_requested = true;
     }
 
+    // int conveyor_sensor_delay = 0;
+
     @Override
     public void periodic()
     {
-        // Read conveyor sensor to get current data
-        // cargo_info = conveyor_sensor.read();
+        // Read sensors to get current data
+        // cargo_info = conveyor_sensor.read(); cargo_info != CargoInfo.NOTHING
+
+        // if (conveyor_sensor.get())
+        // {   // There is a ball, but do we need to delay our reaction?
+        //     if (conveyor_sensor_delay > 0)
+        //     {
+        //         --conveyor_sensor_delay;
+        //         ball_in_conveyor = false;
+        //     }
+        //     else
+        //         ball_in_conveyor = true;
+        // }
+        // else
+        // {   // No ball for sure, reset delay to N 20-ms-cycles
+        //     ball_in_conveyor = false;
+        //     conveyor_sensor_delay = 2;
+        // }
+
+        ball_in_conveyor = conveyor_sensor.get();
+        ball_in_feeder = feeder_sensor.get();
+        ball_ejected = ejection_sensor.get();
 
         // Update indicators
-        // SmartDashboard.putBoolean("Ball in Conveyor", cargo_info != CargoInfo.NOTHING);
-        SmartDashboard.putBoolean("Ball in Conveyor", conveyor_sensor.get());
-        SmartDashboard.putBoolean("Ball in Feeder", feeder_sensor.get());
-        SmartDashboard.putBoolean("Ball Ejected", ejection_sensor.get());
+        SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);
+        SmartDashboard.putBoolean("Ball in Feeder", ball_in_feeder);
+        SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
 
         // Control shooter angle from dashboard
         shooter_angle.set(SmartDashboard.getBoolean("High", false));
@@ -239,8 +266,7 @@ public class BallHandling extends SubsystemBase
     {
         intake_arm.set(true);
 
-        // final boolean have_all_balls = cargo_info != CargoInfo.NOTHING  &&  feeder_sensor.get();
-        final boolean have_all_balls = conveyor_sensor.get()  &&  feeder_sensor.get();
+        final boolean have_all_balls = ball_in_conveyor  &&  ball_in_feeder;
         if (have_all_balls)
         {
             intake.setVoltage(0);
@@ -260,8 +286,7 @@ public class BallHandling extends SubsystemBase
         intake.setVoltage(0);
         
         // .. but may have one ball on conveyor that needs to move forward
-        // final boolean have_single_ball_to_move = cargo_info != CargoInfo.NOTHING  &&  !feeder_sensor.get();
-        final boolean have_single_ball_to_move = conveyor_sensor.get()  &&  !feeder_sensor.get();
+        final boolean have_single_ball_to_move = ball_in_conveyor  &&  !ball_in_feeder;
         if (have_single_ball_to_move)
             conveyor.setVoltage(CONVEYOR_VOLTAGE);
         else
@@ -314,7 +339,7 @@ public class BallHandling extends SubsystemBase
         spinner.run();
 
         // Did we eject a ball?
-        if (ejection_sensor.get())
+        if (ball_ejected)
         {
             shooter_state = ShooterStates.IDLE;
             System.out.println("Shot!");
