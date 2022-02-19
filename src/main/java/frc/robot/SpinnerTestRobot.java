@@ -28,7 +28,7 @@ import frc.robot.cargo.Spinner;
  *  [x] In autonomous, enter desired "SpinnerSetpoint"
  *      and check if spinner gets there
  * 
- *  [ ] Test using/excluding the setSpeed() "initial_rampup" code
+ *  [ ] Test using the setSpeed() "initial_rampup" code
  * 
  *  [ ] In autonomous, at setpoint, feed a ball
  *      and observe "Spinner Current" and "Spinner Current Change".

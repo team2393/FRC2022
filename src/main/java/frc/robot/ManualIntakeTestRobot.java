@@ -12,9 +12,10 @@ import frc.robot.cargo.BallHandling;
 
 /** Test intake solenoid and motors
  * 
- *  In teleop, check direction of motors and solenoid.
- *  Determine good BallHandling.INTAKE_VOLTAGE,
- *  then try autonomous
+ *  In teleop,
+ *  [ ] check direction of motors and solenoid.
+ *  [ ] Determine good BallHandling.INTAKE_VOLTAGE,
+ *  [ ] then try autonomous
  */
 public class ManualIntakeTestRobot extends TimedRobot
 {

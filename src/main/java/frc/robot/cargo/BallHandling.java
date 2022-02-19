@@ -34,9 +34,6 @@ public class BallHandling extends SubsystemBase
     private final DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
     private DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
     
-    // Could get replaced by watching spinner current
-    private DigitalInput ejection_sensor = new DigitalInput(RobotMap.EJECTION_SENSOR);
-
     // Most recent state of sensors
     // (so we read only once and might be able to add a delay)
     private boolean ball_in_conveyor,
@@ -206,7 +203,7 @@ public class BallHandling extends SubsystemBase
 
         ball_in_conveyor = conveyor_sensor.get();
         ball_in_feeder = feeder_sensor.get();
-        ball_ejected = ejection_sensor.get();
+        ball_ejected = spinner.isBallEjected();
 
         // Update indicators
         SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);

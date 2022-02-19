@@ -52,10 +52,14 @@ January 2022
 February
 
  * As robot is being built, have software ready for all components
- * Test each component, have Drivetrain, ManualBallHanndling, Arm.. test robot code for each component to allow testing just that component
- * Prepare manual switch plugs to simulate ball sensors during testing
- * Add functional software for each subsystem to overall robot code
-
+ * Test each component, add functional software for each subsystem to overall robot code
+   * DriveTrainTestRobot: Basic drive test, may complete auto part later
+   * ManualIntakeTestRobot: Open/close, pull in ball
+   * SpinnerTestRobot: Speed
+   * ManualBallHandling: Move ball, eject, detect ejection, determine location for sensors
+   * BallHandlingTestRobot: Take balls in automatically, spin up to eject, eject, keep spinner on for 2 secs, ..., reverse to de-clog
+   * ArmTestRobot: Move arm, test limit switch, calibrate extension length, tune PID
+  
 March
 
  * Robot practice runs, improvements, tuning
