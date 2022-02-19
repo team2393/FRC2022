@@ -57,7 +57,7 @@ public class ActiveArm extends SubsystemBase
     public ActiveArm(final int motor_id, final int limit_id)
     {
         extender = new WPI_TalonFX(motor_id);
-        is_retracted = limit_id > 0
+        is_retracted = limit_id >= 0
                      ? new DigitalInput(limit_id)
                      : null;
 
