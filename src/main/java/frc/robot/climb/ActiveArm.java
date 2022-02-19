@@ -165,11 +165,4 @@ public class ActiveArm extends SubsystemBase
         voltage = MathUtil.clamp(voltage, -MAX_VOLTAGE, MAX_VOLTAGE);
         setExtenderVoltage(voltage);
     }
-
-    @Override
-    public void periodic()
-    {
-        SmartDashboard.putNumber("Arm Extension", getExtension());
-        SmartDashboard.putBoolean("Arm Retracted", isRetracted());
-    }
 }

@@ -79,6 +79,9 @@ public class ArmTestRobot extends TimedRobot
     {
         // Make commands and subsystems execute
         CommandScheduler.getInstance().run();
+
+        SmartDashboard.putNumber("Arm Extension", arm.getExtension());
+        SmartDashboard.putBoolean("Arm Retracted", arm.isRetracted());
     }
 
     @Override

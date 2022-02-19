@@ -39,7 +39,7 @@ public class RobotMap
     //
     // VRM 5V, 2A
     // 1) Raspberry Pi
-    // 2)
+    // 2) Ethernet hub
 
     // Motors connected via CAN bus
     // Falcon unless otherwise specified
