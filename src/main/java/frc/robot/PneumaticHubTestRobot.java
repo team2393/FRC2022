@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 
-/** Very simple robot for testing the new REV Robotics Pneumatic and power Hub */
+/** Robot for testing the new REV Robotics Pneumatic Hub
+ * 
+ *  See teleopPeriodic for options
+ */
 public class PneumaticHubTestRobot extends TimedRobot
 {
     // private PowerDistribution power = new PowerDistribution();
@@ -48,12 +51,28 @@ public class PneumaticHubTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        final boolean turn_on = RobotController.getUserButton();
-        for (int ch=0; ch<CHANNELS; ++ch)
-            solenoids.get(ch).set(turn_on);        
+        // **** Option A: "USER" button turns all solenoids on
+        // final boolean turn_on = RobotController.getUserButton();
+        // for (int ch=0; ch<CHANNELS; ++ch)
+        //     solenoids.get(ch).set(turn_on);        
+
+        // *** Option B:
+        // Operate intake, shifter, passive arm via OperatorInterface
+        if (OperatorInterface.toggleLoading())
+            solenoids.get(RobotMap.INTAKE_ARM).toggle();
+        
+        if (OperatorInterface.shiftHigh())
+            solenoids.get(RobotMap.GEAR_SHIFTER).set(true);
+        if (OperatorInterface.shiftLow())
+            solenoids.get(RobotMap.GEAR_SHIFTER).set(false);
+
+        if (OperatorInterface.toggleArmAngle())
+            solenoids.get(RobotMap.ARM_ROTATOR).toggle();
+
+        if (OperatorInterface.doShoot())
+            solenoids.get(RobotMap.SHOOTER_ANGLE).toggle();
     }
 
-    
     @Override
     public void autonomousInit()
     {
