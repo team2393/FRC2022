@@ -48,9 +48,11 @@ import frc.robot.climb.PassiveArm;
  *  9) In autonomous, enter a "Desired Extension" on dashboard
  *     and adjust P, I, D, Max Arm V to get there.
  * 10) Try various "Desired Extension" on dashboard.
- *     Adjust speed of ProfiledPIDController in ActiveArm
+ * 11) Fix P, I, D, Max V settings in ActiveArm
+ * 12) Replace PIDController in ActiveArm with ProfiledPIDController,
+ *     adjust speed of ProfiledPIDController.
  * 
- * 11) Change 'arm' from RobotMap.LEFT_ARM_... to RobotMap.RIGHT_ARM_...,
+ * 13) Change 'arm' from RobotMap.LEFT_ARM_... to RobotMap.RIGHT_ARM_...,
  *     check if that works with the same settings
  */
 public class ArmTestRobot extends TimedRobot
@@ -92,8 +94,8 @@ public class ArmTestRobot extends TimedRobot
     {
         // Manually operate arm at some low voltage
         
-        // Use POV up/down to extend arm out/in
-        double voltage = OperatorInterface.extendArm() * 4.0;
+        // Use right stick 'forward' for 'up', extend arm 'out'
+        double voltage = -OperatorInterface.joystick.getRightY() * 12.0;
         SmartDashboard.putNumber("Extender Voltage", voltage); 
         arm.setExtenderVoltage(voltage);
 

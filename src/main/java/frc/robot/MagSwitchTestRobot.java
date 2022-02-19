@@ -28,13 +28,16 @@ public class MagSwitchTestRobot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
-        // Switch should be fail-safe
-        //
-        // If we're not at the limit, i.e. magnet is not at the sensor, it reports 'true'.
-        // If we are at the limit, i.e. magnet is close to the sensor,
-        // OR there's a break in the cable, the sensor is disconnected, it reports 'false'
+        // REV magnetic limit switch contains an internal pull-up resistor,
+        // and is 'active low', connecting to ground when detecting the magnet.
+        // If we're not at the limit, i.e. magnet is not at the sensor, it reports 'true'
+        // because of the pull-up.
+        // If we are at the limit, i.e. magnet is close to the sensor, it reports 'false'
+        // because of the active low.
+        // When we disconnect the cable, the pull-up internal to the RoboRIO reports 'true',
+        // so not really fail-safe.
         if (magswitch.get())
-            SmartDashboard.putString("Mag Switch", "Open");
+            SmartDashboard.putString("Mag Switch", "Open, not at limit, or broken");
         else
             SmartDashboard.putString("Mag Switch", "At limit!");
     }

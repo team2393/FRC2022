@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class OperatorInterface
 {
     /** Controller used by primary driver */
-    private final static XboxController joystick = new XboxController(0);
+    public static final XboxController joystick = new XboxController(0);
 
     public static void reset()
     {

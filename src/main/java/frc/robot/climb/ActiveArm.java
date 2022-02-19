@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -45,9 +46,10 @@ public class ActiveArm extends SubsystemBase
     private double MAX_VOLTAGE = 6.0;
     
     /** PID for extension */
-    private final ProfiledPIDController extension_pid = new ProfiledPIDController(0, 0, 0,
-                        // Maximum speed [m/s] and acceleration [m/s/s]
-                        new TrapezoidProfile.Constraints(0.1, 0.1));
+    private final PIDController extension_pid = new PIDController(0, 0, 0);
+    //  new ProfiledPIDController(0, 0, 0,
+    //                     // Maximum speed [m/s] and acceleration [m/s/s]
+    //                     new TrapezoidProfile.Constraints(0.1, 0.1));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch, may be -1 to not use switch
@@ -82,9 +84,8 @@ public class ActiveArm extends SubsystemBase
         if (is_retracted == null)
             return getExtension() <= 0;
 
-        // Sensor should be fail-safe:
-        // Reports true when not at limit,
-        // false when at limit or broken
+        // Reports true when not at limit or broken,
+        // false when at limit
         return is_retracted.get() == false;
     }
 
