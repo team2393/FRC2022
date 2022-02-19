@@ -27,6 +27,9 @@ public class RapidReactRobot extends TimedRobot
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain();
 
+    // TODO
+    // private final PneumaticHub hub = new PneumaticHub();
+
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
 
@@ -58,6 +61,10 @@ public class RapidReactRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Rapid React *****");
+
+        // TODO USE ANALOG SENSOR,
+        // and turn compressor on below 70 psi, stop when reaching 120 psi
+        // hub.enableCompressorAnalog(70, 120);
 
         // Populate and publish autonomous options
         AutoOptions.populate(auto_options, drivetrain);

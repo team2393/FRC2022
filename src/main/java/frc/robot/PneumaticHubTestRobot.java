@@ -6,6 +6,7 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -24,7 +25,7 @@ public class PneumaticHubTestRobot extends TimedRobot
 
     private Timer timer = new Timer();
 
-    // private final PneumaticHub hub = new PneumaticHub();
+    private final PneumaticHub hub = new PneumaticHub();
     private List<Solenoid> solenoids = new ArrayList<>();
 
     @Override
@@ -32,6 +33,10 @@ public class PneumaticHubTestRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Pneumatic Hub Test *****");
+
+        // USE ANALOG SENSOR,
+        // and turn compressor on below 70 psi, stop when reaching 120 psi
+        hub.enableCompressorAnalog(70, 120);
 
        //  System.out.println("Power distribution board channels: " + power.getNumChannels());
 
