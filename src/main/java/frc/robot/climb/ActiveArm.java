@@ -53,14 +53,12 @@ public class ActiveArm extends SubsystemBase
     // TODO Update 'reset' below
     
     /** @param motor_id CAN ID of motor
-     *  @param limit_id DIO channel of limit switch, may be -1 to not use switch
+     *  @param limit_id DIO channel of limit switch
      */
     public ActiveArm(final int motor_id, final int limit_id)
     {
         extender = new WPI_TalonFX(motor_id);
-        is_retracted = limit_id >= 0
-                     ? new DigitalInput(limit_id)
-                     : null;
+        is_retracted = new DigitalInput(limit_id);
 
         extender.configFactoryDefault();
         extender.clearStickyFaults();
@@ -83,10 +81,6 @@ public class ActiveArm extends SubsystemBase
     /** @return Is arm extension all the way "in", fully retracted? */
     public boolean isRetracted()
     {
-        // If there is no switch, use encoder
-        if (is_retracted == null)
-            return getExtension() <= 0;
-
         // Reports true when not at limit or broken,
         // false when at limit
         return is_retracted.get() == false;

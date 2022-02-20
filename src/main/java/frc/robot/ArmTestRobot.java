@@ -22,13 +22,13 @@ import frc.robot.climb.PassiveArm;
  *  1) In teleop, right stick forward/backwards
  *     should extend arm out/in.
  *  2) Does right joystick forward extend "out"? Otherwise invert extender motor
- *  3) Calibrate extender sensor EXTENDER_COUNTS_PER_METER:
+ *  3) Check limit switch.
+ *     Does it indicate "retracted" when at limit?
+ *     Extender motor should not move further "in" when fully retracted.
+ *  4) Calibrate extender sensor EXTENDER_COUNTS_PER_METER:
  *     Set EXTENDER_COUNTS_PER_METER = 1,
  *     extend arm some way, measure extension and compute
  *     counts / that_extension
- *  4) Check limit switch.
- *     Does it indicate "retracted" when at limit?
- *     Extender motor should not move further "in" when fully retracted.
  *  5) Check MAX_EXTENSION
  *     Set MAX_EXTENSION = 0
  *     In teleop, determine maximum extension,
