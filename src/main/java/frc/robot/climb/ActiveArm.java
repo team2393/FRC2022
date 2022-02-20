@@ -50,6 +50,7 @@ public class ActiveArm extends SubsystemBase
     //  new ProfiledPIDController(0, 0, 0,
     //                     // Maximum speed [m/s] and acceleration [m/s/s]
     //                     new TrapezoidProfile.Constraints(0.1, 0.1));
+    // TODO Update 'reset' below
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch, may be -1 to not use switch
@@ -75,6 +76,8 @@ public class ActiveArm extends SubsystemBase
     public void reset()
     {
         extender.setSelectedSensorPosition(0);
+        extension_pid.reset();
+        // TODO Use .reset(getExtension());
     }
 
     /** @return Is arm extension all the way "in", fully retracted? */
@@ -101,7 +104,7 @@ public class ActiveArm extends SubsystemBase
         if (isRetracted())
         {
             setExtenderVoltage(0);
-            extender.setSelectedSensorPosition(0);
+            reset();
             return true;
         }
         

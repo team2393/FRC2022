@@ -54,6 +54,11 @@ import frc.robot.climb.PassiveArm;
  * 
  * 13) Change 'arm' from RobotMap.LEFT_ARM_... to RobotMap.RIGHT_ARM_...,
  *     check if that works with the same settings
+ * 14) Check if both arms can be moved by each running its own ActiveArm instance.
+ *     Starting from a homed state, do both ProfiledPIDControllers come up
+ *     with the same setpoint profiles and track each other?
+ *     Otherwise create a new ActiveArmFollower that uses a plain PID
+ *     where the setpoint is updated from the primary ActiveArm.
  */
 public class ArmTestRobot extends TimedRobot
 {
