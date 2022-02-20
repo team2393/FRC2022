@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.cargo.CargoSensor.CargoInfo;
+import frc.robot.util.CycleDelayFilter;
 
 public class BallHandling extends SubsystemBase
 {
@@ -177,7 +178,7 @@ public class BallHandling extends SubsystemBase
         shot_requested = true;
     }
 
-    // int conveyor_sensor_delay = 0;
+    // private final CycleDelayFilter conveyor_sensor_delay = new CycleDelayFilter(2);
 
     @Override
     public void periodic()
@@ -185,22 +186,7 @@ public class BallHandling extends SubsystemBase
         // Read sensors to get current data
         // cargo_info = conveyor_sensor.read(); cargo_info != CargoInfo.NOTHING
 
-        // if (conveyor_sensor.get())
-        // {   // There is a ball, but do we need to delay our reaction?
-        //     if (conveyor_sensor_delay > 0)
-        //     {
-        //         --conveyor_sensor_delay;
-        //         ball_in_conveyor = false;
-        //     }
-        //     else
-        //         ball_in_conveyor = true;
-        // }
-        // else
-        // {   // No ball for sure, reset delay to N 20-ms-cycles
-        //     ball_in_conveyor = false;
-        //     conveyor_sensor_delay = 2;
-        // }
-
+        // Delay?  ball_in_conveyor = conveyor_sensor_delay.compute(conveyor_sensor.get());
         ball_in_conveyor = conveyor_sensor.get();
         ball_in_feeder = feeder_sensor.get();
         ball_ejected = spinner.isBallEjected();
