@@ -53,7 +53,10 @@ February
 
  * As robot is being built, have software ready for all components
  * Test each component, add functional software for each subsystem to overall robot code
-   * DriveTrainTestRobot: Basic drive test, may complete auto part later
+   * DriveTrainTestRobot: After deploying, use Phoenix tuner to locate all motors.
+     Basic drive test.
+     Check if "shifting" result in indications on pneumatic module.
+     May defer actual pneumatics as well as autonomous part to later.
    * ManualIntakeTestRobot: Open/close, pull in ball
    * SpinnerTestRobot: Speed
    * ManualBallHandling: Move ball, eject, detect ejection, determine location for sensors

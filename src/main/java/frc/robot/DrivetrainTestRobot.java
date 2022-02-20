@@ -11,6 +11,7 @@ import frc.robot.drivetrain.Drivetrain;
 /** Robot for testing/calibrating drivetrain
  * 
  *  [ ] In teleop, check if 'forward' is forward and 'right' is right
+ *  [ ] Check if 'shifting' results in indication on pneumatic module
  *  [ ] Check Drivetrain.STEPS_PER_METER calibration.
  *  [ ] Note "Drivetrain meters per rev: ____"
  *      printed out during startup
@@ -63,6 +64,11 @@ public class DrivetrainTestRobot extends TimedRobot
     {
         // Manually drive robot
         drivetrain.drive(OperatorInterface.getSpeed(), OperatorInterface.getRotation());
+
+        if (OperatorInterface.shiftHigh())
+            drivetrain.shiftgear(true);
+        if (OperatorInterface.shiftLow())
+            drivetrain.shiftgear(false);
     }
 
     @Override
