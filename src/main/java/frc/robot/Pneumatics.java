@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *  NOTE:
  *  https://docs.revrobotics.com/rev-11-1852/pneumatic-hub-getting-started/wiring-the-pneumatic-hub
  *  suggests plugging the analog sensor into input 1, not 0,
- *  so that's what we use here as well!
+ *  but #812 says
+ *  "The analog output of the sensor must be connected directly to analog input 0 of the PH
+ *   (with firmware version 22.0.2 or newer) controlling the compressor"
  */
 public class Pneumatics extends SubsystemBase
 {
@@ -31,6 +33,7 @@ public class Pneumatics extends SubsystemBase
     @Override
     public void periodic()
     {
-        nt_pressure.setDouble(hub.getPressure(1));
+        // Read analog input 0
+        nt_pressure.setDouble(hub.getPressure(0));
     }
 }
