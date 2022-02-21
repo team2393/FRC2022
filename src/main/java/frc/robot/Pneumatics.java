@@ -25,8 +25,8 @@ public class Pneumatics extends SubsystemBase
     public Pneumatics()
     {
         // USE ANALOG SENSOR,
-        // and turn compressor on below 70 psi, stop when reaching 120 psi
-        hub.enableCompressorAnalog(70, 120);
+        // and turn compressor on below 100 psi, stop when reaching 120 psi
+        hub.enableCompressorAnalog(100, 120);
         nt_pressure = SmartDashboard.getEntry("Pressure");
     }
     
