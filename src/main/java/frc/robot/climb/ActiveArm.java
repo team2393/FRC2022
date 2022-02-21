@@ -25,11 +25,10 @@ public class ActiveArm extends SubsystemBase
     private DigitalInput is_retracted;
  
     /** Extender encoder counts per meter */
-    private static final double EXTENDER_COUNTS_PER_METER = 1.0;
-                                                       // =  20000 / Units.inchesToMeters(40.0);
+    private static final double EXTENDER_COUNTS_PER_METER = 164260 / 0.73;
 
     /** Maximum extension in meters. Set to 0.0 to ignore */
-    private static final double MAX_EXTENSION = 0.0;
+    public static final double MAX_EXTENSION = 0.72;
 
     /** Suggested voltage for moving extender, must be positive */
     public static final double EXTENDER_VOLTAGE = 2.0;
@@ -46,11 +45,9 @@ public class ActiveArm extends SubsystemBase
     private double MAX_VOLTAGE = 6.0;
     
     /** PID for extension */
-    private final PIDController extension_pid = new PIDController(0, 0, 0);
-    //  new ProfiledPIDController(0, 0, 0,
+    private final ProfiledPIDController extension_pid = new ProfiledPIDController(50.0, 5.0, 0,
     //                     // Maximum speed [m/s] and acceleration [m/s/s]
-    //                     new TrapezoidProfile.Constraints(0.1, 0.1));
-    // TODO Update 'reset' below
+                           new TrapezoidProfile.Constraints(0.35, 0.25));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch
@@ -64,8 +61,7 @@ public class ActiveArm extends SubsystemBase
         extender.clearStickyFaults();
         extender.setNeutralMode(NeutralMode.Brake);
         extender.setInverted(false);
-        // TODO Dampen down
-        extender.configOpenloopRamp(2.0);
+        extender.configOpenloopRamp(1.0);
 
         reset();
     }
@@ -74,8 +70,7 @@ public class ActiveArm extends SubsystemBase
     public void reset()
     {
         extender.setSelectedSensorPosition(0);
-        extension_pid.reset();
-        // TODO Use .reset(getExtension());
+        extension_pid.reset(getExtension());
     }
 
     /** @return Is arm extension all the way "in", fully retracted? */

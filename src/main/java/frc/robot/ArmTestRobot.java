@@ -63,7 +63,7 @@ import frc.robot.climb.PassiveArm;
  */
 public class ArmTestRobot extends TimedRobot
 {
-    private final ActiveArm arm = new ActiveArm(RobotMap.LEFT_ARM_EXTENDER, RobotMap.LEFT_ARM_RETRACTED);
+    private final ActiveArm arm = new ActiveArm(8, RobotMap.LEFT_ARM_RETRACTED);
     private final PassiveArm passive = new PassiveArm();
     
     @Override
@@ -74,10 +74,10 @@ public class ArmTestRobot extends TimedRobot
 
         SmartDashboard.setDefaultNumber("Desired Extension", 0.0);
 
-        SmartDashboard.setDefaultNumber("P", 0.0);
-        SmartDashboard.setDefaultNumber("I", 0.0);
+        SmartDashboard.setDefaultNumber("P", 50.0);
+        SmartDashboard.setDefaultNumber("I", 5.0);
         SmartDashboard.setDefaultNumber("D", 0.0);
-        SmartDashboard.setDefaultNumber("Max Arm V", 6.0);
+        SmartDashboard.setDefaultNumber("Max Arm V", 3.0);
     }
 
     @Override
@@ -133,16 +133,24 @@ public class ArmTestRobot extends TimedRobot
     {
         passive.setAngle(false);
 
-        final double desired_extension = SmartDashboard.getNumber("Desired Extension", 0.0);
-        if (desired_extension <= 0)
-            arm.homing();
+        final double desired_extension;
+        
+        if (true)
+        {
+            // Use Joystick to set 0 .. MAX_EXTENSION
+            desired_extension = ActiveArm.MAX_EXTENSION * (0.5-OperatorInterface.joystick.getRightY() * 0.5);
+            SmartDashboard.putNumber("Desired Extension", desired_extension);
+        }
         else
         {
+            // Manually enter desired extension, and allow tuning PID
+            desired_extension = SmartDashboard.getNumber("Desired Extension", 0.0);    
             arm.configurePID(SmartDashboard.getNumber("P", 0.0),
-                             SmartDashboard.getNumber("I", 0.0),
-                             SmartDashboard.getNumber("D", 0.0),
-                             SmartDashboard.getNumber("Max Arm V", 6.0));
-            arm.setExtension(desired_extension);
+                                SmartDashboard.getNumber("I", 0.0),
+                                SmartDashboard.getNumber("D", 0.0),
+                                SmartDashboard.getNumber("Max Arm V", 6.0));
         }
+
+        arm.setExtension(desired_extension);
     }
 }
