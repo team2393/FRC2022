@@ -156,6 +156,8 @@ public class RapidReactRobot extends TimedRobot
         System.out.println("Auto-No-Mouse");
 
         reset();
+
+        // TODO Home climber
         
         // Start selected auto command
         auto_options.getSelected().schedule();

@@ -32,7 +32,7 @@ public class ActiveArm extends SubsystemBase
     private static final double MAX_EXTENSION = 0.0;
 
     /** Suggested voltage for moving extender, must be positive */
-    private static final double EXTENDER_VOLTAGE = 2.0;
+    public static final double EXTENDER_VOLTAGE = 2.0;
 
     // Could also try sysId tool for "elevator?"
     

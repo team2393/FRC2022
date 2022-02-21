@@ -37,9 +37,10 @@ import frc.robot.climb.PassiveArm;
  *  6) Set EXTENDER_VOLTAGE
  *     Moving extender in teleop, determine a good voltage to use for homing
  *  7) Test homing
- *     In teleop, extend arm.
- *     Set "Desired Extension" on dashboard to zero.
- *     Then switch to autonomous and verify that arm moves all "in",
+ *     In teleop, extend arm, then either hold 'X' or
+ *     set "Desired Extension" on dashboard to zero,
+ *     then switch to autonomous.
+ *     Either way, verify that arm moves all "in",
  *     and reports exactly 0 m extension when done
  *  8) Back in teleop,
  *     with robot hanging on arm, lifing up and letting it back down,
@@ -100,12 +101,22 @@ public class ArmTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        // Manually operate arm at some low voltage
-        
-        // Use right stick 'forward' for 'up', extend arm 'out'
-        double voltage = -OperatorInterface.joystick.getRightY() * 12.0;
-        SmartDashboard.putNumber("Extender Voltage", voltage); 
-        arm.setExtenderVoltage(voltage);
+        // Manually operate arm
+        // X to home, else move with right stick
+        if (OperatorInterface.joystick.getXButton())
+        {
+            if (arm.homing())
+                SmartDashboard.putNumber("Extender Voltage", 0);         
+            else
+                SmartDashboard.putNumber("Extender Voltage", -ActiveArm.EXTENDER_VOLTAGE); 
+        }
+        else
+        {
+            // Use right stick 'forward' for 'up', extend arm 'out'
+            double voltage = -OperatorInterface.joystick.getRightY() * 12.0;
+            SmartDashboard.putNumber("Extender Voltage", voltage); 
+            arm.setExtenderVoltage(voltage);
+        }
 
         // Use right bumper to control up/down angle
         if (OperatorInterface.toggleArmAngle())
