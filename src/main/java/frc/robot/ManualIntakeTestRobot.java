@@ -19,6 +19,7 @@ import frc.robot.cargo.BallHandling;
  */
 public class ManualIntakeTestRobot extends TimedRobot
 {
+    public final Pneumatics pneumatics = new Pneumatics();
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
     private WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
     private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);

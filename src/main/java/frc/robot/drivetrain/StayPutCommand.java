@@ -12,6 +12,7 @@ public class StayPutCommand extends CommandBase
 
     public StayPutCommand(final Drivetrain drivetrain)
     {
+        setName("Stay Put");
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
     }

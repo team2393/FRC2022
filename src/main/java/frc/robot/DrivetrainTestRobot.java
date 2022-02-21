@@ -27,6 +27,7 @@ import frc.robot.drivetrain.Drivetrain;
 public class DrivetrainTestRobot extends TimedRobot
 {
     private final Drivetrain drivetrain = new Drivetrain();
+    public final Pneumatics pneumatics = new Pneumatics();
     
     @Override
     public void robotInit()

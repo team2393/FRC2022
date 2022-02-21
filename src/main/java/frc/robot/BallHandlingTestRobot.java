@@ -58,6 +58,7 @@ import frc.robot.cargo.BallHandling;
 public class BallHandlingTestRobot extends TimedRobot
 {
     private final BallHandling ballhandling = new BallHandling();
+    public final Pneumatics pneumatics = new Pneumatics();
 
     @Override
     public void robotInit()

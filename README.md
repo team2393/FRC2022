@@ -58,6 +58,7 @@ February
      Check if "shifting" result in indications on pneumatic module.
      May defer actual pneumatics as well as autonomous part to later.
    * ManualIntakeTestRobot: Open/close, pull in ball
+   * PneumaticHubTestRobot: Does compressor turn on? Check pressure indication
    * SpinnerTestRobot: Speed
    * ManualBallHandling: Move ball, eject, detect ejection, determine location for sensors
    * BallHandlingTestRobot: Take balls in automatically, spin up to eject, eject, keep spinner on for 2 secs, ..., reverse to de-clog

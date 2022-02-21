@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.StayPutCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
 import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
@@ -27,8 +27,7 @@ public class RapidReactRobot extends TimedRobot
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain();
 
-    // TODO
-    // private final PneumaticHub hub = new PneumaticHub();
+    public final Pneumatics pneumatics = new Pneumatics();
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -62,10 +61,6 @@ public class RapidReactRobot extends TimedRobot
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Rapid React *****");
 
-        // TODO USE ANALOG SENSOR,
-        // and turn compressor on below 70 psi, stop when reaching 120 psi
-        // hub.enableCompressorAnalog(70, 120);
-
         // Populate and publish autonomous options
         AutoOptions.populate(auto_options, drivetrain);
         SmartDashboard.putData("Auto Options", auto_options);
@@ -73,9 +68,7 @@ public class RapidReactRobot extends TimedRobot
         // Handle the drivetrain via commands.
         // By default, have it stop.
         // Otherwise, DriveByJoystickCommand or an autonomous move command control it.
-        final CommandBase stay_put = new RunCommand(() -> drivetrain.drive(0, 0), drivetrain);
-        stay_put.setName("Stay Put");
-        drivetrain.setDefaultCommand(stay_put);
+        drivetrain.setDefaultCommand(new StayPutCommand(drivetrain));
 
         SmartDashboard.putData(auto_shift);
 
