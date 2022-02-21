@@ -13,6 +13,7 @@ import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
+import frc.robot.climb.Climber;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
@@ -28,6 +29,8 @@ public class RapidReactRobot extends TimedRobot
     private final Drivetrain drivetrain = new Drivetrain();
 
     public final Pneumatics pneumatics = new Pneumatics();
+
+    // TODO public final Climber climber = new Climber();
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -93,6 +96,7 @@ public class RapidReactRobot extends TimedRobot
         auto_shift.cancel();
 
         // TODO Is there more to reset?
+        // TODO climber.reset();
     }
 
     /** This function is called all the time regardless of mode. */
@@ -146,7 +150,7 @@ public class RapidReactRobot extends TimedRobot
             drivetrain.shiftgear(true);
         if (OperatorInterface.shiftLow())
             // auto_shift.cancel();
-            drivetrain.shiftgear(false);
+            drivetrain.shiftgear(false);        
     }
 
     /** This function is called when entering auto-no-mouse mode */
@@ -169,5 +173,7 @@ public class RapidReactRobot extends TimedRobot
     {
         // Typically empty since it's all done
         // within the command started in autonomousInit()...
+
+        // TODO climber.homing();
     }
 }
