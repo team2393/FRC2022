@@ -64,7 +64,7 @@ import frc.robot.climb.PassiveArm;
  */
 public class ArmTestRobot extends TimedRobot
 {
-    private final ActiveArm arm = new ActiveArm(8, RobotMap.LEFT_ARM_RETRACTED);
+    private final ActiveArm arm = new ActiveArm(RobotMap.LEFT_ARM_EXTENDER, RobotMap.LEFT_ARM_RETRACTED);
     // private final PassiveArm passive = new PassiveArm();
     
     @Override
