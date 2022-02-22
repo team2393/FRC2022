@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
 
 /** Active arm which can extend
  * 
@@ -68,7 +69,10 @@ public class ActiveArm
         extender.configFactoryDefault();
         extender.clearStickyFaults();
         extender.setNeutralMode(NeutralMode.Brake);
-        extender.setInverted(true);
+
+        // Motor on right arm is inverted wind up onto spool the correct way,
+        // left arm is not
+        extender.setInverted(motor_id == RobotMap.RIGHT_ARM_EXTENDER);
         extender.configOpenloopRamp(1.0);
 
         reset();
