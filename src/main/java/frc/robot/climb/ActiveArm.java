@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Active arm which can extend
  * 
@@ -49,13 +50,12 @@ public class ActiveArm
     private final double FF_HOLDING_VOLTAGE = 0.0;
 
     /** Maximum voltage (positive or negative) used by PID */
-    private double MAX_VOLTAGE = 3.0;
+    private double MAX_VOLTAGE = 8.0;
     
     /** PID for extension */
-    private final ProfiledPIDController extension_pid = new ProfiledPIDController(50.0, 5.0, 0,
+    private final ProfiledPIDController extension_pid = new ProfiledPIDController(100.0, 5.0, 0,
                         // Maximum speed [m/s] and acceleration [m/s/s]:
-                        // Two seconds for full extension, more than a second to reach that speed
-                        new TrapezoidProfile.Constraints(0.35, 0.25));
+                        new TrapezoidProfile.Constraints(0.7, 0.7));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch
@@ -77,8 +77,7 @@ public class ActiveArm
     /** Reset to resting position, extender all "in" */
     public void reset()
     {
-        extender.setSelectedSensorPosition(0);
-        extension_pid.reset(0);
+        extension_pid.reset(getExtension());
         latched_home = false;
     }
 
@@ -175,5 +174,7 @@ public class ActiveArm
         // Limit voltage
         voltage = MathUtil.clamp(voltage, -MAX_VOLTAGE, MAX_VOLTAGE);
         setExtenderVoltage(voltage);
+        
+        SmartDashboard.putNumber("Extender Voltage", voltage); 
     }
 }
