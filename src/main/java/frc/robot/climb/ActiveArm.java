@@ -68,7 +68,7 @@ public class ActiveArm
         extender.configFactoryDefault();
         extender.clearStickyFaults();
         extender.setNeutralMode(NeutralMode.Brake);
-        extender.setInverted(false);
+        extender.setInverted(true);
         extender.configOpenloopRamp(1.0);
 
         reset();
