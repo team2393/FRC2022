@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -113,7 +114,8 @@ public class ArmTestRobot extends TimedRobot
         else
         {
             // Use right stick 'forward' for 'up', extend arm 'out'
-            double voltage = -OperatorInterface.joystick.getRightY() * 12.0;
+            final double joystick = MathUtil.applyDeadband(-OperatorInterface.joystick.getRightY(), 0.05);
+            final double voltage = joystick * 12.0;
             SmartDashboard.putNumber("Extender Voltage", voltage); 
             arm.setExtenderVoltage(voltage);
         }

@@ -43,18 +43,19 @@ public class ActiveArm
     // Could also try sysId tool for "elevator?"
     
     /** Feed-forward voltage to hold robot against gravity.
-     *  Should be zero to disable, otherise NEGATIVE
+     *  Should be zero to disable, otherwise NEGATIVE
      *  to pull extension 'in'
      */
     private final double FF_HOLDING_VOLTAGE = 0.0;
 
     /** Maximum voltage (positive or negative) used by PID */
-    private double MAX_VOLTAGE = 6.0;
+    private double MAX_VOLTAGE = 3.0;
     
     /** PID for extension */
     private final ProfiledPIDController extension_pid = new ProfiledPIDController(50.0, 5.0, 0,
-    //                     // Maximum speed [m/s] and acceleration [m/s/s]
-                           new TrapezoidProfile.Constraints(0.35, 0.25));
+                        // Maximum speed [m/s] and acceleration [m/s/s]:
+                        // Two seconds for full extension, more than a second to reach that speed
+                        new TrapezoidProfile.Constraints(0.35, 0.25));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch
@@ -98,7 +99,8 @@ public class ActiveArm
      */
     public boolean homing()
     {
-        if (isRetracted())
+        // Hitting limit swtich for the first time?
+        if (! latched_home  &&  isRetracted())
         {   // Set 'home' loation == zero
             extender.setSelectedSensorPosition(0);
             extension_pid.reset(0);
@@ -107,8 +109,10 @@ public class ActiveArm
         }
         if (latched_home)
         {   // From now on, don't move further down
-            // (but gearbox inertia might push is a little further)
+            // (but gearbox inertia might push us a little further)
             setExtenderVoltage(0);
+            // TODO Does this make a difference wrt braking?
+            // extender.stopMotor();
             return true;
         }
         
