@@ -98,12 +98,17 @@ public class ActiveArm
      */
     public boolean homing()
     {
-        if (latched_home || isRetracted())
-        {
-            latched_home = true;
-            setExtenderVoltage(0);
+        if (isRetracted())
+        {   // Set 'home' loation == zero
             extender.setSelectedSensorPosition(0);
             extension_pid.reset(0);
+            // Remember that we hit home
+            latched_home = true;
+        }
+        if (latched_home)
+        {   // From now on, don't move further down
+            // (but gearbox inertia might push is a little further)
+            setExtenderVoltage(0);
             return true;
         }
         
