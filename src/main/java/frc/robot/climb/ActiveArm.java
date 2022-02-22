@@ -17,8 +17,19 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class ActiveArm
 {
+    /** Motor for extending resp. pulling arm in */
     private WPI_TalonFX extender;
+
+    /** Sensor that detects full retraction */
     private DigitalInput is_retracted;
+
+    /** When homing, we stop the motor when is_retracted indicates
+     *  that we reached the home position.
+     *  But in spite of 'brake' mode on the motor, the gears' intertia
+     *  keeps us moving a little further, often beyond the limit switch.
+     *  This flag latches the 'homed' state so we stay stopped. 
+     */
+    private boolean latched_home = false;
  
     /** Extender encoder counts per meter */
     private static final double EXTENDER_COUNTS_PER_METER = 164260 / 0.73;
@@ -66,7 +77,8 @@ public class ActiveArm
     public void reset()
     {
         extender.setSelectedSensorPosition(0);
-        extension_pid.reset(getExtension());
+        extension_pid.reset(0);
+        latched_home = false;
     }
 
     /** @return Is arm extension all the way "in", fully retracted? */
@@ -86,10 +98,12 @@ public class ActiveArm
      */
     public boolean homing()
     {
-        if (isRetracted())
+        if (latched_home || isRetracted())
         {
+            latched_home = true;
             setExtenderVoltage(0);
-            reset();
+            extender.setSelectedSensorPosition(0);
+            extension_pid.reset(0);
             return true;
         }
         
