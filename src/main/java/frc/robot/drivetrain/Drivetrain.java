@@ -7,6 +7,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -95,13 +96,15 @@ public class Drivetrain extends SubsystemBase
                                         .setKinematics(kinematics);
 
     /** Heading and tilt angle sensor */
-    private final PigeonIMU pigeon = new PigeonIMU(0);
+    private final PigeonIMU pigeon;
 
     /** Odometry estimates where we are */
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
 
-    public Drivetrain()
+    public Drivetrain(final TalonSRX pigeon_carrier)
     {
+        pigeon = new PigeonIMU(pigeon_carrier);
+
         // sysId needs meters / rev:
         // steps/rev / (steps/meter) =
         // steps * 1/rev * meters * 1/steps =

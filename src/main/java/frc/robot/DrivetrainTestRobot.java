@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,7 +28,8 @@ import frc.robot.drivetrain.Drivetrain;
 */
 public class DrivetrainTestRobot extends TimedRobot
 {
-    private final Drivetrain drivetrain = new Drivetrain();
+    private final TalonSRX pigeon_carrier = new TalonSRX(RobotMap.RIGHT_INTAKE);
+    private final Drivetrain drivetrain = new Drivetrain(pigeon_carrier);
     public final Pneumatics pneumatics = new Pneumatics();
     
     @Override

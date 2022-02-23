@@ -13,6 +13,7 @@ import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
+import frc.robot.cargo.BallHandling;
 import frc.robot.climb.Climber;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
@@ -24,9 +25,10 @@ import frc.robot.drivetrain.DriveByJoystickCommand;
 public class RapidReactRobot extends TimedRobot
 {
     // Robot components
+    BallHandling ball_handling = new BallHandling();
 
     /** Drive motors */
-    private final Drivetrain drivetrain = new Drivetrain();
+    private final Drivetrain drivetrain = new Drivetrain(ball_handling.pigeon_carrier);
 
     public final Pneumatics pneumatics = new Pneumatics();
 

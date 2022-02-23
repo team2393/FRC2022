@@ -20,20 +20,23 @@ public class BallHandling extends SubsystemBase
     public static final double CONVEYOR_VOLTAGE = 3.0;
     public static final double FEEDER_VOLTAGE = 3.0;
     
-    private Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
-    private Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
+    private final Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
+    private final Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
 
-    private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
-    private WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
-    
-    private WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
-    private WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
-    private Spinner spinner = new Spinner();
+    private final WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
+    private final WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
+
+    /** Talon to which pigeon is connected */
+    public final WPI_TalonSRX pigeon_carrier = intake;
+
+    private final WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
+    private final WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
+    private final Spinner spinner = new Spinner();
 
     // private CargoSensor conveyor_sensor = new CargoSensor();
 
     private final DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
-    private DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
+    private final DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
     
     // Most recent state of sensors
     // (so we read only once and might be able to add a delay)
@@ -76,10 +79,10 @@ public class BallHandling extends SubsystemBase
     private boolean keep_spinner_running = false;
     
     /** Timer for spinner running after last shot */
-    private Timer spinner_runtime = new Timer();
+    private final Timer spinner_runtime = new Timer();
     
     /** Timer for how long we've been trying to perform one shot */
-    private Timer shot_attempt_timer = new Timer();
+    private final Timer shot_attempt_timer = new Timer();
     
     /** Has a shot been requested? */
     private boolean shot_requested = false;
