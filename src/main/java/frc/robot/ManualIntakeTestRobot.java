@@ -13,7 +13,8 @@ import frc.robot.cargo.BallHandling;
 /** Test intake solenoid and motors
  * 
  *  In teleop,
- *  [ ] check direction of motors and solenoid.
+ *  [ ] connect only one motor at a time and test direction
+ *  [ ] check direction of solenoid.
  *  [ ] Determine good BallHandling.INTAKE_VOLTAGE,
  *  [ ] then try autonomous
  */
