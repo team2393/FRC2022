@@ -28,7 +28,7 @@ import frc.robot.drivetrain.Drivetrain;
 */
 public class DrivetrainTestRobot extends TimedRobot
 {
-    private final TalonSRX pigeon_carrier = new TalonSRX(RobotMap.RIGHT_INTAKE);
+    private final TalonSRX pigeon_carrier = new TalonSRX(RobotMap.LEFT_INTAKE);
     private final Drivetrain drivetrain = new Drivetrain(pigeon_carrier);
     public final Pneumatics pneumatics = new Pneumatics();
     

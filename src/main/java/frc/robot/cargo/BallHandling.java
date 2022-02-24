@@ -23,8 +23,8 @@ public class BallHandling extends SubsystemBase
     private final Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     private final Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
 
-    private final WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
-    private final WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
+    private final WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
+    private final WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
 
     /** Talon to which pigeon is connected */
     public final WPI_TalonSRX pigeon_carrier = intake;
