@@ -60,10 +60,10 @@ public class RobotMap
     // Are we using original PCM (of which we have many)
     // or new REV PH (more channels, but only one)?
     public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
-    public final static int INTAKE_ARM = 0;
-    public final static int SHOOTER_ANGLE = 1;
-    public static final int ARM_ROTATOR = 2;
-    public final static int GEAR_SHIFTER = 6;
+    public static final int ARM_ROTATOR = 0; //A
+    public final static int SHOOTER_ANGLE = 1; //B
+    public final static int GEAR_SHIFTER = 2; //C
+    public final static int INTAKE_ARM = 3; //D
 
     // Digital I/O
     public final static int CONVEYOR_SENSOR = 0; //  Using CargoSensor ?
