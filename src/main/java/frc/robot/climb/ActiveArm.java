@@ -48,10 +48,10 @@ public class ActiveArm
      *  Should be zero to disable, otherwise NEGATIVE
      *  to pull extension 'in'
      */
-    private final double FF_HOLDING_VOLTAGE = 0.0;
+    public static final double FF_HOLDING_VOLTAGE = 0.0;
 
     /** Maximum voltage (positive or negative) used by PID */
-    private double MAX_VOLTAGE = 8.0;
+    public static double MAX_VOLTAGE = 8.0;
     
     /** PID for extension */
     private final ProfiledPIDController extension_pid = new ProfiledPIDController(100.0, 5.0, 0,

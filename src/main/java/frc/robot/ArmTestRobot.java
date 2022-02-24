@@ -122,7 +122,7 @@ public class ArmTestRobot extends TimedRobot
         {
             // Use right stick 'forward' for 'up', extend arm 'out'
             final double joystick = MathUtil.applyDeadband(-OperatorInterface.joystick.getRightY(), 0.05);
-            final double voltage = joystick * 12.0;
+            final double voltage = joystick * ActiveArm.MAX_VOLTAGE;
             SmartDashboard.putNumber("Extender Voltage", voltage); 
             arm.setExtenderVoltage(voltage);
         }
