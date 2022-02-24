@@ -23,7 +23,7 @@ public class RobotMap
     //  7 Limelight                   12
     //  8                             11
     //
-    //  * 10 Amp ports
+    //  * 20 Amp ports
     //  9 VRM for sensors             10 Camera LED ring
     //
     // Port 20, 10 Amp: Radio Power Module
