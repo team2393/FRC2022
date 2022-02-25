@@ -89,10 +89,7 @@ public class BallHandlingTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        if (OperatorInterface.reverseIntake())
-            ball_handling.reverse(true);
-        else
-            ball_handling.reverse(false);
+        ball_handling.reverse(OperatorInterface.reverseIntake());
 
         if (OperatorInterface.toggleLoading())
             ball_handling.toggleLoading();

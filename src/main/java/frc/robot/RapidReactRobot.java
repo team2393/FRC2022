@@ -115,6 +115,7 @@ public class RapidReactRobot extends TimedRobot
     public void disabledInit()
     {
         System.out.println("Disabled");
+        ball_handling.enable(false);
     }
 
     /** This function is called while the robot is disabled. */
@@ -131,6 +132,7 @@ public class RapidReactRobot extends TimedRobot
         System.out.println("Teleop");
 
         reset();
+        ball_handling.enable(true);
 
         // Start driving via joystick
         joydrive.schedule();
@@ -152,7 +154,18 @@ public class RapidReactRobot extends TimedRobot
             drivetrain.shiftgear(true);
         if (OperatorInterface.shiftLow())
             // auto_shift.cancel();
-            drivetrain.shiftgear(false);        
+            drivetrain.shiftgear(false);
+
+        ball_handling.reverse(OperatorInterface.reverseIntake());
+
+        if (OperatorInterface.toggleLoading())
+            ball_handling.toggleLoading();
+
+        if (OperatorInterface.toggleSpinner())
+            ball_handling.toggleSpinner();
+    
+        if (OperatorInterface.doShoot())
+            ball_handling.shoot();
     }
 
     /** This function is called when entering auto-no-mouse mode */
@@ -162,8 +175,7 @@ public class RapidReactRobot extends TimedRobot
         System.out.println("Auto-No-Mouse");
 
         reset();
-
-        // TODO Home climber
+        ball_handling.enable(true);
         
         // Start selected auto command
         auto_options.getSelected().schedule();
