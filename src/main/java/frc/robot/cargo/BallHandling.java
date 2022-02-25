@@ -83,10 +83,10 @@ public class BallHandling extends SubsystemBase
     private boolean shot_requested = false;
 
     /** Timeout used for shot_requested */
-    private static final double SPINUP_TIMEOUT = 5.0;
+    private static final double SPINUP_TIMEOUT = 3.0;
 
     /** Timeout used for shot_requested */
-    private static final double SHOT_TIMEOUT = 10.0;
+    private static final double SHOT_TIMEOUT = 6.0;
     
     public BallHandling()
     {
@@ -289,10 +289,11 @@ public class BallHandling extends SubsystemBase
             conveyor.setVoltage(0);
 
         // Feeder: Shooting?
-        // .. but may have one ball on conveyor that needs to move forward
+        // otherwise: Loading? Run until there's a ball in the feeder
+        //        Not Loading? Run if one ball on conveyor that needs to move forward
         if (shooter_state == ShooterStates.SHOOTING ||
-            (shooter_state == ShooterStates.IDLE && have_single_ball_to_move) ||
-            (shooter_state == ShooterStates.IDLE && !have_all_balls))
+            (shooter_state == ShooterStates.IDLE  &&  load_state == LoadStates.LOADING     &&  !ball_in_feeder) ||
+            (shooter_state == ShooterStates.IDLE  &&  load_state == LoadStates.NOT_LOADING &&  have_single_ball_to_move))
             feeder.setVoltage(FEEDER_VOLTAGE);
         else
             feeder.setVoltage(0.0);

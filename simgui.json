@@ -6,10 +6,41 @@
       }
     },
     "Other Devices": {
+      "Talon FX[11]": {
+        "header": {
+          "open": true
+        },
+        "name": "Conveyor"
+      },
+      "Talon FX[12]": {
+        "header": {
+          "open": true
+        },
+        "name": "Feeder"
+      },
+      "Talon FX[5]": {
+        "header": {
+          "open": true
+        },
+        "name": "Spinner1"
+      },
       "Talon FX[6]": {
         "header": {
           "open": true
-        }
+        },
+        "name": "Spinner2"
+      },
+      "Talon SRX[10]": {
+        "header": {
+          "open": true
+        },
+        "name": "Right Intake"
+      },
+      "Talon SRX[9]": {
+        "header": {
+          "open": true
+        },
+        "name": "Left Intake"
       }
     }
   },
@@ -17,12 +48,28 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/BallHandling": "Subsystem",
+      "/LiveWindow/Pneumatics": "Subsystem",
       "/LiveWindow/Spinner": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [11]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [12]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [9]": "Motor Controller"
     }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "open": true
+    }
+  },
+  "sourceNames": {
+    "DIO[0]": "Ball in Conveyor",
+    "DIO[1]": "Ball in Feeder"
   }
 }
