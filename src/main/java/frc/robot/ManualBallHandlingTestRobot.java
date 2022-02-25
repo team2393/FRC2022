@@ -52,11 +52,6 @@ public class ManualBallHandlingTestRobot extends TimedRobot
 
         // Spinner itself displays speed in RPS on dashboard.
         // Add RPM and details needed to configure/tune the spinner.
-        SmartDashboard.putNumber("Spinner Rev", spinner.getPosition());
-        SmartDashboard.putNumber("Spinner RPM", spinner.getSpeed() * 60.0);
-        SmartDashboard.putNumber("Spinner Voltage", spinner.getVoltage());
-        SmartDashboard.putNumber("Spinner Current", spinner.getCurrent()); 
-        SmartDashboard.putNumber("Spinner Current Change", spinner.getCurrentChange()); 
         SmartDashboard.putBoolean("Spinner Ball Ejected", spinner.isBallEjected()); 
 
         SmartDashboard.putBoolean("Ball in Conveyor", conveyor_sensor.get());

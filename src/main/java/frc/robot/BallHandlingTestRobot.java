@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.cargo.BallHandling;
@@ -70,7 +71,10 @@ public class BallHandlingTestRobot extends TimedRobot
     @Override
     public void robotPeriodic()
     {
-        CommandScheduler.getInstance().run();        
+        CommandScheduler.getInstance().run();
+
+        // Send out on each period to get better plots
+        NetworkTableInstance.getDefault().flush();
     }
 
     @Override

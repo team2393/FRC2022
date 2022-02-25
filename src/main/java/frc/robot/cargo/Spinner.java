@@ -113,20 +113,24 @@ public class Spinner extends SubsystemBase
     private final KeepOnFilter remember_shot = new KeepOnFilter(0.2);
 
     /** @return Change in motor current */
-    public double getCurrentChange()
+    private double getCurrentChange()
     {
         // Try highpass and change_filter
         // Try different settings to find good current change threshold
         // for detecting ejected ball
-        return highpass.calculate(getCurrent());
+        final double change = highpass.calculate(getCurrent());
+        SmartDashboard.putNumber("Spinner Current Change", change);
+        return change;
     }
-
+    
     /** @return Does current drop suggest a ball was ejected? */
     public boolean isBallEjected()
     {
         // TODO Try drop in RPM vs. jump in current
         // TODO Check Math.abs(...)?
-        return remember_shot.compute(Math.abs(getCurrentChange()) > 1.0);
+        final boolean ejected = remember_shot.compute(Math.abs(getCurrentChange()) > 1.0);
+        SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
+        return ejected; 
     }
 
     // Speed is controlled by FF and PID,
@@ -190,6 +194,12 @@ public class Spinner extends SubsystemBase
     @Override
     public void periodic()
     {
-        SmartDashboard.putNumber("Spinner RPS", getSpeed());
+        final double speed = getSpeed();
+        SmartDashboard.putNumber("Spinner RPS", speed);
+        // TODO Remove items as they're no longer necessary
+        SmartDashboard.putNumber("Spinner RPM", speed * 60.0);
+        SmartDashboard.putNumber("Spinner Rev", getPosition());
+        SmartDashboard.putNumber("Spinner Voltage", getVoltage());
+        SmartDashboard.putNumber("Spinner Current", getCurrent());
     }
 } 

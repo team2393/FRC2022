@@ -29,7 +29,7 @@ public class BallHandling extends SubsystemBase
 
     private final WPI_TalonFX conveyor = new WPI_TalonFX(RobotMap.CONVEYOR);
     private final WPI_TalonFX feeder = new WPI_TalonFX(RobotMap.FEEDER);
-    private final Spinner spinner = new Spinner();
+    public final Spinner spinner = new Spinner();
 
     // private CargoSensor conveyor_sensor = new CargoSensor();
     private final DigitalInput conveyor_sensor = new DigitalInput(RobotMap.CONVEYOR_SENSOR);
