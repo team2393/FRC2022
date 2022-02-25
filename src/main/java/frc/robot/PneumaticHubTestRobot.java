@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /** Robot for testing the new REV Robotics Pneumatic Hub
  * 
@@ -41,6 +42,12 @@ public class PneumaticHubTestRobot extends TimedRobot
         // Create one solenoid for each channel
         for (int ch=0; ch<CHANNELS; ++ch)
             solenoids.add(new Solenoid(PneumaticsModuleType.REVPH, ch));
+    }
+
+    @Override
+    public void robotPeriodic()
+    {
+        CommandScheduler.getInstance().run();
     }
 
     @Override
