@@ -57,7 +57,7 @@ import frc.robot.cargo.BallHandling;
  */
 public class BallHandlingTestRobot extends TimedRobot
 {
-    private final BallHandling ballhandling = new BallHandling();
+    private final BallHandling ball_handling = new BallHandling();
     public final Pneumatics pneumatics = new Pneumatics();
 
     @Override
@@ -76,29 +76,31 @@ public class BallHandlingTestRobot extends TimedRobot
     @Override
     public void disabledInit()
     {
-        ballhandling.enable(false);
+        ball_handling.enable(false);
     }
 
     @Override
     public void teleopInit()
     {
         OperatorInterface.reset();
-        ballhandling.enable(true);
+        ball_handling.enable(true);
     }
 
     @Override
     public void teleopPeriodic()
     {
         if (OperatorInterface.reverseIntake())
-            ballhandling.reverse();
+            ball_handling.reverse(true);
+        else
+            ball_handling.reverse(false);
 
         if (OperatorInterface.toggleLoading())
-            ballhandling.toggleLoading();
+            ball_handling.toggleLoading();
 
         if (OperatorInterface.toggleSpinner())
-            ballhandling.toggleSpinner();
+            ball_handling.toggleSpinner();
     
         if (OperatorInterface.doShoot())
-            ballhandling.shoot();    
+            ball_handling.shoot();    
     }
 }

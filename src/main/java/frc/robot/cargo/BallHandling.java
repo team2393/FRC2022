@@ -159,9 +159,12 @@ public class BallHandling extends SubsystemBase
     }
 
     /** Reverse intake, 'unclog' stuck balls */
-    public void reverse()
+    public void reverse(final boolean do_reverse)
     {
-        load_state = LoadStates.REVERSE;        
+        if (do_reverse)
+            load_state = LoadStates.REVERSE;
+        else if (load_state == LoadStates.REVERSE)
+            load_state = LoadStates.LOADING;
     }
 
     /** Try to shoot ASAP */
@@ -216,6 +219,9 @@ public class BallHandling extends SubsystemBase
 
     private void state_reverse()
     {
+        // Open intake to allow balls to get out.
+        // After REVERSE mode, we go to LOADING, which
+        // leaves the intake open
         intake_arm.set(false);
 
         // Run motors backwards, but slowly
