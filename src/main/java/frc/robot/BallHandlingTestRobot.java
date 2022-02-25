@@ -89,16 +89,16 @@ public class BallHandlingTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        if (OperatorInterface.doShoot())
-            ballhandling.shoot();
-
-        if (OperatorInterface.toggleSpinner())
-            ballhandling.toggleSpinner();
+        if (OperatorInterface.reverseIntake())
+            ballhandling.reverse();
 
         if (OperatorInterface.toggleLoading())
             ballhandling.toggleLoading();
-        
-        if (OperatorInterface.reverseIntake())
-            ballhandling.reverse();
+
+        if (OperatorInterface.toggleSpinner())
+            ballhandling.toggleSpinner();
+    
+        if (OperatorInterface.doShoot())
+            ballhandling.shoot();    
     }
 }

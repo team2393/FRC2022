@@ -5,6 +5,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -68,11 +69,11 @@ public class ManualBallHandlingTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        double voltage = 12.0*joystick.getLeftX();
+        double voltage = MathUtil.clamp(1.5*BallHandling.CONVEYOR_VOLTAGE*joystick.getLeftX(), -12.0, 12.0);
         conveyor.setVoltage(voltage);
         SmartDashboard.putNumber("ConveyorVoltage", voltage);
 
-        voltage = 12.0*joystick.getRightX();
+        voltage = MathUtil.clamp(1.5*BallHandling.FEEDER_VOLTAGE*joystick.getRightX(), -12.0, 12.0);
         feeder.setVoltage(voltage);
         SmartDashboard.putNumber("FeederVoltage", voltage);
 
