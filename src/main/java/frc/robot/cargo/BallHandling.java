@@ -16,7 +16,7 @@ import frc.robot.util.CycleDelayFilter;
 public class BallHandling extends SubsystemBase
 {
     // TODO Determine good voltages for running intake and feeder
-    public static final double INTAKE_VOLTAGE = 3.0;
+    public static final double INTAKE_VOLTAGE = 4.0;
     public static final double CONVEYOR_VOLTAGE = 3.0;
     public static final double FEEDER_VOLTAGE = 3.0;
     
@@ -198,6 +198,8 @@ public class BallHandling extends SubsystemBase
         SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);
         SmartDashboard.putBoolean("Ball in Feeder", ball_in_feeder);
         SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
+        SmartDashboard.putString("Load State", load_state.name());
+        SmartDashboard.putString("Shoot State", shooter_state.name());
 
         // Control shooter angle from dashboard
         shooter_angle.set(SmartDashboard.getBoolean("High", false));
@@ -274,9 +276,15 @@ public class BallHandling extends SubsystemBase
         // .. but may have one ball on conveyor that needs to move forward
         final boolean have_single_ball_to_move = ball_in_conveyor  &&  !ball_in_feeder;
         if (have_single_ball_to_move)
+        {
             conveyor.setVoltage(CONVEYOR_VOLTAGE);
+            feeder.setVoltage(FEEDER_VOLTAGE);
+        }
         else
+        {
             conveyor.setVoltage(0);
+            feeder.setVoltage(0);
+        }
     }
 
     private void state_idle()
@@ -284,7 +292,7 @@ public class BallHandling extends SubsystemBase
         feeder.setVoltage(0.0);
 
         // Always spin or leave running for 2 sec after last shot
-        if (keep_spinner_running  ||  ! spinner_runtime.hasElapsed(2.0))
+        if (keep_spinner_running) // TODO  ||  ! spinner_runtime.hasElapsed(2.0))
             spinner.run();
         else
             spinner.stop();

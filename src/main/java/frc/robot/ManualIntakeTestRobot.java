@@ -50,7 +50,7 @@ public class ManualIntakeTestRobot extends TimedRobot
         if (OperatorInterface.toggleLoading())
             intake_arm.toggle();
 
-        double voltage = OperatorInterface.getSpeed();
+        double voltage = 12*OperatorInterface.getSpeed();
         intake.setVoltage(voltage);
         SmartDashboard.putNumber("Intake Voltage", voltage);
     }
