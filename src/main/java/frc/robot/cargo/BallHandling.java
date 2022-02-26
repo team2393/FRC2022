@@ -76,8 +76,11 @@ public class BallHandling extends SubsystemBase
     /** Time to keep spinner running after last shot (unless we keep_spinner_running) */
     private static final double SPINNER_CONTINUE = 2.0;
 
+    /** How long we've been trying to spin up?perform one shot */
+    private final Timer spinup_timer = new Timer();
+
     /** How long we've been trying to perform one shot */
-    private final Timer shot_attempt_timer = new Timer();
+    private final Timer shot_timer = new Timer();
     
     /** Has a shot been requested? */
     private boolean shot_requested = false;
@@ -86,7 +89,7 @@ public class BallHandling extends SubsystemBase
     private static final double SPINUP_TIMEOUT = 3.0;
 
     /** Timeout used for shot_requested */
-    private static final double SHOT_TIMEOUT = 6.0;
+    private static final double SHOT_TIMEOUT = 2.0;
     
     public BallHandling()
     {
@@ -237,8 +240,9 @@ public class BallHandling extends SubsystemBase
         {   // From idle, start a shot on request
             shooter_state = ShooterStates.SPINUP;
             System.out.println("Spinup...");
-            shot_attempt_timer.reset();
-            shot_attempt_timer.start();
+            spinup_timer.stop();
+            spinup_timer.reset();
+            spinup_timer.start();
             shot_requested = false;
         }
         if (shooter_state == ShooterStates.SPINUP)
@@ -247,11 +251,17 @@ public class BallHandling extends SubsystemBase
             {
                 shooter_state = ShooterStates.SHOOTING;
                 System.out.println("Shooting...");
+                shot_timer.stop();
+                shot_timer.reset();
+                shot_timer.start();
             }
-            else if (shot_attempt_timer.hasElapsed(SPINUP_TIMEOUT))
+            else if (spinup_timer.hasElapsed(SPINUP_TIMEOUT))
             {
                 shooter_state = ShooterStates.SHOOTING;
                 System.out.println("Not reaching spinner setpoint, shooting anyway");
+                shot_timer.stop();
+                shot_timer.reset();
+                shot_timer.start();
             }
         }
         if (shooter_state == ShooterStates.SHOOTING)
@@ -264,7 +274,7 @@ public class BallHandling extends SubsystemBase
             //     spinner_endtime = keep_spinner_running ? 0 : Timer.getFPGATimestamp() + SPINNER_CONTINUE;
             // }
             // else
-             if (shot_attempt_timer.hasElapsed(SHOT_TIMEOUT))
+             if (shot_timer.hasElapsed(SHOT_TIMEOUT))
             {
                 shooter_state = ShooterStates.IDLE;
                 System.out.println("No ball shot? Giving up");
