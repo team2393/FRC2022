@@ -64,7 +64,7 @@ import frc.robot.climb.PassiveArm;
  */
 public class ArmTestRobot extends TimedRobot
 {
-    private final ActiveArm arm = new ActiveArm(RobotMap.LEFT_ARM_EXTENDER, RobotMap.LEFT_ARM_RETRACTED);
+    private final ActiveArm arm = new ActiveArm(RobotMap.RIGHT_ARM_EXTENDER, RobotMap.RIGHT_ARM_RETRACTED);
     // private final PassiveArm passive = new PassiveArm();
     
     @Override
@@ -76,7 +76,7 @@ public class ArmTestRobot extends TimedRobot
         SmartDashboard.setDefaultNumber("Desired Extension", 0.0);
 
         SmartDashboard.setDefaultNumber("P", 100.0);
-        SmartDashboard.setDefaultNumber("I", 5.0);
+        SmartDashboard.setDefaultNumber("I", 2.0);
         SmartDashboard.setDefaultNumber("D", 0.0);
         SmartDashboard.setDefaultNumber("Max Arm V", 8.0);
     }
@@ -122,7 +122,7 @@ public class ArmTestRobot extends TimedRobot
         {
             // Use right stick 'forward' for 'up', extend arm 'out'
             final double joystick = MathUtil.applyDeadband(-OperatorInterface.joystick.getRightY(), 0.05);
-            final double voltage = joystick * ActiveArm.MAX_VOLTAGE;
+            final double voltage = joystick * 0.5 * ActiveArm.MAX_VOLTAGE;
             SmartDashboard.putNumber("Extender Voltage", voltage); 
             arm.setExtenderVoltage(voltage);
         }

@@ -40,7 +40,7 @@ public class ActiveArm
     public static final double MAX_EXTENSION = 0.72;
 
     /** Suggested voltage for moving extender, must be positive */
-    public static final double EXTENDER_VOLTAGE = 2.0;
+    public static final double EXTENDER_VOLTAGE = 1.5;
 
     // Could also try sysId tool for "elevator?"
     
@@ -54,9 +54,9 @@ public class ActiveArm
     public static double MAX_VOLTAGE = 8.0;
     
     /** PID for extension */
-    private final ProfiledPIDController extension_pid = new ProfiledPIDController(100.0, 5.0, 0,
+    private final ProfiledPIDController extension_pid = new ProfiledPIDController(100.0, 2.0, 0,
                         // Maximum speed [m/s] and acceleration [m/s/s]:
-                        new TrapezoidProfile.Constraints(0.7, 0.7));
+                        new TrapezoidProfile.Constraints(0.5, 0.5));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch
