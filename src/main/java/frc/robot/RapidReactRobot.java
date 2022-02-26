@@ -170,7 +170,7 @@ public class RapidReactRobot extends TimedRobot
             ball_handling.shoot();
             
         // ****** Climbing *****************
-        // TODO Remove homing, it'll be done in auto
+        // TODO Replace with ManualClimbCommand
         if (OperatorInterface.joystick.getYButton())
             climber.homing();
         else
