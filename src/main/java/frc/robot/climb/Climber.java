@@ -26,6 +26,12 @@ public class Climber extends SubsystemBase
     {
         passive.setAngle(down);
     }
+    
+    /** @return Is arm down? */
+    public boolean getAngle()
+    {
+        return passive.getAngle();
+    }
 
     /** Perform homing operation
      * 
@@ -39,6 +45,13 @@ public class Climber extends SubsystemBase
         final boolean left_homed = left_active.homing();
         final boolean right_homed = right_active.homing();
         return left_homed && right_homed;
+    }
+
+    /** @param voltage Entender voltage, positive for "out" */
+    public void setExtenderVoltage(final double voltage)
+    {
+        left_active.setExtenderVoltage(voltage);
+        right_active.setExtenderVoltage(voltage);
     }
 
     /** @param extension Desired extension in meters */
