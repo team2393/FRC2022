@@ -14,6 +14,7 @@ import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.cargo.BallHandling;
+import frc.robot.climb.ActiveArm;
 import frc.robot.climb.Climber;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
@@ -32,7 +33,7 @@ public class RapidReactRobot extends TimedRobot
 
     public final Pneumatics pneumatics = new Pneumatics();
 
-    // TODO public final Climber climber = new Climber();
+    public final Climber climber = new Climber();
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -96,9 +97,8 @@ public class RapidReactRobot extends TimedRobot
     {
         drivetrain.reset();
         auto_shift.cancel();
-
+        climber.reset();
         // TODO Is there more to reset?
-        // TODO climber.reset();
     }
 
     /** This function is called all the time regardless of mode. */
@@ -142,6 +142,7 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
+        // ****** Driving *****************
         // GUI can select camera_drive.
         // If that's not running, re-schedule the plain joydrive
         if (! camera_drive.isScheduled())
@@ -156,6 +157,7 @@ public class RapidReactRobot extends TimedRobot
             // auto_shift.cancel();
             drivetrain.shiftgear(false);
 
+        // ****** Shooting (but peaceful) *****************
         ball_handling.reverse(OperatorInterface.reverseIntake());
 
         if (OperatorInterface.toggleLoading())
@@ -166,6 +168,25 @@ public class RapidReactRobot extends TimedRobot
     
         if (OperatorInterface.doShoot())
             ball_handling.shoot();
+            
+        // ****** Climbing *****************
+        // TODO Remove homing, it'll be done in auto
+        if (OperatorInterface.joystick.getYButton())
+            climber.homing();
+        else
+        {
+            if (OperatorInterface.joystick.getLeftBumper())
+            {
+                // Use Joystick to set 0 .. MAX_EXTENSION
+                double desired_extension = ActiveArm.MAX_EXTENSION * (0.5-OperatorInterface.joystick.getRightY() * 0.5);
+                climber.setExtension(desired_extension);
+            }
+            else
+               climber.setExtenderVoltage(0.0);    
+        }
+    
+        if (OperatorInterface.toggleArmAngle())
+            climber.setAngle(! climber.getAngle());
     }
 
     /** This function is called when entering auto-no-mouse mode */
@@ -188,6 +209,6 @@ public class RapidReactRobot extends TimedRobot
         // Typically empty since it's all done
         // within the command started in autonomousInit()...
 
-        // TODO climber.homing();
+        climber.homing();
     }
 }

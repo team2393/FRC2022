@@ -37,7 +37,7 @@ public class ActiveArm
     private static final double EXTENDER_COUNTS_PER_METER = 164260 / 0.73;
 
     /** Maximum extension in meters. Set to 0.0 to ignore */
-    public static final double MAX_EXTENSION = 0.72;
+    public static final double MAX_EXTENSION = 0.90;
 
     /** Suggested voltage for moving extender, must be positive */
     public static final double EXTENDER_VOLTAGE = 1.5;
