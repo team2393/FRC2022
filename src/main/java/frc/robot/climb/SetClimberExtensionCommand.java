@@ -3,26 +3,32 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.climb;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** Set Climber to fixed extension */
+/** Set Climber to fixed extension
+ *  (but allow editing that value via dashboard)
+ */
 public class SetClimberExtensionCommand extends CommandBase
 {
-    // Could shorten this as RunCommand(() -> climber.setExtension(extension), climber);
-
     private final Climber climber;
-    private final double extension;
+    private final NetworkTableEntry setting;
 
-    public SetClimberExtensionCommand(final Climber climber, final double extension)
+    public SetClimberExtensionCommand(final Climber climber, final String setting_name, final double extension)
     {
         this.climber = climber;
-        this.extension = extension;
         addRequirements(climber);
+
+        // Publish initial/default value on dashboard ..
+        setting = SmartDashboard.getEntry(setting_name);
+        setting.setDefaultDouble(extension);
     }
 
     @Override
     public void execute()
     {
-        climber.setExtension(extension);    
+        // .. and use the value that's now on the DB
+        climber.setExtension(setting.getDouble(0.0));
     }
 }
