@@ -15,8 +15,9 @@ import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.cargo.BallHandling;
-import frc.robot.climb.ActiveArm;
 import frc.robot.climb.Climber;
+import frc.robot.climb.ManualClimbCommand;
+import frc.robot.climb.SetClimberExtensionCommand;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
@@ -37,6 +38,11 @@ public class RapidReactRobot extends TimedRobot
     private final PowerDistribution power = new PowerDistribution();
 
     public final Climber climber = new Climber();
+    
+    private final CommandBase manual_climb = new ManualClimbCommand(climber);
+    private final CommandBase climb_low = new SetClimberExtensionCommand(climber, "Arm Low", 0.0);    
+    private final CommandBase climb_mid = new SetClimberExtensionCommand(climber, "Arm Mid", 0.4);    
+    private final CommandBase climb_high = new SetClimberExtensionCommand(climber, "Arm High", 0.8);    
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -177,23 +183,17 @@ public class RapidReactRobot extends TimedRobot
             ball_handling.shoot();
             
         // ****** Climbing *****************
-        // TODO Replace with ManualClimbCommand
-        if (OperatorInterface.joystick.getYButton())
-            climber.homing();
-        else
-        {
-            if (OperatorInterface.joystick.getLeftBumper())
-            {
-                // Use Joystick to set 0 .. MAX_EXTENSION
-                double desired_extension = ActiveArm.MAX_EXTENSION * (0.5-OperatorInterface.joystick.getRightY() * 0.5);
-                climber.setExtension(desired_extension);
-            }
-            else
-               climber.setExtenderVoltage(0.0);    
-        }
-    
-        if (OperatorInterface.toggleArmAngle())
-            climber.setAngle(! climber.getAngle());
+        if (OperatorInterface.armManualPressed())
+            manual_climb.schedule();
+        
+        if (OperatorInterface.armHighPressed())
+            climb_high.schedule();
+        
+        if (OperatorInterface.armMidPressed())
+            climb_mid.schedule();
+
+        if (OperatorInterface.armLowPressed())
+            climb_low.schedule();
     }
 
     /** This function is called when entering auto-no-mouse mode */

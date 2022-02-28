@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 /** Everything related to the 'operator interface'
@@ -12,6 +13,7 @@ public class OperatorInterface
 {
     /** Controller used by primary driver */
     public static final XboxController joystick = new XboxController(0);
+    public static final GenericHID buttons = new GenericHID(1);
 
     public static void reset()
     {
@@ -22,6 +24,9 @@ public class OperatorInterface
         joystick.getXButtonPressed();
         joystick.getYButtonPressed();
         joystick.getRightBumperPressed();
+
+        for (int i=1; i<9; ++i)
+            buttons.getRawButtonPressed(i);
     }
 
     /** @return Speed that driver requests, -1..1, positive is "forward" (Left stick for/back) */
@@ -90,5 +95,25 @@ public class OperatorInterface
         else if (joystick.getPOV() == 180)
             return -1.0;
         return 0.0;
+    }
+
+    public static boolean armManualPressed()
+    {
+        return buttons.getRawButtonPressed(3);
+    }
+
+    public static boolean armHighPressed()
+    {
+        return buttons.getRawButtonPressed(8);
+    }
+
+    public static boolean armMidPressed()
+    {
+        return buttons.getRawButtonPressed(5);
+    }
+
+    public static boolean armLowPressed()
+    {
+        return buttons.getRawButtonPressed(4);
     }
 }

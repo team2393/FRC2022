@@ -71,6 +71,34 @@
                 }
               }
             }
+          },
+          "5,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "Climber",
+              "Layout/Label position": "TOP",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Arm High",
+                  "_title": "High"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Arm Mid",
+                  "_title": "Mid"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Arm Low",
+                  "_title": "Low"
+                }
+              ]
+            }
           }
         }
       }
@@ -462,8 +490,8 @@
     }
   ],
   "windowGeometry": {
-    "x": -4.800000190734863,
-    "y": 142.8000030517578,
+    "x": 12.0,
+    "y": 168.0,
     "width": 1548.800048828125,
     "height": 685.5999755859375
   }
