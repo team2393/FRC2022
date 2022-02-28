@@ -27,7 +27,7 @@ public class ActiveArm
 
     /** When homing, we stop the motor when is_retracted indicates
      *  that we reached the home position.
-     *  But in spite of 'brake' mode on the motor, the gears' intertia
+     *  But in spite of 'brake' mode on the motor, the gears' inertia
      *  keeps us moving a little further, often beyond the limit switch.
      *  This flag latches the 'homed' state so we stay stopped. 
      */
@@ -102,7 +102,7 @@ public class ActiveArm
      */
     public boolean homing()
     {
-        // Hitting limit swtich for the first time?
+        // Hitting limit switch for the first time?
         if (! latched_home  &&  isRetracted())
         {   // Set 'home' loation == zero
             extender.setSelectedSensorPosition(0);
@@ -133,6 +133,9 @@ public class ActiveArm
                 extender.setVoltage(voltage);
             else
                 extender.setVoltage(0);
+            // After moving 'up' we could re-home
+            if (voltage > 0)
+                latched_home = false;
         }
         else
         {   // Moving in: Stop when at limit
