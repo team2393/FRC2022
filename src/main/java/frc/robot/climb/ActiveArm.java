@@ -29,10 +29,13 @@ public class ActiveArm
      *  that we reached the home position.
      *  But in spite of 'brake' mode on the motor, the gears' inertia
      *  keeps us moving a little further, often beyond the limit switch.
-     *  This flag latches the 'homed' state so we stay stopped. 
+     *  This flag latches the 'at limit' state so we stay stopped. 
      */
-    private boolean latched_home = false;
- 
+    private boolean latch_retracted = false;
+
+    /** Have we homed? */
+    private boolean homed = false;
+
     /** Extender encoder counts per meter */
     private static final double EXTENDER_COUNTS_PER_METER = 164260 / 0.73;
 
@@ -82,7 +85,7 @@ public class ActiveArm
     public void reset()
     {
         extension_pid.reset(getExtension());
-        latched_home = false;
+        latch_retracted = homed = false;
     }
 
     /** @return Is arm extension all the way "in", fully retracted? */
@@ -103,19 +106,17 @@ public class ActiveArm
     public boolean homing()
     {
         // Hitting limit switch for the first time?
-        if (! latched_home  &&  isRetracted())
+        if (! homed  &&  isRetracted())
         {   // Set 'home' loation == zero
             extender.setSelectedSensorPosition(0);
             extension_pid.reset(0);
             // Remember that we hit home
-            latched_home = true;
+            homed = true;
         }
-        if (latched_home)
+        if (homed || latch_retracted)
         {   // From now on, don't move further down
             // (but gearbox inertia might push us a little further)
             setExtenderVoltage(0);
-            // TODO Does this make a difference wrt braking?
-            // extender.stopMotor();
             return true;
         }
         
@@ -128,19 +129,22 @@ public class ActiveArm
     {
         if (voltage >= 0)
         {   // Moving out: Check that we stay below max extension
-            // (ignore when  max. is not configured)
+            // (ignore when max. is not configured)
             if (MAX_EXTENSION <= 0.0  ||  getExtension() < MAX_EXTENSION)
                 extender.setVoltage(voltage);
             else
                 extender.setVoltage(0);
-            // After moving 'up' we could re-home
-            if (voltage > 0)
-                latched_home = false;
+            // Reset retraction latch after moving 'up' at some min. speed
+            if (voltage > 0.5)
+                latch_retracted = homed = false;
         }
         else
         {   // Moving in: Stop when at limit
-            if (isRetracted())
+            if (latch_retracted  ||  isRetracted())
+            {   // Remember that we were at limit even if we run over the switch
+                latch_retracted = true;
                 extender.setVoltage(0);
+            }
             else
                 extender.setVoltage(voltage);
         }
