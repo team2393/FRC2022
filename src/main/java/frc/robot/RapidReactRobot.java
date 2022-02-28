@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +33,8 @@ public class RapidReactRobot extends TimedRobot
     private final Drivetrain drivetrain = new Drivetrain(ball_handling.pigeon_carrier);
 
     public final Pneumatics pneumatics = new Pneumatics();
+
+    private final PowerDistribution power = new PowerDistribution();
 
     public final Climber climber = new Climber();
 
@@ -66,6 +69,10 @@ public class RapidReactRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Rapid React *****");
+
+        // Reset power distribution hub
+        power.clearStickyFaults();
+        power.resetTotalEnergy();
 
         // Populate and publish autonomous options
         AutoOptions.populate(auto_options, drivetrain);
