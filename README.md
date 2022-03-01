@@ -55,14 +55,14 @@ February
  * Test each component, add functional software for each subsystem to overall robot code
    * DriveTrainTestRobot: After deploying, use Phoenix tuner to locate all motors.
      Basic drive test.
-     Check if "shifting" result in indications on pneumatic module.
-     May defer actual pneumatics as well as autonomous part to later.
    * ManualIntakeTestRobot: Open/close, pull in ball
    * PneumaticHubTestRobot: Does compressor turn on? Check pressure indication
    * SpinnerTestRobot: Speed
    * ManualBallHandling: Move ball, eject, detect ejection, determine location for sensors
    * BallHandlingTestRobot: Take balls in automatically, spin up to eject, eject, keep spinner on for 2 secs, ..., reverse to de-clog
    * ArmTestRobot: Move arm, test limit switch, calibrate extension length, tune PID
+   * RapidReactRobot: Enable AutoShiftCommand, test it
+   * BallHandlingTestRobot: Test ball eject detection
   
 March
 
