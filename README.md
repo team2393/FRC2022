@@ -70,10 +70,18 @@ March
  * Competitions
 
 
-Raspberry Pi
-------------
+Radio
+-----
 
-http://10.29.93.36, see also FRC2022Pi repo
+Connect power to network hub.
+Plug USB/Ethernet adapter into laptop and hub.
+Connect radio to hub, but not, yet, power.
+Right-click wifi indicator in toolbar, "Open Network & Internet Settings", "Change adapter options",
+disable all but the USB/Ethernet adapter.
+Start FRC radio configuration tool as administrator.
+Configure team 2393, "Load Firmware", connect power to radio.
+On success, enter "Robot Name" and press "Configure".
+
 
 Limelight
 ---------
@@ -83,6 +91,13 @@ Initially, access as http://limelight.local:5801/
 "Front" Camera:
 Set IP address to 10.23.93.62, allowing access as http://10.23.93.62:5801/, and change name to "limelight-front".
 Example pipelines are in limelight folder. Load "Drive" to front camera.
+
+
+Raspberry Pi
+------------
+
+http://10.29.93.36, see also FRC2022Pi repo
+
 
 Profiling
 ---------
