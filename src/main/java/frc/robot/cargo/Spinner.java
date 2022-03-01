@@ -14,6 +14,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.util.CycleDelayFilter;
 import frc.robot.util.KeepOnFilter;
 
 /** Spinner used to eject balls */
@@ -110,6 +111,7 @@ public class Spinner extends SubsystemBase
     private final LinearFilter change_filter = LinearFilter.backwardFiniteDifference(1, 2, 0.02);
 
     // Remember that we saw a ball get ejected for a little while
+    private final CycleDelayFilter delay = new CycleDelayFilter(2);
     private final KeepOnFilter remember_shot = new KeepOnFilter(0.2);
 
     /** @return Change in motor current */
@@ -128,7 +130,7 @@ public class Spinner extends SubsystemBase
     {
         // TODO Try drop in RPM vs. jump in current
         // TODO Check Math.abs(...)?
-        final boolean ejected = remember_shot.compute(Math.abs(getCurrentChange()) > 1.0);
+        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 1.0));
         SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
         return ejected; 
     }

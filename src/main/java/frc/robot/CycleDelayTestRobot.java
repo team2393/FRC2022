@@ -12,6 +12,12 @@ public class CycleDelayTestRobot extends TimedRobot
 {
     // Expected to give 2-cycle delay
     private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.04);
+
+    @Override
+    public void robotInit()
+    {
+        System.out.println("*** Cycle Delay Test Robot");
+    }
     
     @Override
     public void teleopPeriodic()
