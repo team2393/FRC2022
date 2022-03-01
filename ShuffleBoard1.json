@@ -108,7 +108,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Pressure",
-              "_title": "/SmartDashboard/Pressure"
+              "_title": "SmartDashboard/Pressure"
             }
           }
         }
@@ -365,135 +365,6 @@
               "_type": "Command",
               "_source0": "network_table:///SmartDashboard/Camera Drive",
               "_title": "Camera Drive"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Motor",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 64.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "0,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "PID Controller",
-              "_source0": "network_table:///SmartDashboard/Speed PID",
-              "_title": "/SmartDashboard/Speed PID"
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Revs per sec",
-              "_title": "/SmartDashboard/Revs per sec"
-            }
-          },
-          "5,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "PID Controller",
-              "_source0": "network_table:///SmartDashboard/Position PID",
-              "_title": "/SmartDashboard/Position PID"
-            }
-          },
-          "10,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Revs",
-              "_title": "SmartDashboard/Revs",
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
-            }
-          },
-          "13,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Revs",
-              "_title": "/SmartDashboard/Revs"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Pigeon",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 64.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "0,0": {
-            "size": [
-              3,
-              4
-            ],
-            "content": {
-              "_type": "Grid Layout",
-              "_title": "Pigeon",
-              "Layout/Number of columns": 1,
-              "Layout/Number of rows": 5,
-              "Layout/Label position": "LEFT",
-              "_children": {
-                "0,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Heading",
-                  "_title": "Heading"
-                },
-                "0,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Yaw",
-                  "_title": "Yaw"
-                },
-                "0,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Pitch",
-                  "_title": "Pitch"
-                },
-                "0,3": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Roll",
-                  "_title": "Roll"
-                },
-                "0,4": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Temperature",
-                  "_title": "SmartDashboard/Temperature"
-                }
-              }
             }
           }
         }
