@@ -266,14 +266,13 @@ public class BallHandling extends SubsystemBase
         }
         if (shooter_state == ShooterStates.SHOOTING)
         {   // Did we eject a ball?
-            // TODO Enable after calibrating ejection test
-            // if (ball_ejected)
-            // {
-            //     shooter_state = ShooterStates.IDLE;
-            //     System.out.println("Shot!");
-            //     spinner_endtime = keep_spinner_running ? 0 : Timer.getFPGATimestamp() + SPINNER_CONTINUE;
-            // }
-            // else
+            if (ball_ejected)
+            {
+                shooter_state = ShooterStates.IDLE;
+                System.out.println("Shot!");
+                spinner_endtime = keep_spinner_running ? 0 : Timer.getFPGATimestamp() + SPINNER_CONTINUE;
+            }
+            else
              if (shot_timer.hasElapsed(SHOT_TIMEOUT))
             {
                 shooter_state = ShooterStates.IDLE;

@@ -111,8 +111,8 @@ public class Spinner extends SubsystemBase
     private final LinearFilter change_filter = LinearFilter.backwardFiniteDifference(1, 2, 0.02);
 
     // Remember that we saw a ball get ejected for a little while
-    private final CycleDelayFilter delay = new CycleDelayFilter(2);
-    private final KeepOnFilter remember_shot = new KeepOnFilter(0.2);
+    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.5);
+    private final KeepOnFilter remember_shot = new KeepOnFilter(0.5);
 
     /** @return Change in motor current */
     private double getCurrentChange()
@@ -130,7 +130,7 @@ public class Spinner extends SubsystemBase
     {
         // TODO Try drop in RPM vs. jump in current
         // TODO Check Math.abs(...)?
-        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 1.0));
+        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 5.0));
         SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
         return ejected; 
     }
