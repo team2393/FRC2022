@@ -17,7 +17,7 @@ import frc.robot.RobotMap;
 public class BallHandling extends SubsystemBase
 {
     // TODO Determine good voltages
-    public static final double INTAKE_VOLTAGE = 4.0;
+    public static final double INTAKE_VOLTAGE = 6.0;
     public static final double CONVEYOR_VOLTAGE = 3.0;
     public static final double FEEDER_VOLTAGE = 3.0;
     
@@ -289,6 +289,10 @@ public class BallHandling extends SubsystemBase
     {
         final boolean have_all_balls = ball_in_conveyor  &&  ball_in_feeder;
         final boolean have_single_ball_to_move = ball_in_conveyor  &&  !ball_in_feeder;
+
+        // Automatically close intake when we have 2 balls
+        if (have_all_balls)
+            load_state = LoadStates.NOT_LOADING;
 
         // Intake: Open while loading
         intake_arm.set(load_state == LoadStates.LOADING);

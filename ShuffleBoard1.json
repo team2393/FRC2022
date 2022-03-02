@@ -110,6 +110,39 @@
               "_source0": "network_table:///SmartDashboard/Pressure",
               "_title": "Pressure"
             }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/SpinnerSetpoint",
+              "_title": "Spinner Set"
+            }
+          },
+          "7,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/High",
+              "_title": "Aim High"
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Spinner RPS",
+              "_title": "Spinner RPS"
+            }
           }
         }
       }
@@ -373,8 +406,8 @@
   ],
   "windowGeometry": {
     "x": 12.0,
-    "y": 168.0,
+    "y": 229.60000610351562,
     "width": 1548.800048828125,
-    "height": 685.5999755859375
+    "height": 624.0
   }
 }
