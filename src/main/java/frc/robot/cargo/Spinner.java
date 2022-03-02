@@ -101,14 +101,10 @@ public class Spinner extends SubsystemBase
         return primary.getStatorCurrent();
     }
 
-    // TODO How to best detect drop in motor current?
     // High pass filter shows change in value, any change slower than 0.1 seconds are ignored.
     // This filters out small changes, but rapid drop in current as ball is ejected
     // gets detected.
     private final LinearFilter highpass = LinearFilter.highPass(0.1, 0.02);
-    // Filter computes first derivative, i.e. (this_reading - last_reading),
-    // for last two samples
-    private final LinearFilter change_filter = LinearFilter.backwardFiniteDifference(1, 2, 0.02);
 
     // Remember that we saw a ball get ejected for a little while
     private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.5);

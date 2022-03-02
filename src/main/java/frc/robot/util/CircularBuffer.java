@@ -53,6 +53,7 @@ public class CircularBuffer<T>
   /** Create circular buffer
    *  @param capacity Number of items the buffer can hold before it replaces older items
    */
+  @SuppressWarnings("unchecked")
   public CircularBuffer(final int capacity)
   {
     items = (T[]) new Object[capacity];

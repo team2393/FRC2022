@@ -115,7 +115,7 @@ public class TrajectoryViewer
     public static void main(String[] args) throws Exception
     {
         // Segment moves forward and turns left
-        Trajectory segment = TrajectoryHelper.createTrajectory(true, 1, 0, 90);
+        // Trajectory segment = TrajectoryHelper.createTrajectory(true, 1, 0, 90);
 
         // Concatenate into 4 times total -> square (but moving 'outside' to end with heading 90, 180, 270, 0)
         // Trajectory trajectory = segment;
