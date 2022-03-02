@@ -1,3 +1,6 @@
+// Copyright (c) Team 2393, FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 package frc.robot.cargo;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -246,7 +249,7 @@ public class BallHandling extends SubsystemBase
             shot_requested = false;
         }
         if (shooter_state == ShooterStates.SPINUP)
-        {   // Is spinner fast enough?    TODO Find good threshold. Is it 95%??
+        {   // Is spinner fast enough?
             if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("SpinnerSetpoint", 0.0))
             {
                 shooter_state = ShooterStates.SHOOTING;
