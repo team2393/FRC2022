@@ -6,7 +6,6 @@ package frc.robot.climb;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OperatorInterface;
 
 /** Set Climber to fixed extension
  *  (but allow editing that value via dashboard)
@@ -31,8 +30,5 @@ public class SetClimberExtensionCommand extends CommandBase
     {
         // .. and use the value that's now on the DB
         climber.setExtension(setting.getDouble(0.0));
-
-        if (OperatorInterface.toggleArmAngle())
-            climber.setAngle(! climber.getAngle());
     }
 }
