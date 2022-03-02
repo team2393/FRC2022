@@ -20,7 +20,6 @@ import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
 import frc.robot.led.SetColorCommand;
 import frc.robot.led.ShootIndicatorCommand;
-import frc.robot.led.SpeedIndicatorCommand;
 import frc.robot.led.TrafficLightCommand;
 
 /** Robot that tests LED strip */
