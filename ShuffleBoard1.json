@@ -108,7 +108,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Pressure",
-              "_title": "SmartDashboard/Pressure"
+              "_title": "Pressure"
             }
           }
         }

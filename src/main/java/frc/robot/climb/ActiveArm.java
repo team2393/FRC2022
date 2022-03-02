@@ -59,7 +59,7 @@ public class ActiveArm
     /** PID for extension */
     private final ProfiledPIDController extension_pid = new ProfiledPIDController(100.0, 2.0, 0,
                         // Maximum speed [m/s] and acceleration [m/s/s]:
-                        new TrapezoidProfile.Constraints(0.5, 0.5));
+                        new TrapezoidProfile.Constraints(0.4, 0.4));
     
     /** @param motor_id CAN ID of motor
      *  @param limit_id DIO channel of limit switch
