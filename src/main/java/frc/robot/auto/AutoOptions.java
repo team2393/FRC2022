@@ -32,24 +32,23 @@ public class AutoOptions
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
         auto_options.addOption("Forward",
-            drivetrain.createTrajectoryCommand(true, 1, 0, 0));
+            drivetrain.createTrajectoryCommand(1, 0, 0));
 
         auto_options.addOption("DelayedForwardAndTurn",
             new SequentialCommandGroup(
                 new WaitCommand(2.0),
-                drivetrain.createTrajectoryCommand(true, 1, 0, 45)
+                drivetrain.createTrajectoryCommand(1, 0, 45)
             ));
 
         auto_options.addOption("Round",
-            drivetrain.createTrajectoryCommand(true,
-                                               3, 0, 45,
+            drivetrain.createTrajectoryCommand(3, 0, 45,
                                                3, 1, 135,
                                                0, 1, 225,
                                                0, 0, 0));
 
         {
             // 1m forward
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(true, 1, 0, 0);
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(1, 0, 0);
             // 1m back
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(false, -1, 0, 0));
@@ -66,7 +65,7 @@ public class AutoOptions
 
         {
             // ~1m forward and right
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(true, 1.3, -0.94, -90);
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(1.3, -0.94, -90);
             // ..and from there on ~1m back and left
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                                     TrajectoryHelper.createTrajectory(false, -1.3, 0.9, -90));

@@ -18,6 +18,19 @@ import frc.robot.drivetrain.Drivetrain;
 /** Helpers for dealing with trajectories */
 public class TrajectoryHelper
 {
+    /** Create forward-moving trajectory from points
+     * 
+     *  Trajectory starts at X=0, Y=0 and Heading = 0.
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
+     *  @param x_y_z Sequence of points { X, Y, Heading }
+     */
+    public static Trajectory createTrajectory(final double... x_y_h)
+    {
+        return createTrajectory(true, x_y_h);
+    }
+
     /** Create trajectory from points
      * 
      *  Trajectory starts at X=0, Y=0 and Heading = 0.

@@ -264,6 +264,19 @@ public class Drivetrain extends SubsystemBase
      *  Given list of points must contain entries x, y, h,
      *  i.e., total length of x_y_h array must be a multiple of 3.
      * 
+     *  @param x_y_h Sequence of points { X, Y, Heading }
+     */
+    public CommandBase createTrajectoryCommand(final double... x_y_h)
+    {
+        return createTrajectoryCommand(true, x_y_h);
+    }
+
+    /** Create a command that drives along a trajectory
+     * 
+     *  Trajectory starts at X=0, Y=0 and Heading = 0.
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
      *  @param forward Are we driving forward?
      *  @param x_y_h Sequence of points { X, Y, Heading }
      */
