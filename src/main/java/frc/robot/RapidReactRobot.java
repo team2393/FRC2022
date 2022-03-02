@@ -15,6 +15,7 @@ import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.cargo.BallHandling;
+import frc.robot.climb.ArmInOutCommand;
 import frc.robot.climb.Climber;
 import frc.robot.climb.ManualClimbCommand;
 import frc.robot.climb.SetClimberExtensionCommand;
@@ -43,6 +44,11 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase climb_low = new SetClimberExtensionCommand(climber, "Arm Low", 0.0);    
     private final CommandBase climb_mid = new SetClimberExtensionCommand(climber, "Arm Mid", 0.4);    
     private final CommandBase climb_high = new SetClimberExtensionCommand(climber, "Arm High", 0.8);    
+    private final CommandBase arm_out = new ArmInOutCommand(climber, true);
+    private final CommandBase arm_in = new ArmInOutCommand(climber, false);
+
+    // private final CommandBase arm_out = new InstantCommand(() -> climber.setAngle(true));
+    // private final CommandBase arm_in = new InstantCommand(() -> climber.setAngle(false));
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -194,6 +200,12 @@ public class RapidReactRobot extends TimedRobot
 
         if (OperatorInterface.armLowPressed())
             climb_low.schedule();
+
+        if (OperatorInterface.armInPressed())
+            arm_in.schedule();
+
+        if (OperatorInterface.armOutPressed())
+            arm_out.schedule();
     }
 
     /** This function is called when entering auto-no-mouse mode */

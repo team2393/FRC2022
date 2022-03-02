@@ -25,7 +25,7 @@ public class OperatorInterface
         joystick.getYButtonPressed();
         joystick.getRightBumperPressed();
 
-        for (int i=1; i<9; ++i)
+        for (int i=1; i<11; ++i)
             buttons.getRawButtonPressed(i);
     }
 
@@ -115,5 +115,15 @@ public class OperatorInterface
     public static boolean armLowPressed()
     {
         return buttons.getRawButtonPressed(4);
+    }
+    
+    public static boolean armInPressed()
+    {
+        return buttons.getRawButtonPressed(9);
+    }
+
+    public static boolean armOutPressed()
+    {
+        return buttons.getRawButtonPressed(10);
     }
 }
