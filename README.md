@@ -70,9 +70,10 @@ March
    * Test AsynchronousInterrupt for climber limit switches
    * SysId for drivetrain
    * Test autonomous moves
-   * RapidReactRobot: Enable AutoShiftCommand, test it
+   * Enable AutoShiftCommand, test it
+   * Commands on dashboard to configure 'LowGoalClose', 'LowGoalDist', 'HighGoal', ...
    * Test ClimbSequence, find button/switch assignments
-   * Create auto sequences for competiotion
+   * Create auto sequences for competition
  * Competitions
 
 
