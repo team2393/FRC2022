@@ -10,6 +10,13 @@ import frc.robot.OperatorInterface;
 public class WaitForNextStepCommand extends CommandBase 
 {
     @Override
+    public void initialize() 
+    {
+        // Clear latched button press to always wait for a _new_ button press
+        OperatorInterface.joystick.getYButtonPressed();
+    }
+
+    @Override
     public boolean isFinished()
     {
         // TODO Come up with better button
