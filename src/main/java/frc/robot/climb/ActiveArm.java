@@ -42,8 +42,8 @@ public class ActiveArm
     /** Maximum extension in meters. Set to 0.0 to ignore */
     public static final double MAX_EXTENSION = 0.90;
 
-    /** Suggested voltage for moving extender, must be positive */
-    public static final double EXTENDER_VOLTAGE = 1.5;
+    /** Suggested voltage for moving extender during homing, must be negative */
+    public static final double HOMING_VOLTAGE = -1.5;
 
     // Could also try sysId tool for "elevator?"
     
@@ -120,7 +120,7 @@ public class ActiveArm
             return true;
         }
         
-        setExtenderVoltage(-EXTENDER_VOLTAGE);
+        setExtenderVoltage(HOMING_VOLTAGE);
         return false;
     }    
 
