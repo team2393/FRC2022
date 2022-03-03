@@ -3,43 +3,32 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.cargo;
 
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** Command to shoot */
 public class ShootCommand extends CommandBase
 {
-    // TODO Change into InstantCommand for ball_handling.shoot();
-    private final Timer simulation = new Timer();
+    final private BallHandling ball_handling;
+
+    public ShootCommand(final BallHandling ball_handling)
+    {
+        this.ball_handling = ball_handling;
+    }
 
     @Override
     public void initialize()
     {
-        System.out.println("Preparing to shoot...");
-        // Start spinner..
-
-        simulation.reset();
-        simulation.start();
+        ball_handling.shoot();
     }
 
     @Override
     public void execute()
     {
-        // Check if spinner fast enough?
-        // Then run feeder until ball has been ejected?
     }
 
     @Override
     public boolean isFinished()
     {
-        // Are we done?
-        // Pretend it takes 2 seconds
-        if (simulation.hasElapsed(2.0))
-        {
-            System.out.println("Ejected ball");
-            return true;
-        }
-        return false;
+        return ball_handling.hasShot();
     }
 } 

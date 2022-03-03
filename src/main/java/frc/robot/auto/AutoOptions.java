@@ -54,11 +54,11 @@ public class AutoOptions
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(false, -1, 0, 0));
     
-            auto_options.addOption("ForwardAndBack",
+            auto_options.addOption("ForwardShootBack",
                 new SequentialCommandGroup(
                     drivetrain.createTrajectoryCommand(seg1),
                     new ParallelDeadlineGroup(
-                        new ShootCommand(),
+                        new ShootCommand(ball_handling),
                         new StayPutCommand(drivetrain)
                     ),
                     drivetrain.createTrajectoryCommand(seg2)));
@@ -76,7 +76,7 @@ public class AutoOptions
                     // See also ParallelRaceGroup(), ParallelDeadlineGroup()
                     // Use with StayPutCommand() to avoid motor timeouts!
                     new ParallelDeadlineGroup(
-                        new ShootCommand(),
+                        new ShootCommand(ball_handling),
                         new StayPutCommand(drivetrain)
                     ),
                     new ParallelCommandGroup(
@@ -85,7 +85,7 @@ public class AutoOptions
                     ),
                     new CloseIntakeCommand(ball_handling),
                     new ParallelDeadlineGroup(
-                        new ShootCommand(),
+                        new ShootCommand(ball_handling),
                         new StayPutCommand(drivetrain)
                     )
                 ));

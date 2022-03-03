@@ -331,4 +331,11 @@ public class BallHandling extends SubsystemBase
         else
             spinner.stop();
     }
+
+    public boolean hasShot()
+    {
+        // _after_ a shot has been requested, we should be _done_
+        // if the shot_requested has been cleared and the shooter returned to idle
+        return shot_requested == false  &&  shooter_state == ShooterStates.IDLE;
+    }
 }
