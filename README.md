@@ -73,6 +73,7 @@ March
    * Enable AutoShiftCommand, test it
    * Commands on dashboard to configure 'LowGoalClose', 'LowGoalDist', 'HighGoal', ...
    * Test ClimbSequence, find button/switch assignments
+   * Commands for ball handling: Open, close, eject
    * Create auto sequences for competition
  * Competitions
 
