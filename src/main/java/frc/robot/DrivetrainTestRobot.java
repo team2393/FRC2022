@@ -42,8 +42,8 @@ public class DrivetrainTestRobot extends TimedRobot
         SmartDashboard.setDefaultNumber("Desired Speed", 0.0);
 
         SmartDashboard.setDefaultNumber("P", 4.0);
-        SmartDashboard.setDefaultNumber("I", 0.4);
-        SmartDashboard.setDefaultNumber("D", 0.05);
+        SmartDashboard.setDefaultNumber("I", 0.0);
+        SmartDashboard.setDefaultNumber("D", 0.0);
     }
 
     @Override

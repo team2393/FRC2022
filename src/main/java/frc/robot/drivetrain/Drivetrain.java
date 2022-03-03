@@ -71,7 +71,7 @@ public class Drivetrain extends SubsystemBase
     // TODO Tune FF settings, then PID settings with actual robot
 
     /** FF for motor speed from SysId */
-    private static final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.54799, 3.8445, 0.19083);
+    private static final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.59652, 3.8354, 0.3057);
 
     /** PIDs for motor speed
      * 
@@ -83,12 +83,13 @@ public class Drivetrain extends SubsystemBase
      *  keeps track of the integral error and the last error, which can differ
      *  for the two sides.
      * 
-     *  SysId suggests 0.0091159, 0, 0
+     *  SysId suggests 0.0091159, 0, 0 (old)
+     *  SysId suggests Kp 4.5, Kd 0
      */
-    private final PIDController left_speed_pid = new PIDController(0, 0, 0),
-                                right_speed_pid = new PIDController(0, 0, 0);
+    private final PIDController left_speed_pid = new PIDController(4, 0, 0),
+                                right_speed_pid = new PIDController(4, 0, 0);
 
-    /** Maximum speed in meters/sec, acceleration in (m/s)/s */        
+    /** Maximum speed in meters/sec (actual max speed is ~2.8), acceleration in (m/s)/s */        
     public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
                                         .addConstraint(new CentripetalAccelerationConstraint(1.0))
      // TODO Limit voltage?             .addConstraint(new DifferentialDriveVoltageConstraint(speed_feedforward, kinematics, 8.0))
@@ -108,6 +109,7 @@ public class Drivetrain extends SubsystemBase
         // steps/rev / (steps/meter) =
         // steps * 1/rev * meters * 1/steps =
         // meters / rev
+        // 0.028300446684228608
         double meters_per_rev = 2048 / STEPS_PER_METER;
         System.out.println("Drivetrain meters per rev: " + meters_per_rev);
 
