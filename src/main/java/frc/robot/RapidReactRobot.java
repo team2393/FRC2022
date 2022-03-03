@@ -47,9 +47,9 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase climb_high = new SetClimberExtensionCommand(climber, "Arm High", 0.85);    
     private final CommandBase arm_out = new ArmInOutCommand(climber, true);
     private final CommandBase arm_in = new ArmInOutCommand(climber, false);
-
     // private final CommandBase arm_out = new InstantCommand(() -> climber.setAngle(true));
     // private final CommandBase arm_in = new InstantCommand(() -> climber.setAngle(false));
+    final private CommandBase climb_sequence = new ClimbSequence(climber);
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -105,7 +105,7 @@ public class RapidReactRobot extends TimedRobot
         SmartDashboard.putData(new ApplySettingsCommand("Aim High", "aim_high.dat"));
         SmartDashboard.putData(new ApplySettingsCommand("Aim Low", "aim_low.dat"));
 
-        SmartDashboard.putData(new ClimbSequence(climber));
+        SmartDashboard.putData(climb_sequence);
 
         // Camera support
         SmartDashboard.putData(camera_drive);
@@ -209,6 +209,12 @@ public class RapidReactRobot extends TimedRobot
 
         if (OperatorInterface.armOutPressed())
             arm_out.schedule();
+        
+        if (OperatorInterface.startClimbSequence())
+            climb_sequence.schedule();
+            
+        if (OperatorInterface.stopClimbSequence())
+            climb_sequence.cancel();
     }
 
     /** This function is called when entering auto-no-mouse mode */

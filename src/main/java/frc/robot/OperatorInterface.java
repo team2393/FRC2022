@@ -26,7 +26,10 @@ public class OperatorInterface
         joystick.getRightBumperPressed();
 
         for (int i=1; i<11; ++i)
+        {
             buttons.getRawButtonPressed(i);
+            buttons.getRawButtonReleased(i);
+        }
     }
 
     /** @return Speed that driver requests, -1..1, positive is "forward" (Left stick for/back) */
@@ -130,5 +133,15 @@ public class OperatorInterface
     public static boolean armOutPressed()
     {
         return buttons.getRawButtonPressed(10);
+    }
+
+    public static boolean startClimbSequence()
+    {
+        return buttons.getRawButtonPressed(1);
+    }
+
+    public static boolean stopClimbSequence()
+    {
+        return buttons.getRawButtonReleased(1);
     }
 }
