@@ -68,6 +68,11 @@
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Reset",
                   "_title": "/SmartDashboard/Reset"
+                },
+                "1,3": {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/Auto Shift",
+                  "_title": "Auto Shift"
                 }
               }
             }
