@@ -143,6 +143,17 @@
               "_source0": "network_table:///SmartDashboard/Spinner RPS",
               "_title": "Spinner RPS"
             }
+          },
+          "8,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Climb Sequence",
+              "_title": "Climb"
+            }
           }
         }
       }
