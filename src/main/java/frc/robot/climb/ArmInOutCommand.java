@@ -11,6 +11,9 @@ public class ArmInOutCommand extends CommandBase
     private final Climber climber;
     private final boolean in_or_out;
 
+    /** @param climber2 Climber to use
+     *  @param in_or_out true to move 'out'
+     */
     public ArmInOutCommand(final Climber climber, final boolean in_or_out)
     {
         this.climber = climber;

@@ -16,6 +16,7 @@ import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.cargo.BallHandling;
 import frc.robot.climb.ArmInOutCommand;
+import frc.robot.climb.ClimbSequence;
 import frc.robot.climb.Climber;
 import frc.robot.climb.ManualClimbCommand;
 import frc.robot.climb.SetClimberExtensionCommand;
@@ -103,6 +104,8 @@ public class RapidReactRobot extends TimedRobot
 
         SmartDashboard.putData(new ApplySettingsCommand("Aim High", "aim_high.dat"));
         SmartDashboard.putData(new ApplySettingsCommand("Aim Low", "aim_low.dat"));
+
+        SmartDashboard.putData(new ClimbSequence(climber));
 
         // Camera support
         SmartDashboard.putData(camera_drive);
