@@ -97,6 +97,11 @@ public class OperatorInterface
         return 0.0;
     }
 
+    public static boolean homing()
+    {
+        return joystick.getYButton();
+    }
+
     public static boolean armManualPressed()
     {
         return buttons.getRawButtonPressed(3);

@@ -20,7 +20,7 @@ public class ManualClimbCommand extends CommandBase
     @Override
     public void execute()
     {
-        if (OperatorInterface.joystick.getYButton())
+        if (OperatorInterface.homing())
             climber.homing();
         else
         {
