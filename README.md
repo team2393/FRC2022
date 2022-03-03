@@ -61,7 +61,6 @@ February
    * ManualBallHandling: Move ball, eject, detect ejection, determine location for sensors
    * BallHandlingTestRobot: Take balls in automatically, spin up to eject, eject, keep spinner on for 2 secs, ..., reverse to de-clog
    * ArmTestRobot: Move arm, test limit switch, calibrate extension length, tune PID
-   * RapidReactRobot: Enable AutoShiftCommand, test it
    * BallHandlingTestRobot: Test ball eject detection
   
 March
@@ -70,6 +69,7 @@ March
    * Test AsynchronousInterrupt for climber limit switches
    * SysId for drivetrain
    * Test autonomous moves
+   * RapidReactRobot: Enable AutoShiftCommand, test it
    * Test ClimbSequence, find better buttonn assignments
    * Create auto sequences for competiotion
  * Competitions
