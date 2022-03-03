@@ -67,6 +67,11 @@ February
 March
 
  * Robot practice runs, improvements, tuning
+   * Test AsynchronousInterrupt for climber limit switches
+   * SysId for drivetrain
+   * Test autonomous moves
+   * Test ClimbSequence, find better buttonn assignments
+   * Create auto sequences for competiotion
  * Competitions
 
 
