@@ -67,12 +67,12 @@ March
 
  * Robot practice runs, improvements, tuning
    * Fix IP of roboRIO
+   * Test ClimbSequence, find button/switch assignments
    * Test AsynchronousInterrupt for climber limit switches
    * SysId for drivetrain
    * Test autonomous moves
    * Enable AutoShiftCommand, test it
    * Commands on dashboard to configure 'LowGoalClose', 'LowGoalDist', 'HighGoal', ...
-   * Test ClimbSequence, find button/switch assignments
    * Commands for ball handling: Open, close, eject
    * Create auto sequences for competition
  * Competitions

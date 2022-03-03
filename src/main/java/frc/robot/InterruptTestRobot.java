@@ -10,12 +10,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 /** Robot to test interrupt */
 public class InterruptTestRobot extends TimedRobot
 {
-    private final DigitalInput input = new DigitalInput(7);
+    private final DigitalInput input = new DigitalInput(3);
     private final AsynchronousInterrupt interrupt = new AsynchronousInterrupt(input, this::irq);
     
     private void irq(Boolean rise, Boolean fall)
     {
-        System.out.println("Interrupt: rise=" + rise + ", fall = " + fall);
+        if (rise)
+            System.out.println("Interrupt: rise ^^^^^^^^^^^^^^");
+        if (fall)
+            System.out.println("Interrupt: fall \\/\\/\\/\\/\\/\\/\\/\\/");
     }
 
     @Override

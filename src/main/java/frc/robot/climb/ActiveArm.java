@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.AsynchronousInterrupt;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -23,7 +24,9 @@ public class ActiveArm
     private WPI_TalonFX extender;
 
     /** Sensor that detects full retraction */
-    private DigitalInput is_retracted;
+    private DigitalInput retraction_input;
+    private AsynchronousInterrupt retraction_interrupt;
+
 
     /** When homing, we stop the motor when is_retracted indicates
      *  that we reached the home position.
@@ -67,7 +70,9 @@ public class ActiveArm
     public ActiveArm(final int motor_id, final int limit_id)
     {
         extender = new WPI_TalonFX(motor_id);
-        is_retracted = new DigitalInput(limit_id);
+        retraction_input = new DigitalInput(limit_id);
+        retraction_interrupt = new AsynchronousInterrupt(retraction_input, this::handleIRQ);
+        retraction_interrupt.setInterruptEdges(false, true);
 
         extender.configFactoryDefault();
         extender.clearStickyFaults();
@@ -79,6 +84,12 @@ public class ActiveArm
         extender.configOpenloopRamp(1.0);
 
         reset();
+    }
+
+    private void handleIRQ(Boolean rising_edge, Boolean falling_edge)
+    {
+        if (falling_edge)
+            latch_retracted = true;
     }
 
     /** Reset to resting position, extender all "in" */
@@ -93,7 +104,7 @@ public class ActiveArm
     {
         // Reports true when not at limit or broken,
         // false when at limit
-        return is_retracted.get() == false;
+        return retraction_input.get() == false;
     }
 
     /** Perform homing operation
@@ -106,7 +117,7 @@ public class ActiveArm
     public boolean homing()
     {
         // Hitting limit switch for the first time?
-        if (! homed  &&  isRetracted())
+        if (! homed  &&  latch_retracted)
         {   // Set 'home' loation == zero
             extender.setSelectedSensorPosition(0);
             extension_pid.reset(0);
