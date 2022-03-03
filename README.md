@@ -66,11 +66,12 @@ February
 March
 
  * Robot practice runs, improvements, tuning
+   * Fix IP of roboRIO
    * Test AsynchronousInterrupt for climber limit switches
    * SysId for drivetrain
    * Test autonomous moves
    * RapidReactRobot: Enable AutoShiftCommand, test it
-   * Test ClimbSequence, find better buttonn assignments
+   * Test ClimbSequence, find button/switch assignments
    * Create auto sequences for competiotion
  * Competitions
 
