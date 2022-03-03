@@ -49,7 +49,7 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase arm_in = new ArmInOutCommand(climber, false);
     // private final CommandBase arm_out = new InstantCommand(() -> climber.setAngle(true));
     // private final CommandBase arm_in = new InstantCommand(() -> climber.setAngle(false));
-    final private CommandBase climb_sequence = new ClimbSequence(climber);
+    final private CommandBase climb_sequence = new ClimbSequence(climber, ball_handling);
 
     /** Camera info client */
     private GuessingUDPClient camera = new GuessingUDPClient();
@@ -88,7 +88,7 @@ public class RapidReactRobot extends TimedRobot
         power.resetTotalEnergy();
 
         // Populate and publish autonomous options
-        AutoOptions.populate(auto_options, drivetrain);
+        AutoOptions.populate(auto_options, drivetrain, ball_handling);
         SmartDashboard.putData("Auto Options", auto_options);
 
         // Handle the drivetrain via commands.

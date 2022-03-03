@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.CloseIntakeCommand;
 import frc.robot.cargo.OpenIntakeCommand;
 import frc.robot.cargo.ShootCommand;
@@ -25,7 +26,8 @@ public class AutoOptions
      *  @param drivetrain Drivetrain to use for moves
      */
     public static void populate(SendableChooser<CommandBase> auto_options,
-                                final Drivetrain drivetrain)
+                                final Drivetrain drivetrain,
+                                final BallHandling ball_handling)
     {
         // First list the default option that does nothing
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
@@ -78,10 +80,10 @@ public class AutoOptions
                         new StayPutCommand(drivetrain)
                     ),
                     new ParallelCommandGroup(
-                        new OpenIntakeCommand(),
+                        new OpenIntakeCommand(ball_handling),
                         drivetrain.createTrajectoryCommand(seg2)
                     ),
-                    new CloseIntakeCommand(),
+                    new CloseIntakeCommand(ball_handling),
                     new ParallelDeadlineGroup(
                         new ShootCommand(),
                         new StayPutCommand(drivetrain)

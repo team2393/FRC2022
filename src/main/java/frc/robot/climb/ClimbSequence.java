@@ -5,14 +5,18 @@ package frc.robot.climb;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.cargo.BallHandling;
+import frc.robot.cargo.CloseIntakeCommand;
 
 /** Command sequence to half-automated climb */
 public class ClimbSequence extends SequentialCommandGroup
 {
-    public ClimbSequence(final Climber climber)
+    public ClimbSequence(final Climber climber, final BallHandling ball_handling)
     {
         setName("Climb Sequence");
         addCommands(
+            new CloseIntakeCommand(ball_handling),
+
             // Up, then drive up to first rung
             new ParallelDeadlineGroup(
                 new WaitForNextStepCommand(),

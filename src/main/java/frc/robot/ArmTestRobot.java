@@ -108,7 +108,7 @@ public class ArmTestRobot extends TimedRobot
             if (arm.homing())
                 SmartDashboard.putNumber("Extender Voltage", 0);         
             else
-                SmartDashboard.putNumber("Extender Voltage", -ActiveArm.EXTENDER_VOLTAGE); 
+                SmartDashboard.putNumber("Extender Voltage", ActiveArm.HOMING_VOLTAGE); 
         }
         else if (OperatorInterface.joystick.getLeftBumper())
         {

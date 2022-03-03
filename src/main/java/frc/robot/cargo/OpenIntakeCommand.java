@@ -8,10 +8,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 /** Command to open intake */
 public class OpenIntakeCommand extends InstantCommand
 {
-    @Override
-    public void initialize()
+    public OpenIntakeCommand(final BallHandling ball_handling)
     {
-        System.out.println("Should open intake...");
-        // TODO ball_handling.load(true);
+        super(() -> ball_handling.load(true));
     }
 } 
