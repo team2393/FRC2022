@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -30,6 +31,9 @@ public class Spinner extends SubsystemBase
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.62408, 0.10847, 0.0044311);
     private final PIDController pid = new PIDController(0.09015, 0, 0);
 
+    private final NetworkTableEntry spinner_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
+    private final NetworkTableEntry spinner_rps = SmartDashboard.getEntry("Spinner RPS");
+
     public Spinner()
     {
         // Primary and secondary motors are on opposite sides of spinner,
@@ -43,7 +47,7 @@ public class Spinner extends SubsystemBase
 
         reset();
 
-        SmartDashboard.setDefaultNumber("SpinnerSetpoint", 10.0);
+        spinner_setpoint.setDefaultDouble(10.0);
     }
     
     /** @param motor Motor to initialize
@@ -117,17 +121,15 @@ public class Spinner extends SubsystemBase
         // Try different settings to find good current change threshold
         // for detecting ejected ball
         final double change = highpass.calculate(getCurrent());
-        SmartDashboard.putNumber("Spinner Current Change", change);
+        // SmartDashboard.putNumber("Spinner Current Change", change);
         return change;
     }
     
     /** @return Does current drop suggest a ball was ejected? */
     public boolean isBallEjected()
     {
-        // TODO Try drop in RPM vs. jump in current
-        // TODO Check Math.abs(...)?
         final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 5.0));
-        SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
+        // SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
         return ejected; 
     }
 
@@ -165,7 +167,6 @@ public class Spinner extends SubsystemBase
         // Use FF and PID to estimate voltage needed for that speed
         double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
 
-        // TODO Test if this is a good idea; find suitable slew rate and threshold
         if (state == State.STOPPED)
         {
             startup_slew.reset(0);
@@ -182,22 +183,27 @@ public class Spinner extends SubsystemBase
         voltage = MathUtil.clamp(voltage, -12.0, 12.0);
         setVoltage(voltage);
     }
+
+    public double getSetpoint()
+    {
+        return spinner_setpoint.getDouble(10.0);
+    }
     
     /** Run at "SpinnerSetpoint" RPS */
     public void run()
     {
-        setSpeed(SmartDashboard.getNumber("SpinnerSetpoint", 0.0));
+        setSpeed(getSetpoint());
     }
 
     @Override
     public void periodic()
     {
         final double speed = getSpeed();
-        SmartDashboard.putNumber("Spinner RPS", speed);
-        // TODO Remove items as they're no longer necessary
-        SmartDashboard.putNumber("Spinner RPM", speed * 60.0);
-        SmartDashboard.putNumber("Spinner Rev", getPosition());
-        SmartDashboard.putNumber("Spinner Voltage", getVoltage());
-        SmartDashboard.putNumber("Spinner Current", getCurrent());
+        spinner_rps.setDouble(speed);
+        // Remove items as they're no longer necessary
+        // SmartDashboard.putNumber("Spinner RPM", speed * 60.0);
+        // SmartDashboard.putNumber("Spinner Rev", getPosition());
+        // SmartDashboard.putNumber("Spinner Voltage", getVoltage());
+        // SmartDashboard.putNumber("Spinner Current", getCurrent());
     }
 } 

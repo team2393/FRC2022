@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -93,6 +94,9 @@ public class BallHandling extends SubsystemBase
 
     /** Timeout used for shot_requested */
     private static final double SHOT_TIMEOUT = 2.0;
+
+    private final NetworkTableEntry high = SmartDashboard.getEntry("High");
+
     
     public BallHandling()
     {
@@ -108,7 +112,7 @@ public class BallHandling extends SubsystemBase
         secondary_intake.follow(intake);
 
         // Allow control of shooter angle from smartboard
-        SmartDashboard.setDefaultBoolean("High", false);
+        high.setDefaultBoolean(false);
     }
 
     public static void initializeMotor(final WPI_TalonFX motor)
@@ -194,12 +198,12 @@ public class BallHandling extends SubsystemBase
         // Update indicators
         SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);
         SmartDashboard.putBoolean("Ball in Feeder", ball_in_feeder);
-        SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
-        SmartDashboard.putString("Load State", load_state.name());
-        SmartDashboard.putString("Shoot State", shooter_state.name());
+        // SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
+        // SmartDashboard.putString("Load State", load_state.name());
+        // SmartDashboard.putString("Shoot State", shooter_state.name());
 
         // Control shooter angle from dashboard
-        shooter_angle.set(SmartDashboard.getBoolean("High", false));
+        shooter_angle.set(high.getBoolean(false));
         
         // Update and handle states
         if (load_state == LoadStates.OFF)
@@ -242,7 +246,7 @@ public class BallHandling extends SubsystemBase
         if (shooter_state == ShooterStates.IDLE  &&  shot_requested)
         {   // From idle, start a shot on request
             shooter_state = ShooterStates.SPINUP;
-            System.out.println("Spinup...");
+            // System.out.println("Spinup...");
             spinup_timer.stop();
             spinup_timer.reset();
             spinup_timer.start();
@@ -250,10 +254,10 @@ public class BallHandling extends SubsystemBase
         }
         if (shooter_state == ShooterStates.SPINUP)
         {   // Is spinner fast enough?
-            if (spinner.getSpeed() >= 0.95*SmartDashboard.getNumber("SpinnerSetpoint", 0.0))
+            if (spinner.getSpeed() >= 0.95*spinner.getSetpoint())
             {
                 shooter_state = ShooterStates.SHOOTING;
-                System.out.println("Shooting...");
+                // System.out.println("Shooting...");
                 shot_timer.stop();
                 shot_timer.reset();
                 shot_timer.start();
@@ -272,7 +276,7 @@ public class BallHandling extends SubsystemBase
             if (ball_ejected)
             {
                 shooter_state = ShooterStates.IDLE;
-                System.out.println("Shot!");
+                // System.out.println("Shot!");
                 spinner_endtime = keep_spinner_running ? 0 : Timer.getFPGATimestamp() + SPINNER_CONTINUE;
             }
             else
