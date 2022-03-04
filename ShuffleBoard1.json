@@ -7,9 +7,9 @@
       "widgetPane": {
         "gridSize": 128.0,
         "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
+        "hgap": 10.0,
+        "vgap": 10.0,
+        "titleType": 1,
         "tiles": {
           "0,0": {
             "size": [
@@ -189,30 +189,30 @@
       }
     },
     {
-      "title": "Camera",
+      "title": "Cameras",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
-        "gridSize": 64.0,
+        "gridSize": 100.0,
         "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 1,
+        "hgap": 8.0,
+        "vgap": 8.0,
+        "titleType": 0,
         "tiles": {
-          "4,0": {
+          "7,0": {
             "size": [
-              9,
-              7
+              7,
+              5
             ],
             "content": {
               "_type": "Camera Stream",
-              "_source0": "camera_server://Processed",
-              "_title": "Processed",
+              "_source0": "camera_server://limelight-back",
+              "_title": "Back",
               "Crosshair/Show crosshair": false,
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": false,
               "Controls/Rotation": "NONE",
-              "compression": -1.0,
+              "compression": 91.41830065359481,
               "fps": -1,
               "imageWidth": -1,
               "imageHeight": -1
@@ -220,225 +220,21 @@
           },
           "0,0": {
             "size": [
-              4,
-              3
+              7,
+              5
             ],
             "content": {
-              "_type": "Grid Layout",
-              "_title": "Color",
-              "Layout/Number of columns": 3,
-              "Layout/Number of rows": 3,
-              "Layout/Label position": "TOP",
-              "_children": {
-                "0,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Center H",
-                  "_title": "Hue"
-                },
-                "1,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/HueMin",
-                  "_title": "Min"
-                },
-                "2,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/HueMax",
-                  "_title": "Max"
-                },
-                "0,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Center S",
-                  "_title": "Saturation"
-                },
-                "1,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/SatMin",
-                  "_title": "Min"
-                },
-                "2,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/SatMax",
-                  "_title": "Max"
-                },
-                "0,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Center V",
-                  "_title": "Value"
-                },
-                "1,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/ValMin",
-                  "_title": "Min"
-                },
-                "2,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/ValMax",
-                  "_title": "Max"
-                }
-              }
-            }
-          },
-          "0,3": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Grid Layout",
-              "_title": "Shape",
-              "Layout/Number of columns": 3,
-              "Layout/Number of rows": 5,
-              "Layout/Label position": "TOP",
-              "_children": {
-                "0,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Area",
-                  "_title": "Area"
-                },
-                "1,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/AreaMin",
-                  "_title": "Min"
-                },
-                "2,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/AreaMax",
-                  "_title": "Max"
-                },
-                "0,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Aspect",
-                  "_title": "Aspect Ratio"
-                },
-                "1,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/AspectMin",
-                  "_title": "Min"
-                },
-                "2,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/AspectMax",
-                  "_title": "Max"
-                },
-                "0,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Fullness",
-                  "_title": "Fullness"
-                },
-                "1,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/FullnessMin",
-                  "_title": "Min"
-                },
-                "2,2": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/FullnessMax",
-                  "_title": "Max"
-                },
-                "0,3": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Circularity",
-                  "_title": "Circularity"
-                },
-                "1,3": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/CircularityMin",
-                  "_title": "Min"
-                }
-              }
-            }
-          },
-          "13,0": {
-            "size": [
-              2,
-              3
-            ],
-            "content": {
-              "_type": "Grid Layout",
-              "_title": "Target",
-              "Layout/Number of columns": 1,
-              "Layout/Number of rows": 2,
-              "Layout/Label position": "TOP",
-              "_children": {
-                "0,0": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Direction",
-                  "_title": "Direction"
-                },
-                "0,1": {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Distance",
-                  "_title": "Distance"
-                }
-              }
-            }
-          },
-          "13,3": {
-            "size": [
-              3,
-              4
-            ],
-            "content": {
-              "_type": "Grid Layout",
-              "_title": "Settings",
-              "Layout/Number of columns": 1,
-              "Layout/Number of rows": 4,
-              "Layout/Label position": "HIDDEN",
-              "_children": {
-                "0,0": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Blue Cargo",
-                  "_title": "SmartDashboard/Blue Cargo"
-                },
-                "0,1": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Red Cargo",
-                  "_title": "SmartDashboard/Red Cargo"
-                },
-                "0,2": {
-                  "_type": "Toggle Button",
-                  "_source0": "network_table:///SmartDashboard/Camera Target Mode",
-                  "_title": "Target Mode"
-                },
-                "0,3": {
-                  "_type": "Toggle Button",
-                  "_source0": "network_table:///SmartDashboard/SetHSV",
-                  "_title": "SetHSV"
-                }
-              }
-            }
-          },
-          "16,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/rotate",
-              "_title": "rotate"
-            }
-          },
-          "16,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/VisRotGain",
-              "_title": "VisRotGain"
-            }
-          },
-          "16,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/Camera Drive",
-              "_title": "Camera Drive"
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight-front",
+              "_title": "Front",
+              "Crosshair/Show crosshair": false,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": false,
+              "Controls/Rotation": "NONE",
+              "compression": 96.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
             }
           }
         }
@@ -446,9 +242,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -2.4000000953674316,
-    "y": 227.1999969482422,
+    "x": -12.800000190734863,
+    "y": 140.0,
     "width": 1548.800048828125,
-    "height": 624.0
+    "height": 691.2000122070312
   }
 }
