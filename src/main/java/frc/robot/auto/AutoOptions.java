@@ -16,6 +16,7 @@ import frc.robot.cargo.CloseIntakeCommand;
 import frc.robot.cargo.OpenIntakeCommand;
 import frc.robot.cargo.ShootCommand;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.ShiftLowCommand;
 import frc.robot.drivetrain.StayPutCommand;
 
 /** Helper for creating auto options */
@@ -33,19 +34,24 @@ public class AutoOptions
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
         auto_options.addOption("Forward",
-            drivetrain.createTrajectoryCommand(1, 0, 0));
+            new SequentialCommandGroup(
+                new ShiftLowCommand(drivetrain),
+                drivetrain.createTrajectoryCommand(1, 0, 0)));
 
         auto_options.addOption("DelayedForwardAndTurn",
             new SequentialCommandGroup(
+                new ShiftLowCommand(drivetrain),
                 new WaitCommand(2.0),
                 drivetrain.createTrajectoryCommand(1, 0, 45)
             ));
 
         auto_options.addOption("Round",
-            drivetrain.createTrajectoryCommand(3, 0, 45,
-                                               3, 1, 135,
-                                               0, 1, 225,
-                                               0, 0, 0));
+            new SequentialCommandGroup(
+                new ShiftLowCommand(drivetrain),
+                drivetrain.createTrajectoryCommand(3, 0, 45,
+                                                   3, 1, 135,
+                                                   0, 1, 225,
+                                                   0, 0, 0)));
 
         {
             // 1m forward
@@ -56,6 +62,7 @@ public class AutoOptions
     
             auto_options.addOption("ForwardShootBack",
                 new SequentialCommandGroup(
+                    new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(seg1),
                     new ParallelDeadlineGroup(
                         new ShootCommand(ball_handling),
@@ -72,6 +79,7 @@ public class AutoOptions
                                     TrajectoryHelper.createTrajectory(false, -1.3, 0.9, -90));
             auto_options.addOption("Test1",
                 new SequentialCommandGroup(
+                    new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(seg1),
                     // See also ParallelRaceGroup(), ParallelDeadlineGroup()
                     // Use with StayPutCommand() to avoid motor timeouts!
