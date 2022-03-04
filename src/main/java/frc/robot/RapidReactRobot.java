@@ -102,8 +102,10 @@ public class RapidReactRobot extends TimedRobot
         reset_command.setName("Reset");
         SmartDashboard.putData(reset_command);
 
-        SmartDashboard.putData(new ApplySettingsCommand("Aim High", "aim_high.dat"));
-        SmartDashboard.putData(new ApplySettingsCommand("Aim Low", "aim_low.dat"));
+        SmartDashboard.putData(new ApplySettingsCommand("Aim High at Line", "high_at_line.dat"));
+        SmartDashboard.putData(new ApplySettingsCommand("Aim High Near", "high_near.dat"));
+        SmartDashboard.putData(new ApplySettingsCommand("Aim Low Mid", "low_mid.dat"));
+        SmartDashboard.putData(new ApplySettingsCommand("Aim Low Near", "low_near.dat"));
 
         SmartDashboard.putData(climb_sequence);
 
