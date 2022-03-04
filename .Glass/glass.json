@@ -33,6 +33,7 @@
       "/SmartDashboard/Auto Shift": "Command",
       "/SmartDashboard/Blue Cargo": "Command",
       "/SmartDashboard/Camera Drive": "Command",
+      "/SmartDashboard/Climb Sequence": "Command",
       "/SmartDashboard/Red Cargo": "Command",
       "/SmartDashboard/Reset": "Command"
     }
@@ -59,7 +60,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Ball Ejected"
+              "id": "NT:/SmartDashboard/Desired Speed"
             },
             {
               "color": [
@@ -68,16 +69,7 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Spinner Current"
-            },
-            {
-              "color": [
-                0.3333333432674408,
-                0.658823549747467,
-                0.4078431725502014,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Spinner Current Change"
+              "id": "NT:/SmartDashboard/Speed"
             }
           ]
         }
