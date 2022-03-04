@@ -97,11 +97,15 @@ Limelight
 Initially, access as http://limelight.local:5801/
 
 "Front" Camera:
-Set IP address to static, 10.23.93.62, allowing access as http://10.23.93.62:5801/, and change name to "limelight-front".
+Set team 2393.
+Set IP address to static, 10.23.93.32, allowing access as http://10.23.93.32:5801/, and change name to "limelight-front".
 Example pipelines are in limelight folder. Load "Drive" to front camera.
+Pipeline 0: DriveFront
 
 "Back" Camera:
+Set team 2393.
 Set IP address to static, 10.23.93.74, allowing access as http://10.23.93.74:5801/, and change name to "limelight-back".
+Pipeline 0: DriveBack
 
 
 Raspberry Pi
