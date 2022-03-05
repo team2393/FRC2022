@@ -131,8 +131,7 @@ public class RapidReactRobot extends TimedRobot
         drivetrain.reset();
         auto_shift.cancel();
         climber.reset();
-        // TODO Is there more to reset?
-    }
+]    }
 
     /** This function is called all the time regardless of mode. */
     @Override
@@ -150,6 +149,7 @@ public class RapidReactRobot extends TimedRobot
         System.out.println("Disabled");
         ball_handling.enable(false);
         new RainbowCommand(strip).schedule();
+        reset();
     }
 
     /** This function is called while the robot is disabled. */
@@ -185,7 +185,6 @@ public class RapidReactRobot extends TimedRobot
             joydrive.schedule();
 
         // auto_shift can be enabled on dashboard, and always allow manual shifting
-        // TODO Replace manual shift with scheduling/cancelling auto_shift
         if (OperatorInterface.shiftHigh())
             // auto_shift.schedule();
             drivetrain.shiftgear(true);
