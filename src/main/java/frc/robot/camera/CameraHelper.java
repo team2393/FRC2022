@@ -12,7 +12,7 @@ public class CameraHelper
     /** Register dashboard commands */
     public static void registerCommands()
     {
-        SmartDashboard.putData(new ApplySettingsCommand("Red Cargo", "detect_red.dat"));
-        SmartDashboard.putData(new ApplySettingsCommand("Blue Cargo", "detect_blue.dat"));
+        // SmartDashboard.putData(new ApplySettingsCommand("Red Cargo", "detect_red.dat"));
+        // SmartDashboard.putData(new ApplySettingsCommand("Blue Cargo", "detect_blue.dat"));
     }    
 }

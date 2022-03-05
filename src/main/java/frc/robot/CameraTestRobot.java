@@ -3,20 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.camera.CameraHelper;
-import frc.robot.camera.GuessingUDPClient;
+import frc.robot.camera.RotateToTargetCommand;
+import frc.robot.drivetrain.Drivetrain;
 
-/** Very simple robot for camera tests */
+/** Robot for camera tests */
 public class CameraTestRobot extends TimedRobot
 {
-    /** Servo that rotates camera */
-    private final Servo rotator = new Servo(0);
-    private GuessingUDPClient guess;
+    private final WPI_TalonSRX pigeon_carrier = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
+    private final Drivetrain drivetrain = new Drivetrain(pigeon_carrier);
+    private final RotateToTargetCommand rotate_to_target = new RotateToTargetCommand(drivetrain);
 
     @Override
     public void robotInit()
@@ -24,19 +24,9 @@ public class CameraTestRobot extends TimedRobot
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Camera Test *****");
 
-        CameraHelper.registerCommands();
-
-        SmartDashboard.setDefaultNumber("rotate", 90.0);
-        SmartDashboard.setDefaultNumber("VisRotGain", 0.0);
-
-        try
-        {
-            guess = new GuessingUDPClient();
-        }
-        catch (Exception ex)
-        {
-            throw new RuntimeException(ex);
-        }
+        SmartDashboard.setDefaultNumber("P", 0.0);
+        SmartDashboard.setDefaultNumber("I", 0.0);
+        SmartDashboard.setDefaultNumber("D", 0.0);
     }
 
     @Override
@@ -44,30 +34,18 @@ public class CameraTestRobot extends TimedRobot
     {
         CommandScheduler.getInstance().run();
     }
-
-    @Override
-    public void teleopPeriodic()
-    {
-        rotator.setAngle(SmartDashboard.getNumber("rotate", 90.0));
-    }
     
     @Override
     public void autonomousInit()
     {
-        rotator.setAngle(90.0);
+        rotate_to_target.schedule();
     }
 
     @Override
     public void autonomousPeriodic()
     {
-        // Pick one:
-        final double direction = SmartDashboard.getNumber("Direction", 0);
-        // final double direction = guess.get().direction;
-
-        final double current_heading = rotator.getAngle();
-        double new_heading = current_heading - direction * SmartDashboard.getNumber("VisRotGain", 0.0);
-        new_heading = MathUtil.clamp(new_heading, 5.0, 175.0);
-        SmartDashboard.putNumber("rotate", new_heading);
-        rotator.setAngle(new_heading);
+        rotate_to_target.configure(SmartDashboard.getNumber("P", 0),
+                                   SmartDashboard.getNumber("I", 0),
+                                   SmartDashboard.getNumber("D", 0));        
     }
 }
