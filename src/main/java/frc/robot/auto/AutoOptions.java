@@ -15,6 +15,7 @@ import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.CloseIntakeCommand;
 import frc.robot.cargo.OpenIntakeCommand;
 import frc.robot.cargo.ShootCommand;
+import frc.robot.cargo.ToggleSpinnerCommand;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.ShiftLowCommand;
 import frc.robot.drivetrain.StayPutCommand;
@@ -38,13 +39,6 @@ public class AutoOptions
                 new ShiftLowCommand(drivetrain),
                 drivetrain.createTrajectoryCommand(1, 0, 0)));
 
-        auto_options.addOption("DelayedForwardAndTurn",
-            new SequentialCommandGroup(
-                new ShiftLowCommand(drivetrain),
-                new WaitCommand(2.0),
-                drivetrain.createTrajectoryCommand(1, 0, 45)
-            ));
-
         auto_options.addOption("Round",
             new SequentialCommandGroup(
                 new ShiftLowCommand(drivetrain),
@@ -54,21 +48,31 @@ public class AutoOptions
                                                    0, 0, 0)));
 
         {
-            // 1m forward
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(1, 0, 0);
-            // 1m back
+            // Shoot, pickup, shoot from middle of left area
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(1.045, -0.03, -18);
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
-                TrajectoryHelper.createTrajectory(false, -1, 0, 0));
+                TrajectoryHelper.createTrajectory(false, -2.16, 0.73, -18));
+            Trajectory seg3 = TrajectoryHelper.continueTrajectory(seg2,
+                TrajectoryHelper.createTrajectory(2.24, 0.11, 19));
     
-            auto_options.addOption("ForwardShootBack",
+            auto_options.addOption("MidShootPickShoot",
                 new SequentialCommandGroup(
+                    new ApplySettingCommand("High", false),
+                    new ApplySettingCommand("SpinnerSetpoint", 65),
+                    new ToggleSpinnerCommand(ball_handling),
                     new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(seg1),
                     new ParallelDeadlineGroup(
                         new ShootCommand(ball_handling),
                         new StayPutCommand(drivetrain)
                     ),
-                    drivetrain.createTrajectoryCommand(seg2)));
+                    new OpenIntakeCommand(ball_handling),                   
+                    drivetrain.createTrajectoryCommand(seg2),
+                    drivetrain.createTrajectoryCommand(seg3),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(ball_handling),
+                        new StayPutCommand(drivetrain)
+                    )));
         }
 
         {
