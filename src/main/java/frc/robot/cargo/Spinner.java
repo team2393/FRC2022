@@ -47,7 +47,7 @@ public class Spinner extends SubsystemBase
 
         reset();
 
-        spinner_setpoint.setDefaultDouble(10.0);
+        spinner_setpoint.setDefaultDouble(60.0);
     }
     
     /** @param motor Motor to initialize
