@@ -70,11 +70,13 @@ March
    * Test ClimbSequence, find button/switch assignments
    * Test AsynchronousInterrupt for climber limit switches
    * SysId for drivetrain
-   * Test autonomous moves
-   * Enable AutoShiftCommand, test it
    * Commands on dashboard to configure 'LowGoalClose', 'LowGoalDist', 'HighGoal', ...
    * Commands for ball handling: Open, close, eject
+
+   * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
+   * Front camera: Calibrate targetting, test RotateToTargetCommand
+   * Back camera: Calibrate ball detection, test RotateToBallCommand
  * Competitions
 
 
