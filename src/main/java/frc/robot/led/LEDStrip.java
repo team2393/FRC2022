@@ -13,10 +13,10 @@ import frc.robot.RobotMap;
 /** Digital, individually addressable strip of LEDs */
 public class LEDStrip extends SubsystemBase
 {
-    // Adafruit 1m (30 LED) 'Neo Pixel'
+    // Adafruit 1m (30 LED) 'Neo Pixel', shortened to 24
 
     /** Number of LEDs */
-    public static final int N = 30;
+    public static final int N = 24;
     
     private final AddressableLED strip = new AddressableLED(RobotMap.LED_STRING);
     private final AddressableLEDBuffer buffer = new AddressableLEDBuffer(N);

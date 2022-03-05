@@ -23,6 +23,12 @@ public class RainbowCommand extends CommandBase
     }
 
     @Override
+    public boolean runsWhenDisabled()
+    {
+        return true;
+    }
+
+    @Override
     public void execute()
     {
         final double seconds = Timer.getFPGATimestamp();

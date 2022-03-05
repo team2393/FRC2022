@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,8 +23,10 @@ import frc.robot.climb.ManualClimbCommand;
 import frc.robot.climb.SetClimberExtensionCommand;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
+import frc.robot.led.BurstCommand;
 import frc.robot.led.LEDStrip;
 import frc.robot.led.RainbowCommand;
+import frc.robot.led.TwoColorSwapCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
 import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
@@ -31,7 +34,7 @@ import frc.robot.drivetrain.DriveByJoystickCommand;
 /** Team 2393 'Rapid React' robot */
 public class RapidReactRobot extends TimedRobot
 {
-    final LEDStrip led = new LEDStrip();
+    final LEDStrip strip = new LEDStrip();
 
     // Robot components
     BallHandling ball_handling = new BallHandling();
@@ -119,7 +122,7 @@ public class RapidReactRobot extends TimedRobot
 
         reset();
 
-        new RainbowCommand(led).schedule();
+        new RainbowCommand(strip).schedule();
     }
 
     /** Reset drivetrain.. */
@@ -146,6 +149,7 @@ public class RapidReactRobot extends TimedRobot
     {
         System.out.println("Disabled");
         ball_handling.enable(false);
+        new RainbowCommand(strip).schedule();
     }
 
     /** This function is called while the robot is disabled. */
@@ -166,6 +170,8 @@ public class RapidReactRobot extends TimedRobot
 
         // Start driving via joystick
         joydrive.schedule();
+
+        new BurstCommand(strip,  0.05, Color.kBlueViolet).schedule();
     }
 
     /** This function is called periodically during operator control. */
@@ -233,7 +239,9 @@ public class RapidReactRobot extends TimedRobot
 
         reset();
         ball_handling.enable(true);
-        
+
+        new TwoColorSwapCommand(strip, 0.2, Color.kGold, Color.kGreen);
+
         // Start selected auto command
         auto_options.getSelected().schedule();
     }
