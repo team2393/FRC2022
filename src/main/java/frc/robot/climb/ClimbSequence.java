@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.climb;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.cargo.BallHandling;
@@ -16,6 +17,7 @@ public class ClimbSequence extends SequentialCommandGroup
         setName("Climb Sequence");
         addCommands(
             new CloseIntakeCommand(ball_handling),
+            new InstantCommand(() -> ball_handling.runSpinner(false)),
 
             // Up, then drive up to first rung
             new ParallelDeadlineGroup(

@@ -151,6 +151,12 @@ public class BallHandling extends SubsystemBase
         keep_spinner_running = !keep_spinner_running;
     }
 
+    /** @param keep_running 'keep spinner running' flag */
+    public void runSpinner(final boolean keep_running)
+    {
+        keep_spinner_running = keep_running;
+    }
+
     /** @param do_load Load or not? */
     public void load(final boolean do_load)
     {
