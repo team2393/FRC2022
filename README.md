@@ -76,7 +76,8 @@ March
    * Create auto sequences for competition
 
    * BallHandlingTestRobot: Shoot 1 ball, auto-shoot 2 balls, tune ball handling SPINUP -> SHOOTING transition:
-     Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected", 
+     Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected"
+   * Faster ActiveArm?
    * Front camera: Calibrate targetting, test RotateToTargetCommand
    * Back camera: Calibrate ball detection, test RotateToBallCommand
  * Competitions
