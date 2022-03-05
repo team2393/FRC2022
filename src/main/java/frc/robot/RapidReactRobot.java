@@ -22,6 +22,8 @@ import frc.robot.climb.ManualClimbCommand;
 import frc.robot.climb.SetClimberExtensionCommand;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
+import frc.robot.led.LEDStrip;
+import frc.robot.led.RainbowCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
 import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
@@ -29,6 +31,8 @@ import frc.robot.drivetrain.DriveByJoystickCommand;
 /** Team 2393 'Rapid React' robot */
 public class RapidReactRobot extends TimedRobot
 {
+    final LEDStrip led = new LEDStrip();
+
     // Robot components
     BallHandling ball_handling = new BallHandling();
 
@@ -114,6 +118,8 @@ public class RapidReactRobot extends TimedRobot
         CameraHelper.registerCommands();
 
         reset();
+
+        new RainbowCommand(led).schedule();
     }
 
     /** Reset drivetrain.. */
