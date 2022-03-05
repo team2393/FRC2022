@@ -34,21 +34,22 @@ public class AutoOptions
         // First list the default option that does nothing
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
-        auto_options.addOption("Forward",
+        {   // TODO test Drive 1 m backwards
+            auto_options.addOption("TAXI",
+                new SequentialCommandGroup(
+                    new ShiftLowCommand(drivetrain),
+                    drivetrain.createTrajectoryCommand(false, -1, 0, 0)));
+        }
+
+        {  // TODO test Drive 1 m backwards after 10 seconds
+            auto_options.addOption("TAXIDelayed",
             new SequentialCommandGroup(
                 new ShiftLowCommand(drivetrain),
-                drivetrain.createTrajectoryCommand(1, 0, 0)));
+                new WaitCommand(10.0),
+                drivetrain.createTrajectoryCommand(false, -1, 0, 0)));
+        }
 
-        auto_options.addOption("Round",
-            new SequentialCommandGroup(
-                new ShiftLowCommand(drivetrain),
-                drivetrain.createTrajectoryCommand(3, 0, 45,
-                                                   3, 1, 135,
-                                                   0, 1, 225,
-                                                   0, 0, 0)));
-
-        {
-            // Shoot, pickup, shoot from middle of left area
+        {   // Shoot, pickup, shoot from middle of left area
             Trajectory seg1 = TrajectoryHelper.createTrajectory(1.045, -0.03, -18);
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(false, -2.16, 0.73, -18));
@@ -75,8 +76,56 @@ public class AutoOptions
                     )));
         }
 
-        {
-            // ~1m forward and right
+        {   // TODO waypoints Left Tarmac, Middle Edge, pickup, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(1.045, -0.03, -18);
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                TrajectoryHelper.createTrajectory(2.24, 0.11, 19));
+    
+            auto_options.addOption("LTMEPickShootShoot",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", false),
+                    new ApplySettingCommand("SpinnerSetpoint", 65),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),                   
+                    drivetrain.createTrajectoryCommand(seg1),
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(ball_handling),
+                        new StayPutCommand(drivetrain)
+                    ),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(ball_handling),
+                        new StayPutCommand(drivetrain)
+                    )));
+        }
+
+        {   // TODO waypoints Right Tarmac, Left Edge, pickup, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.045, 0.5, 10);
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                TrajectoryHelper.createTrajectory(2.16, -0.73, -10));
+    
+            auto_options.addOption("RTLEPickShootShoot",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", false),
+                    new ApplySettingCommand("SpinnerSetpoint", 65),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),          
+                    drivetrain.createTrajectoryCommand(seg1),
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(ball_handling),
+                        new StayPutCommand(drivetrain)
+                    ),
+                    new ParallelDeadlineGroup(
+                        new ShootCommand(ball_handling),
+                        new StayPutCommand(drivetrain)
+                    )));
+        }
+
+        // --------------- Non-competition test moves ----------------------------
+        {   // ~1m forward and right
             Trajectory seg1 = TrajectoryHelper.createTrajectory(1.3, -0.94, -90);
             // ..and from there on ~1m back and left
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
@@ -101,6 +150,14 @@ public class AutoOptions
                         new StayPutCommand(drivetrain)
                     )
                 ));
+
+            auto_options.addOption("Round",
+                new SequentialCommandGroup(
+                    new ShiftLowCommand(drivetrain),
+                    drivetrain.createTrajectoryCommand(3, 0, 45,
+                                                       3, 1, 135,
+                                                       0, 1, 225,
+                                                       0, 0, 0)));
         }
     }
 }
