@@ -54,10 +54,10 @@ public class OperatorInterface
         return joystick.getAButtonPressed();
     }
 
-    /** @return Do we want to always run the spinner? Toggles on each press (X) */
+    /** @return Do we want to always run the spinner? Toggles on each press (blue button) */
     public static boolean toggleSpinner()
     {
-        return joystick.getXButtonPressed();
+        return buttons.getRawButtonPressed(7);
     }
 
     /** @return Toggle load/don't load (B) */
