@@ -111,8 +111,11 @@ public class Spinner extends SubsystemBase
     private final LinearFilter highpass = LinearFilter.highPass(0.1, 0.02);
 
     // Remember that we saw a ball get ejected for a little while
-    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.5);
-    private final KeepOnFilter remember_shot = new KeepOnFilter(0.5);
+    // .. but not too long, because otherwise a "toggle spinner"
+    // that was recently issued to start the spinner will be mistaken
+    // for an already ejected ball
+    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.25);
+    private final KeepOnFilter remember_shot = new KeepOnFilter(0.25);
 
     /** @return Change in motor current */
     private double getCurrentChange()
