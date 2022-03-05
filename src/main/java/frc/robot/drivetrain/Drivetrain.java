@@ -146,6 +146,16 @@ public class Drivetrain extends SubsystemBase
         motor.setInverted(invert);
     }
 
+    /** @param enable Enable or disable brake? */
+    public void brake(final boolean enable)
+    {
+        NeutralMode brake = enable ? NeutralMode.Brake : NeutralMode.Coast;
+        primary_left.setNeutralMode(brake);
+        primary_right.setNeutralMode(brake);
+        secondary_left.setNeutralMode(brake);
+        secondary_right.setNeutralMode(brake);
+    }
+
     /** Reset encoders so position is back to "0 meters" */
     public void reset()
     {

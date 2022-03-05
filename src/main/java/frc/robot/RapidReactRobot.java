@@ -146,10 +146,10 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void disabledInit()
     {
-        System.out.println("Disabled");
-        ball_handling.enable(false);
-        new RainbowCommand(strip).schedule();
         reset();
+        ball_handling.enable(false);
+        drivetrain.brake(false);
+        new RainbowCommand(strip).schedule();
     }
 
     /** This function is called while the robot is disabled. */
@@ -163,10 +163,9 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void teleopInit()
     {
-        System.out.println("Teleop");
-
         reset();
         ball_handling.enable(true);
+        drivetrain.brake(true);
 
         // Start driving via joystick
         joydrive.schedule();
@@ -234,9 +233,8 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-        System.out.println("Auto-No-Mouse");
-
         reset();
+        drivetrain.brake(true);
         ball_handling.enable(true);
 
         new TwoColorSwapCommand(strip, 0.2, Color.kGold, Color.kGreen);
