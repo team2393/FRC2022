@@ -72,16 +72,16 @@ public class OperatorInterface
         return joystick.getPOV() == 90;
     }
 
-    /** @return Shift into high gear?  (Left stick push) */
+    /** @return Shift into high gear?  (Right bumper) */
     public static boolean shiftHigh()
     {
-        return joystick.getLeftStickButton();
+        return joystick.getRightBumperPressed();
     }
 
-    /** @return Shift into low gear? (Right stick push) */
+    /** @return Shift into low gear? (Left bumper) */
     public static boolean shiftLow()
     {
-        return joystick.getRightStickButton();
+        return joystick.getLeftBumperPressed();
     }
 
     /** @return Toggle climbing arm down/up (right bumper) */
