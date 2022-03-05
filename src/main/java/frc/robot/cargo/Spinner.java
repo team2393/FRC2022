@@ -114,8 +114,8 @@ public class Spinner extends SubsystemBase
     // .. but not too long, because otherwise a "toggle spinner"
     // that was recently issued to start the spinner will be mistaken
     // for an already ejected ball
-    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.25);
-    private final KeepOnFilter remember_shot = new KeepOnFilter(0.25);
+    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.1);
+    private final KeepOnFilter remember_shot = new KeepOnFilter(0.1);
 
     /** @return Change in motor current */
     private double getCurrentChange()
