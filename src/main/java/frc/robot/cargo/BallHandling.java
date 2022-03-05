@@ -60,7 +60,7 @@ public class BallHandling extends SubsystemBase
     private LoadStates load_state = LoadStates.OFF;
     
     /** While in LOADING or NOT_LOADING, we can also be shooting */
-    enum ShooterStates
+    public enum ShooterStates
     {
         /** Awake but not shooting */
         IDLE,
@@ -70,6 +70,12 @@ public class BallHandling extends SubsystemBase
         SHOOTING
     }
     private ShooterStates shooter_state = ShooterStates.IDLE;
+
+    /** Cycles where spinner was above threshold RPS  */
+    private int spinup_above_threshold = 0;
+
+    /** Cycles for wich we want to see spinner above threshold */
+    private static final int SPINNER_ABOVE_THRESHOLD = 10; // 0.2 seconds
     
     /** Should spinner run all the time? Or start it for each SPINUP? */
     private boolean keep_spinner_running = false;
@@ -204,7 +210,7 @@ public class BallHandling extends SubsystemBase
         // Update indicators
         SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);
         SmartDashboard.putBoolean("Ball in Feeder", ball_in_feeder);
-        // SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
+        SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
         // SmartDashboard.putString("Load State", load_state.name());
         // SmartDashboard.putString("Shoot State", shooter_state.name());
 
@@ -257,24 +263,32 @@ public class BallHandling extends SubsystemBase
             spinup_timer.reset();
             spinup_timer.start();
             shot_requested = false;
+            spinup_above_threshold = 0;
         }
         if (shooter_state == ShooterStates.SPINUP)
         {   // Is spinner fast enough?
             if (spinner.getSpeed() >= 0.95*spinner.getSetpoint())
-            {
-                shooter_state = ShooterStates.SHOOTING;
-                // System.out.println("Shooting...");
-                shot_timer.stop();
-                shot_timer.reset();
-                shot_timer.start();
+            {   // Has to be fast enough for a few cycles
+                if (++spinup_above_threshold >= SPINNER_ABOVE_THRESHOLD)
+                {
+                    shooter_state = ShooterStates.SHOOTING;
+                    // System.out.println("Shooting...");
+                    shot_timer.stop();
+                    shot_timer.reset();
+                    shot_timer.start();
+                }
             }
-            else if (spinup_timer.hasElapsed(SPINUP_TIMEOUT))
+            else
             {
-                shooter_state = ShooterStates.SHOOTING;
-                System.out.println("Not reaching spinner setpoint, shooting anyway");
-                shot_timer.stop();
-                shot_timer.reset();
-                shot_timer.start();
+                spinup_above_threshold = 0;
+                if (spinup_timer.hasElapsed(SPINUP_TIMEOUT))
+                {
+                    shooter_state = ShooterStates.SHOOTING;
+                    System.out.println("Not reaching spinner setpoint, shooting anyway");
+                    shot_timer.stop();
+                    shot_timer.reset();
+                    shot_timer.start();
+                }
             }
         }
         if (shooter_state == ShooterStates.SHOOTING)
@@ -347,5 +361,10 @@ public class BallHandling extends SubsystemBase
         // _after_ a shot has been requested, we should be _done_
         // if the shot_requested has been cleared and the shooter returned to idle
         return shot_requested == false  &&  shooter_state == ShooterStates.IDLE;
+    }
+
+    public ShooterStates getShooterState()
+    {
+        return shooter_state;
     }
 }

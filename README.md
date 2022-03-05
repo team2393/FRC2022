@@ -72,9 +72,11 @@ March
    * SysId for drivetrain
    * Commands on dashboard to configure 'LowGoalClose', 'LowGoalDist', 'HighGoal', ...
    * Commands for ball handling: Open, close, eject
-
    * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
+
+   * BallHandlingTestRobot: Shoot 1 ball, auto-shoot 2 balls, tune ball handling SPINUP -> SHOOTING transition:
+     Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected", 
    * Front camera: Calibrate targetting, test RotateToTargetCommand
    * Back camera: Calibrate ball detection, test RotateToBallCommand
  * Competitions

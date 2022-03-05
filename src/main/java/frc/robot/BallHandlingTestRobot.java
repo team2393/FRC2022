@@ -5,8 +5,11 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.cargo.BallHandling;
+import frc.robot.cargo.ShootCommand;
 
 /** Simple robot that tests ball handling
  * 
@@ -73,6 +76,7 @@ public class BallHandlingTestRobot extends TimedRobot
     {
         CommandScheduler.getInstance().run();
 
+        SmartDashboard.putNumber("SpinnerState", ball_handling.getShooterState().ordinal());
         // Send out on each period to get better plots
         NetworkTableInstance.getDefault().flush();
     }
@@ -103,5 +107,12 @@ public class BallHandlingTestRobot extends TimedRobot
     
         if (OperatorInterface.doShoot())
             ball_handling.shoot();    
+    }
+
+    @Override
+    public void autonomousInit()
+    {
+        new SequentialCommandGroup(new ShootCommand(ball_handling),
+                                   new ShootCommand(ball_handling)).schedule();
     }
 }

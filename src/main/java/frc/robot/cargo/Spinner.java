@@ -113,7 +113,8 @@ public class Spinner extends SubsystemBase
     // Remember that we saw a ball get ejected for a little while
     // .. but not too long, because otherwise a "toggle spinner"
     // that was recently issued to start the spinner will be mistaken
-    // for an already ejected ball
+    // for an already ejected ball.
+    // Delay a little to keep feeder running until ball is out.
     private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.1);
     private final KeepOnFilter remember_shot = new KeepOnFilter(0.1);
 
@@ -124,7 +125,7 @@ public class Spinner extends SubsystemBase
         // Try different settings to find good current change threshold
         // for detecting ejected ball
         final double change = highpass.calculate(getCurrent());
-        // SmartDashboard.putNumber("Spinner Current Change", change);
+        SmartDashboard.putNumber("Spinner Current Change", change);
         return change;
     }
     
@@ -132,7 +133,6 @@ public class Spinner extends SubsystemBase
     public boolean isBallEjected()
     {
         final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 5.0));
-        // SmartDashboard.putBoolean("Spinner Ball Ejected", ejected);
         return ejected; 
     }
 
