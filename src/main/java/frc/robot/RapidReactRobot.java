@@ -146,7 +146,6 @@ public class RapidReactRobot extends TimedRobot
     @Override
     public void disabledInit()
     {
-        reset();
         ball_handling.enable(false);
         drivetrain.brake(false);
         new RainbowCommand(strip).schedule();
