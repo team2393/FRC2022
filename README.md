@@ -75,6 +75,7 @@ March
    * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
 
+   * Test new 'reset'
    * BallHandlingTestRobot: Shoot 1 ball, auto-shoot 2 balls, tune ball handling SPINUP -> SHOOTING transition:
      Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected"
    * Faster ActiveArm?

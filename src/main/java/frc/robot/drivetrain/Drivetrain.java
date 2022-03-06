@@ -64,6 +64,20 @@ public class Drivetrain extends SubsystemBase
                               secondary_left  = new WPI_TalonFX(RobotMap.SECONDARY_LEFT_DRIVE),
                               primary_right   = new WPI_TalonFX(RobotMap.PRIMARY_RIGHT_DRIVE),
                               secondary_right = new WPI_TalonFX(RobotMap.SECONDARY_RIGHT_DRIVE);
+    
+    /** Zero offset for left and right (primary) motor
+     * 
+     *  Setting the encoder to zero is unreliable because it requires
+     *  waiting for the CAN message to reach the motor.
+     *  Resetting our own offset to the current encoder readback is
+     *  immediate and suggested in ChiefDelphi posts:
+     *  https://www.chiefdelphi.com/t/sequential-command-groups-not-working-as-expected-skipping-first-command/403659/3 :
+     *  .. using CAN encoders .., resetting those encoders does not immediately result in a 0 return value
+     *  from a subsequent get encoder value call, as it takes time for the message to propagate through the CAN bus
+     *  command and telemetry path. To avoid this, instead of using the reset encoder call, you can store an offset
+     *  and subtract it.
+     */
+    private double left_zero = 0, right_zero = 0, heading_zero = 0;
 
     /** Differential drive helper for turning forward/backwards and rotation into motor voltages */
     private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
@@ -159,15 +173,15 @@ public class Drivetrain extends SubsystemBase
     /** Reset encoders so position is back to "0 meters" */
     public void reset()
     {
-        primary_left.setSelectedSensorPosition(0.0);
-        primary_right.setSelectedSensorPosition(0.0);
+        // Reset zero position
+        left_zero = primary_left.getSelectedSensorPosition();
+        right_zero = primary_right.getSelectedSensorPosition();
 
         left_speed_pid.reset();
         right_speed_pid.reset();
 
         // Reset gyro angle
-        pigeon.setFusedHeading(0.0);
-        pigeon.setYaw(0.0);
+        heading_zero = pigeon.getFusedHeading();
 
         // Set position to x=0, y=0, heading=0
         final Rotation2d zero = Rotation2d.fromDegrees(0);
@@ -200,13 +214,13 @@ public class Drivetrain extends SubsystemBase
     /** @return Distance travelled by left side motor(s) in meters */
     public double getLeftDistance()
     {
-        return getGearedValue(primary_left.getSelectedSensorPosition() / STEPS_PER_METER);
+        return getGearedValue((primary_left.getSelectedSensorPosition()-left_zero) / STEPS_PER_METER);
     }
 
     /** @return Distance travelled by right side motor(s) in meters */
     public double getRightDistance()
     {
-        return getGearedValue(primary_right.getSelectedSensorPosition() / STEPS_PER_METER);
+        return getGearedValue((primary_right.getSelectedSensorPosition()-right_zero) / STEPS_PER_METER);
     }
 
     /** @return Speed of left side motor(s) in meters/sec */
@@ -236,7 +250,7 @@ public class Drivetrain extends SubsystemBase
     /** @return Heading angle in degrees, increasing counterclockwise  */
     public double getHeading()
     {
-        return pigeon.getFusedHeading(); 
+        return pigeon.getFusedHeading() - heading_zero; 
     }
 
     /** @param high Shift to high gear? Otherwise selects low gear */
