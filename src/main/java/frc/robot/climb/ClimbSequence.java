@@ -15,13 +15,12 @@ public class ClimbSequence extends SequentialCommandGroup
     public ClimbSequence(final Climber climber, final BallHandling ball_handling)
     {
         setName("Climb Sequence");
-        addCommands(
-            new CloseIntakeCommand(ball_handling),
-            new InstantCommand(() -> ball_handling.runSpinner(false)),
-
+        addCommands(            
             // Up, then drive up to first rung
             new ParallelDeadlineGroup(
                 new WaitForNextStepCommand(),
+                new CloseIntakeCommand(ball_handling),
+                new InstantCommand(() -> ball_handling.runSpinner(false)),
                 new SetClimberExtensionCommand(climber, "Arm High", 0.85)),
 
             // Lift up to first rung
@@ -35,15 +34,20 @@ public class ClimbSequence extends SequentialCommandGroup
                 new SetClimberExtensionCommand(climber, "Arm Mid", 0.4)),
 
             // Stretch out to 2nd rung: Tilt..   
-            new ArmInOutCommand(climber, true),
-            new WaitForNextStepCommand(),
+            new ParallelDeadlineGroup(
+                new WaitForNextStepCommand(),
+                new ArmInOutCommand(climber, true),
+                new SetClimberExtensionCommand(climber, "Arm Mid", 0.4)),            
+            
             // reach out...
             new ParallelDeadlineGroup(
                 new WaitForNextStepCommand(),
                 new SetClimberExtensionCommand(climber, "Arm High", 0.85)),
             // latch onto 2nd
-            new ArmInOutCommand(climber, false),
-            new WaitForNextStepCommand(),
+            new ParallelDeadlineGroup(
+                new WaitForNextStepCommand(),
+                new ArmInOutCommand(climber, false),
+                new SetClimberExtensionCommand(climber, "Arm High", 0.85)),
 
             // Pull up to 2nd
             new ParallelDeadlineGroup(
@@ -56,15 +60,19 @@ public class ClimbSequence extends SequentialCommandGroup
                 new SetClimberExtensionCommand(climber, "Arm Mid", 0.4)),
 
             // Stretch out to 3rd rung: Tilt..   
-            new ArmInOutCommand(climber, true),
-            new WaitForNextStepCommand(),
+            new ParallelDeadlineGroup(
+                new WaitForNextStepCommand(),
+                new ArmInOutCommand(climber, true),
+                new SetClimberExtensionCommand(climber, "Arm Mid", 0.4)),
             // reach out...
             new ParallelDeadlineGroup(
                 new WaitForNextStepCommand(),
                 new SetClimberExtensionCommand(climber, "Arm High", 0.85)),
             // latch onto 3rd
-            new ArmInOutCommand(climber, false),
-            new WaitForNextStepCommand(),
+            new ParallelDeadlineGroup(
+                new WaitForNextStepCommand(),
+                new ArmInOutCommand(climber, false),
+                new SetClimberExtensionCommand(climber, "Arm High", 0.85)),
 
             // Pull up to 3rd
             new ParallelDeadlineGroup(
