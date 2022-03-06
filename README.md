@@ -85,7 +85,7 @@ March
      Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
    * Faster ActiveArm?
    * Front camera: Calibrate targetting, test RotateToTargetCommand
-   * Back camera: Calibrate ball detection, test RotateToBallCommand
+   * Back camera: Calibrate ball detection, create/test RotateToBallCommand
  * Competitions
 
 
