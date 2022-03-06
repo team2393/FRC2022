@@ -75,6 +75,7 @@ March
    * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
 
+   * Set limelight address to 11 (front), 12 (back)
    * Test drivertrain brake off in disable
    * Test new 'reset'
    * Test updated climber 'home' and climb sequence
@@ -86,7 +87,7 @@ March
      Set Spinner.remember_shot to ~0.02 and check if it still works fine.
      Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
    * Faster ActiveArm?
-   * Front camera: Calibrate targetting, test RotateToTargetCommand
+   * Front camera: Calibrate targeting, test RotateToTargetCommand
    * Back camera: Calibrate ball detection, create/test RotateToBallCommand
  * Competitions
 
@@ -108,6 +109,8 @@ Limelight
 ---------
 
 Initially, access as http://limelight.local:5801/
+
+Each camera should have fixed IP in the range 10.23.93.11, ..12, .. to not conflict with FMS
 
 "Front" Camera:
 Set team 2393.

@@ -24,9 +24,9 @@ public class CameraTestRobot extends TimedRobot
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Camera Test *****");
 
+        SmartDashboard.setDefaultNumber("rmin", 0.0);
         SmartDashboard.setDefaultNumber("P", 0.0);
-        SmartDashboard.setDefaultNumber("I", 0.0);
-        SmartDashboard.setDefaultNumber("D", 0.0);
+        SmartDashboard.setDefaultNumber("rmax", 0.0);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class CameraTestRobot extends TimedRobot
     @Override
     public void autonomousPeriodic()
     {
-        rotate_to_target.configure(SmartDashboard.getNumber("P", 0),
-                                   SmartDashboard.getNumber("I", 0),
-                                   SmartDashboard.getNumber("D", 0));        
+        rotate_to_target.configure(SmartDashboard.getNumber("rmin", 0),
+                                   SmartDashboard.getNumber("P", 0),
+                                   SmartDashboard.getNumber("rmax", 0));        
     }
 }
