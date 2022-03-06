@@ -18,6 +18,7 @@ public class ArmInOutCommand extends CommandBase
     {
         this.climber = climber;
         this.in_or_out = in_or_out;
+        // Do NOT require climber, that's only done by commands that control the extension
     }
 
     @Override

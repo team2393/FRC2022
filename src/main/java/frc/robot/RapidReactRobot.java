@@ -19,6 +19,8 @@ import frc.robot.cargo.BallHandling;
 import frc.robot.climb.ArmInOutCommand;
 import frc.robot.climb.ClimbSequence;
 import frc.robot.climb.Climber;
+import frc.robot.climb.HomeCommand;
+import frc.robot.climb.IdleClimberCommand;
 import frc.robot.climb.ManualClimbCommand;
 import frc.robot.climb.SetClimberExtensionCommand;
 import frc.robot.drivetrain.Drivetrain;
@@ -48,6 +50,7 @@ public class RapidReactRobot extends TimedRobot
 
     public final Climber climber = new Climber();
     
+    private final CommandBase climb_idle = new IdleClimberCommand(climber);
     private final CommandBase manual_climb = new ManualClimbCommand(climber);
     private final CommandBase climb_low = new SetClimberExtensionCommand(climber, "Arm Low", -0.04);    
     private final CommandBase climb_mid = new SetClimberExtensionCommand(climber, "Arm Mid", 0.4);    
@@ -103,10 +106,12 @@ public class RapidReactRobot extends TimedRobot
         // Otherwise, DriveByJoystickCommand or an autonomous move command control it.
         drivetrain.setDefaultCommand(new StayPutCommand(drivetrain));
 
-        SmartDashboard.putData(auto_shift);
-
+        // By default, leave climber where it is
+        climber.setDefaultCommand(climb_idle);
+        
         // Register commands on dashboard
         reset_command.setName("Reset");
+        SmartDashboard.putData(auto_shift);
         SmartDashboard.putData(reset_command);
 
         SmartDashboard.putData(new ApplySettingsCommand("Aim High at Line", "high_at_line.dat"));
@@ -240,6 +245,7 @@ public class RapidReactRobot extends TimedRobot
 
         // Start selected auto command
         auto_options.getSelected().schedule();
+        new HomeCommand(climber).schedule();
     }
 
     /** This function is called periodically during autonomous. */
@@ -248,7 +254,5 @@ public class RapidReactRobot extends TimedRobot
     {
         // Typically empty since it's all done
         // within the command started in autonomousInit()...
-
-        climber.homing();
     }
 }
