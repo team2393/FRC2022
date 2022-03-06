@@ -6,6 +6,7 @@ package frc.robot.camera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,12 +28,28 @@ public class RotateToCameraCommand extends CommandBase
     // so use a small N.
     private final MedianFilter median = new MedianFilter(3);
 
+    /** @param drivetrain Drivetrain to move robot
+     *  @param limelight_name Name of limelight (as used in network table)
+     *  @param led_on Turn LED on?
+     *  @param drive_mode Drive mode? Otherwise target mode
+     *  @param pipeline Pipeline 0..9 to use
+     */
     public RotateToCameraCommand(final Drivetrain drivetrain,
-                                 final String limelight_name)
+                                 final String limelight_name,
+                                 final boolean led_on,
+                                 final boolean drive_mode,
+                                 final int pipeline)
     {
         this.drivetrain = drivetrain;
-        valid = NetworkTableInstance.getDefault().getTable(limelight_name).getEntry("tv");
-        horiz = NetworkTableInstance.getDefault().getTable(limelight_name).getEntry("tx");
+
+        final NetworkTable table = NetworkTableInstance.getDefault().getTable(limelight_name);
+        // 0-3 = default, off, blink, on
+        table.getEntry("ledMode").setDouble(led_on ? 3.0 : 1.0);
+        // Target or drive mode?
+        table.getEntry("camMode").setDouble(drive_mode ? 1.0 : 0.0);
+        table.getEntry("pipeline").setDouble(pipeline);
+        valid = table.getEntry("tv");
+        horiz = table.getEntry("tx");
     }
 
     public void configure(final double kp, final double ki, final double kd)
