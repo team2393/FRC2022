@@ -76,8 +76,13 @@ March
    * Create auto sequences for competition
 
    * Test new 'reset'
-   * BallHandlingTestRobot: Shoot 1 ball, auto-shoot 2 balls, tune ball handling SPINUP -> SHOOTING transition:
-     Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected"
+   * BallHandlingTestRobot:
+     Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected", then shoot balls in teleop.
+     Set BallHandling.at_speed_filter to 2 seconds, check that we stay in SPINUP for that long after reaching speed.
+     Revert to 10 cycles.
+     Set Spinner.delay to 2 seconds, check that return to IDLE takes that long. Revert to small setting.
+     Set Spinner.remember_shot to ~0.02 and check if it still works fine.
+     Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
    * Faster ActiveArm?
    * Front camera: Calibrate targetting, test RotateToTargetCommand
    * Back camera: Calibrate ball detection, test RotateToBallCommand

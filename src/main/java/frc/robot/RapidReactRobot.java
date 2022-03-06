@@ -131,7 +131,7 @@ public class RapidReactRobot extends TimedRobot
         drivetrain.reset();
         auto_shift.cancel();
         climber.reset();
-]    }
+    }
 
     /** This function is called all the time regardless of mode. */
     @Override

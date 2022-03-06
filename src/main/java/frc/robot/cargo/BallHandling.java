@@ -7,9 +7,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,11 +74,8 @@ public class BallHandling extends SubsystemBase
     }
     private ShooterStates shooter_state = ShooterStates.IDLE;
 
-    /** Cycles where spinner was above threshold RPS  */
-    private int spinup_above_threshold = 0;
-
-    /** Cycles for wich we want to see spinner above threshold */
-    private static final int SPINNER_ABOVE_THRESHOLD = 10; // 0.2 seconds
+    /** Spinner must remain above threshold RPS for 10 cycles  */
+    private final Debouncer at_speed_filter = new Debouncer(TimedRobot.kDefaultPeriod*10, DebounceType.kRising);
     
     /** Should spinner run all the time? Or start it for each SPINUP? */
     private boolean keep_spinner_running = false;
@@ -263,32 +263,27 @@ public class BallHandling extends SubsystemBase
             spinup_timer.reset();
             spinup_timer.start();
             shot_requested = false;
-            spinup_above_threshold = 0;
+            // Reset at-speed filter
+            at_speed_filter.calculate(false);
         }
         if (shooter_state == ShooterStates.SPINUP)
-        {   // Is spinner fast enough?
-            if (spinner.getSpeed() >= 0.95*spinner.getSetpoint())
-            {   // Has to be fast enough for a few cycles
-                if (++spinup_above_threshold >= SPINNER_ABOVE_THRESHOLD)
-                {
-                    shooter_state = ShooterStates.SHOOTING;
-                    // System.out.println("Shooting...");
-                    shot_timer.stop();
-                    shot_timer.reset();
-                    shot_timer.start();
-                }
-            }
-            else
+        {   // Is spinner fast enough ... long enough?
+            final boolean at_speed = spinner.getSpeed() >= 0.95*spinner.getSetpoint();
+            if (at_speed_filter.calculate(at_speed))
             {
-                spinup_above_threshold = 0;
-                if (spinup_timer.hasElapsed(SPINUP_TIMEOUT))
-                {
-                    shooter_state = ShooterStates.SHOOTING;
-                    System.out.println("Not reaching spinner setpoint, shooting anyway");
-                    shot_timer.stop();
-                    shot_timer.reset();
-                    shot_timer.start();
-                }
+                shooter_state = ShooterStates.SHOOTING;
+                // System.out.println("Shooting...");
+                shot_timer.stop();
+                shot_timer.reset();
+                shot_timer.start();
+            }
+            else if (spinup_timer.hasElapsed(SPINUP_TIMEOUT))
+            {
+                shooter_state = ShooterStates.SHOOTING;
+                System.out.println("Not reaching spinner setpoint, shooting anyway");
+                shot_timer.stop();
+                shot_timer.reset();
+                shot_timer.start();
             }
         }
         if (shooter_state == ShooterStates.SHOOTING)
