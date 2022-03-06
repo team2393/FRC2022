@@ -75,6 +75,7 @@ March
    * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
 
+   * Test drivertrain brake off in disable
    * Test new 'reset'
    * Test updated climber 'home' and climb sequence
    * BallHandlingTestRobot:
