@@ -76,6 +76,7 @@ March
    * Create auto sequences for competition
 
    * Test new 'reset'
+   * Test updated climber 'home' and climb sequence
    * BallHandlingTestRobot:
      Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected", then shoot balls in teleop.
      Set BallHandling.at_speed_filter to 2 seconds, check that we stay in SPINUP for that long after reaching speed.
