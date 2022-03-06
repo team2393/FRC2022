@@ -38,7 +38,6 @@ public class ClimbSequence extends SequentialCommandGroup
                 new WaitForNextStepCommand(),
                 new ArmInOutCommand(climber, true),
                 new SetClimberExtensionCommand(climber, "Arm Mid", 0.4)),            
-            
             // reach out...
             new ParallelDeadlineGroup(
                 new WaitForNextStepCommand(),
