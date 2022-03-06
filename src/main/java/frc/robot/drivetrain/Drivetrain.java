@@ -82,8 +82,6 @@ public class Drivetrain extends SubsystemBase
     /** Differential drive helper for turning forward/backwards and rotation into motor voltages */
     private final DifferentialDrive diff_drive = new DifferentialDrive(primary_left, primary_right);
 
-    // TODO Tune FF settings, then PID settings with actual robot
-
     /** FF for motor speed from SysId */
     private static final SimpleMotorFeedforward speed_feedforward = new SimpleMotorFeedforward(0.59652, 3.8354, 0.3057);
 
@@ -106,7 +104,7 @@ public class Drivetrain extends SubsystemBase
     /** Maximum speed in meters/sec (actual max speed is ~2.8), acceleration in (m/s)/s */        
     public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
                                         .addConstraint(new CentripetalAccelerationConstraint(1.0))
-     // TODO Limit voltage?             .addConstraint(new DifferentialDriveVoltageConstraint(speed_feedforward, kinematics, 8.0))
+     // Limit voltage?                  .addConstraint(new DifferentialDriveVoltageConstraint(speed_feedforward, kinematics, 8.0))
                                         .setKinematics(kinematics);
 
     /** Heading and tilt angle sensor */

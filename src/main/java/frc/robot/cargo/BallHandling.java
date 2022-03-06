@@ -20,7 +20,6 @@ import frc.robot.RobotMap;
 
 public class BallHandling extends SubsystemBase
 {
-    // TODO Determine good voltages
     public static final double INTAKE_VOLTAGE = 6.0;
     public static final double CONVEYOR_VOLTAGE = 3.0;
     public static final double FEEDER_VOLTAGE = 3.0;

@@ -19,9 +19,7 @@ public class WaitForNextStepCommand extends CommandBase
     @Override
     public boolean isFinished()
     {
-        // TODO Come up with better button
         return OperatorInterface.joystick.getYButtonPressed();
-        // && OperatorInterface.buttons.getRawButton(1);
     }
 }
  

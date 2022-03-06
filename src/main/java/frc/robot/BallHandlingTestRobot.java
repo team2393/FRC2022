@@ -4,6 +4,7 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -69,6 +70,9 @@ public class BallHandlingTestRobot extends TimedRobot
     {
         // Print something that allows us to see on the roboRio what's been uploaded
         System.out.println("***** Team 2393 Ball Handling Test *****");
+
+        // TODO Enable, then use Data Log Tool to download file and plot
+        // DataLogManager.start();
     }
 
     @Override
