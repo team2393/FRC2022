@@ -335,7 +335,7 @@ public class Drivetrain extends SubsystemBase
         avg = (getLeftSpeed() + getRightSpeed()) / 2;
         SmartDashboard.putNumber("Speed",  avg);
 
-        SmartDashboard.putNumber("Heading", pigeon.getFusedHeading());
+        SmartDashboard.putNumber("Heading", getHeading());
 
         // Update the estimated position
         odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftDistance(), getRightDistance());
