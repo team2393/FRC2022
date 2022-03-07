@@ -73,8 +73,8 @@ public class BallHandling extends SubsystemBase
     }
     private ShooterStates shooter_state = ShooterStates.IDLE;
 
-    /** Spinner must remain above threshold RPS for 10 cycles  */
-    private final Debouncer at_speed_filter = new Debouncer(TimedRobot.kDefaultPeriod*10, DebounceType.kRising);
+    /** Spinner must remain above threshold RPS for 0.5 sec  */
+    private final Debouncer at_speed_filter = new Debouncer(0.5, DebounceType.kRising);
     
     /** Should spinner run all the time? Or start it for each SPINUP? */
     private boolean keep_spinner_running = false;
@@ -317,11 +317,14 @@ public class BallHandling extends SubsystemBase
         else
             intake.setVoltage(0);
 
-        // Conveyor: Stop while shooting to prevent feeding a 2nd ball
+        // Conveyor: Stop while shooting to prevent feeding a 2nd ball?
+        // For now moving when shooting to get ball from anywhere in the pipeline out.
         // Otherwise try to load two balls, or move single ball forward 
-        if (shooter_state == ShooterStates.IDLE &&
-            ( (load_state == LoadStates.LOADING && !have_all_balls) ||
+        if (shooter_state == ShooterStates.SHOOTING ||
+            (shooter_state == ShooterStates.IDLE &&
+              ( (load_state == LoadStates.LOADING && !have_all_balls) ||
               (load_state == LoadStates.NOT_LOADING && have_single_ball_to_move)
+              )
             ))
             conveyor.setVoltage(CONVEYOR_VOLTAGE);
         else

@@ -19,6 +19,7 @@ public class ShootCommand extends CommandBase
     public void initialize()
     {
         ball_handling.shoot();
+        System.out.println("Shooting...");
     }
 
     @Override
@@ -29,6 +30,11 @@ public class ShootCommand extends CommandBase
     @Override
     public boolean isFinished()
     {
-        return ball_handling.hasShot();
+        if (ball_handling.hasShot())
+        {
+            System.out.println("DONE!");
+            return true;
+        }
+        return false;
     }
 } 

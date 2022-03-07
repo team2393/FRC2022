@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.ShootCommand;
@@ -116,7 +117,11 @@ public class BallHandlingTestRobot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-        new SequentialCommandGroup(new ShootCommand(ball_handling),
-                                   new ShootCommand(ball_handling)).schedule();
+        ball_handling.enable(true);
+        new SequentialCommandGroup(
+            new PrintCommand("****** Ball 1 ********"),
+            new ShootCommand(ball_handling),
+            new PrintCommand("****** Ball 2 ********"),
+            new ShootCommand(ball_handling)).schedule();
     }
 }

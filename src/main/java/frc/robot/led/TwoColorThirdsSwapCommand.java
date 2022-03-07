@@ -33,6 +33,12 @@ public class TwoColorThirdsSwapCommand extends CommandBase
     }
 
     @Override
+    public boolean runsWhenDisabled()
+    {
+        return true;
+    }
+
+    @Override
     public void execute()
     {
         final Color a, b;

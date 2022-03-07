@@ -115,8 +115,8 @@ public class Spinner extends SubsystemBase
     // that was recently issued to start the spinner will be mistaken
     // for an already ejected ball.
     // Delay a little to keep feeder running until ball is out.
-    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.1);
-    private final KeepOnFilter remember_shot = new KeepOnFilter(0.1);
+    private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.05);
+    private final KeepOnFilter remember_shot = new KeepOnFilter(0.05);
 
     /** @return Change in motor current */
     private double getCurrentChange()
@@ -132,7 +132,7 @@ public class Spinner extends SubsystemBase
     /** @return Does current drop suggest a ball was ejected? */
     public boolean isBallEjected()
     {
-        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 5.0));
+        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 10.0));
         return ejected; 
     }
 

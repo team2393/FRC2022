@@ -74,11 +74,10 @@ March
    * Commands for ball handling: Open, close, eject
    * Enable AutoShiftCommand, test it
    * Create auto sequences for competition
-
    * Set limelight address to 11 (front), 12 (back)
    * Test drivertrain brake off in disable
-   * Test new 'reset'
    * Test updated climber 'home' and climb sequence
+   * Test new 'reset'
    * BallHandlingTestRobot:
      Plot "Spinner RPS", "Spinner Current Change", "SpinnerState", "Ball Ejected", then shoot balls in teleop.
      Set BallHandling.at_speed_filter to 2 seconds, check that we stay in SPINUP for that long after reaching speed.
@@ -86,6 +85,7 @@ March
      Set Spinner.delay to 2 seconds, check that return to IDLE takes that long. Revert to small setting.
      Set Spinner.remember_shot to ~0.02 and check if it still works fine.
      Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
+
    * Faster ActiveArm?
    * Front camera: Calibrate targeting, test RotateToTargetCommand
    * Back camera: Calibrate ball detection, create/test RotateToBallCommand
@@ -114,14 +114,14 @@ Each camera should have fixed IP in the range 10.23.93.11, ..12, .. to not confl
 
 "Front" Camera:
 Set team 2393.
-Set IP address to static, 10.23.93.32, allowing access as http://10.23.93.32:5801/, and change name to "limelight-front".
+Set IP address to static, 10.23.93.11, allowing access as http://10.23.93.11:5801/, and change name to "limelight-front".
 Example pipelines are in limelight folder. Load "Drive" to front camera.
 Pipeline 0: DriveFront
 Pipeline 1: Target (and make that the default)
 
 "Back" Camera:
 Set team 2393.
-Set IP address to static, 10.23.93.74, allowing access as http://10.23.93.74:5801/, and change name to "limelight-back".
+Set IP address to static, 10.23.93.12, allowing access as http://10.23.93.12:5801/, and change name to "limelight-back".
 Pipeline 0: DriveBack (and make that the default)
 
 

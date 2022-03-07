@@ -30,6 +30,7 @@ import frc.robot.led.BurstCommand;
 import frc.robot.led.LEDStrip;
 import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
+import frc.robot.led.SetColorCommand;
 import frc.robot.led.TwoColorSwapCommand;
 import frc.robot.led.TwoColorThirdsSwapCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
@@ -40,11 +41,11 @@ import frc.robot.drivetrain.DriveByJoystickCommand;
 public class RapidReactRobot extends TimedRobot
 {
     private final LEDStrip strip = new LEDStrip();
-    private final CommandBase led_idle = new RainbowCommand(strip);
-    private final CommandBase led_auto = new TwoColorSwapCommand(strip, 0.5, Color.kRed, Color.kBlue);
-    private final CommandBase led_loaded0 = new TwoColorThirdsSwapCommand(strip,  1.0, Color.kGold, Color.kGreen);
-    private final CommandBase led_loaded1 = new TwoColorThirdsSwapCommand(strip,  0.2, Color.kGold, Color.kGreen);
-    private final CommandBase led_loaded2 = new OscillateCommand(strip);
+    private final CommandBase led_idle = new TwoColorThirdsSwapCommand(strip,  3.0, Color.kGold, Color.kGreen);
+    private final CommandBase led_auto = new RainbowCommand(strip);
+    private final CommandBase led_loaded0 = new SetColorCommand(strip, 0, 10, 0);
+    private final CommandBase led_loaded1 = new TwoColorThirdsSwapCommand(strip,  0.5, Color.kGold, Color.kGreen);
+    private final CommandBase led_loaded2 =  new TwoColorSwapCommand(strip, 0.1, Color.kRed, Color.kBlue);
     private final CommandBase led_fire = new BurstCommand(strip,  0.05, Color.kBlueViolet);
 
     // Robot components
