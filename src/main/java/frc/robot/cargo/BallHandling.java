@@ -350,6 +350,7 @@ public class BallHandling extends SubsystemBase
             spinner.stop();
     }
 
+    /** @return Have we just shot? Only useful for command that just requested to `shoot()` */
     public boolean hasShot()
     {
         // _after_ a shot has been requested, we should be _done_
@@ -357,8 +358,19 @@ public class BallHandling extends SubsystemBase
         return shot_requested == false  &&  shooter_state == ShooterStates.IDLE;
     }
 
+    /** @return {@link ShooterStates} */
     public ShooterStates getShooterState()
     {
         return shooter_state;
+    }
+
+    /** @return How many balls, 0, 1, 2? */
+    public int getBallCount()
+    {
+        if (ball_in_feeder && ball_in_conveyor)
+            return 2;
+        if (ball_in_feeder || ball_in_conveyor)
+            return 1;
+        return 0;
     }
 }

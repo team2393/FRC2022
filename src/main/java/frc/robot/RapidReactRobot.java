@@ -16,6 +16,7 @@ import frc.robot.auto.AutoOptions;
 import frc.robot.camera.CameraHelper;
 import frc.robot.camera.GuessingUDPClient;
 import frc.robot.cargo.BallHandling;
+import frc.robot.cargo.BallHandling.ShooterStates;
 import frc.robot.climb.ArmInOutCommand;
 import frc.robot.climb.ClimbSequence;
 import frc.robot.climb.Climber;
@@ -27,8 +28,10 @@ import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
 import frc.robot.led.BurstCommand;
 import frc.robot.led.LEDStrip;
+import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
 import frc.robot.led.TwoColorSwapCommand;
+import frc.robot.led.TwoColorThirdsSwapCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
 import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
@@ -36,7 +39,13 @@ import frc.robot.drivetrain.DriveByJoystickCommand;
 /** Team 2393 'Rapid React' robot */
 public class RapidReactRobot extends TimedRobot
 {
-    final LEDStrip strip = new LEDStrip();
+    private final LEDStrip strip = new LEDStrip();
+    private final CommandBase led_idle = new RainbowCommand(strip);
+    private final CommandBase led_auto = new TwoColorSwapCommand(strip, 0.5, Color.kRed, Color.kBlue);
+    private final CommandBase led_loaded0 = new TwoColorThirdsSwapCommand(strip,  1.0, Color.kGold, Color.kGreen);
+    private final CommandBase led_loaded1 = new TwoColorThirdsSwapCommand(strip,  0.2, Color.kGold, Color.kGreen);
+    private final CommandBase led_loaded2 = new OscillateCommand(strip);
+    private final CommandBase led_fire = new BurstCommand(strip,  0.05, Color.kBlueViolet);
 
     // Robot components
     BallHandling ball_handling = new BallHandling();
@@ -127,7 +136,7 @@ public class RapidReactRobot extends TimedRobot
 
         reset();
 
-        new RainbowCommand(strip).schedule();
+        led_idle.schedule();
     }
 
     /** Reset drivetrain.. */
@@ -153,7 +162,7 @@ public class RapidReactRobot extends TimedRobot
     {
         ball_handling.enable(false);
         drivetrain.brake(false);
-        new RainbowCommand(strip).schedule();
+        led_idle.schedule();
     }
 
     /** This function is called while the robot is disabled. */
@@ -173,8 +182,6 @@ public class RapidReactRobot extends TimedRobot
 
         // Start driving via joystick
         joydrive.schedule();
-
-        new BurstCommand(strip,  0.05, Color.kBlueViolet).schedule();
     }
 
     /** This function is called periodically during operator control. */
@@ -231,6 +238,20 @@ public class RapidReactRobot extends TimedRobot
             
         if (OperatorInterface.stopClimbSequence())
             climb_sequence.cancel();
+        
+        // ****** LEDs *****************
+        if (ball_handling.getShooterState() != ShooterStates.IDLE)
+            led_fire.schedule();
+        else
+        {
+            final int balls = ball_handling.getBallCount();
+            if (balls == 2)
+                led_loaded2.schedule();
+            else if (balls == 1)
+                led_loaded1.schedule();
+            else
+                led_loaded0.schedule();
+        } 
     }
 
     /** This function is called when entering auto-no-mouse mode */
@@ -241,11 +262,10 @@ public class RapidReactRobot extends TimedRobot
         drivetrain.brake(true);
         ball_handling.enable(true);
 
-        new TwoColorSwapCommand(strip, 0.2, Color.kGold, Color.kGreen);
-
         // Start selected auto command
         auto_options.getSelected().schedule();
         new HomeCommand(climber).schedule();
+        led_auto.schedule();
     }
 
     /** This function is called periodically during autonomous. */
