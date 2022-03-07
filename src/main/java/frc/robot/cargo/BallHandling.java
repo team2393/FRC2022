@@ -100,8 +100,10 @@ public class BallHandling extends SubsystemBase
     /** Timeout used for shot_requested */
     private static final double SHOT_TIMEOUT = 2.0;
 
-    private final NetworkTableEntry high = SmartDashboard.getEntry("High");
-
+    private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
+    private final NetworkTableEntry nt_ball_conveyor = SmartDashboard.getEntry("Ball in Conveyor");
+    private final NetworkTableEntry nt_ball_feeder = SmartDashboard.getEntry("Ball in Feeder");
+    private final NetworkTableEntry nt_ball_ejected = SmartDashboard.getEntry("Ball Ejected");
     
     public BallHandling()
     {
@@ -117,7 +119,7 @@ public class BallHandling extends SubsystemBase
         secondary_intake.follow(intake);
 
         // Allow control of shooter angle from smartboard
-        high.setDefaultBoolean(false);
+        nt_high.setDefaultBoolean(false);
     }
 
     public static void initializeMotor(final WPI_TalonFX motor)
@@ -194,27 +196,21 @@ public class BallHandling extends SubsystemBase
         shot_requested = true;
     }
 
-    // private final CycleDelayFilter conveyor_sensor_delay = new CycleDelayFilter(2);
-
     @Override
     public void periodic()
     {
         // Read sensors to get current data
-        // cargo_info = conveyor_sensor.read(); cargo_info != CargoInfo.NOTHING
-        // Delay?  ball_in_conveyor = conveyor_sensor_delay.compute(conveyor_sensor.get());
         ball_in_conveyor = conveyor_sensor.get();
         ball_in_feeder = feeder_sensor.get();
         ball_ejected = spinner.isBallEjected();
 
         // Update indicators
-        SmartDashboard.putBoolean("Ball in Conveyor", ball_in_conveyor);
-        SmartDashboard.putBoolean("Ball in Feeder", ball_in_feeder);
-        SmartDashboard.putBoolean("Ball Ejected", ball_ejected);
-        // SmartDashboard.putString("Load State", load_state.name());
-        // SmartDashboard.putString("Shoot State", shooter_state.name());
+        nt_ball_conveyor.setBoolean(ball_in_conveyor);
+        nt_ball_feeder.setBoolean(ball_in_feeder);
+        nt_ball_ejected.setBoolean(ball_ejected);
 
         // Control shooter angle from dashboard
-        shooter_angle.set(high.getBoolean(false));
+        shooter_angle.set(nt_high.getBoolean(false));
         
         // Update and handle states
         if (load_state == LoadStates.OFF)
@@ -230,8 +226,10 @@ public class BallHandling extends SubsystemBase
 
     private void state_off()
     {
+        // Move intake up (close) to stay within bumper outline
         intake_arm.set(false);
-
+        
+        // Turn everything off
         intake.setVoltage(0);
         conveyor.setVoltage(0);
         feeder.setVoltage(0);
@@ -293,8 +291,7 @@ public class BallHandling extends SubsystemBase
                 // System.out.println("Shot!");
                 spinner_endtime = keep_spinner_running ? 0 : Timer.getFPGATimestamp() + SPINNER_CONTINUE;
             }
-            else
-             if (shot_timer.hasElapsed(SHOT_TIMEOUT))
+            else if (shot_timer.hasElapsed(SHOT_TIMEOUT))
             {
                 shooter_state = ShooterStates.IDLE;
                 System.out.println("No ball shot? Giving up");
