@@ -21,6 +21,7 @@ public class Pneumatics extends SubsystemBase
 {
     private final PneumaticHub hub = new PneumaticHub();
     private final NetworkTableEntry nt_pressure;
+    private int calls = 0;
 
     public Pneumatics()
     {
@@ -33,7 +34,11 @@ public class Pneumatics extends SubsystemBase
     @Override
     public void periodic()
     {
-        // Read analog input 0
-        nt_pressure.setDouble(hub.getPressure(0));
+        if (++calls > 50)
+        {
+            // Read analog input 0
+            nt_pressure.setDouble(hub.getPressure(0));
+            calls = 0;
+        }
     }
 }
