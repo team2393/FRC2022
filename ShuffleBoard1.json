@@ -238,15 +238,26 @@
               "imageWidth": -1,
               "imageHeight": -1
             }
+          },
+          "9,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight-back/pipeline",
+              "_title": "Pipeline"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -12.800000190734863,
-    "y": 140.0,
+    "x": -13.600000381469727,
+    "y": 45.599998474121094,
     "width": 1548.800048828125,
-    "height": 691.2000122070312
+    "height": 758.4000244140625
   }
 }
