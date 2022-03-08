@@ -123,6 +123,8 @@ Pipeline 1: Target (and make that the default)
 Set team 2393.
 Set IP address to static, 10.23.93.12, allowing access as http://10.23.93.12:5801/, and change name to "limelight-back".
 Pipeline 0: DriveBack (and make that the default)
+Pipeline 1: Blue
+Pipeline 2: Red
 
 
 Raspberry Pi
