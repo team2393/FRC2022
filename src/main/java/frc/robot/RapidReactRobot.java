@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -94,6 +95,8 @@ public class RapidReactRobot extends TimedRobot
     
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
+    
+    private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
 
     
     /** This function runs once on robot startup. */
@@ -214,6 +217,9 @@ public class RapidReactRobot extends TimedRobot
     
         if (OperatorInterface.doShoot())
             ball_handling.shoot();
+
+        if (OperatorInterface.HiLoPressed())
+            nt_high.setBoolean( ! nt_high.getBoolean(false));
             
         // ****** Climbing *****************
         if (OperatorInterface.armManualPressed())
@@ -239,6 +245,7 @@ public class RapidReactRobot extends TimedRobot
             
         if (OperatorInterface.stopClimbSequence())
             climb_sequence.cancel();
+
         
         // ****** LEDs *****************
         if (ball_handling.getShooterState() != ShooterStates.IDLE)

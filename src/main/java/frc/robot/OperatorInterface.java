@@ -144,4 +144,10 @@ public class OperatorInterface
     {
         return buttons.getRawButtonReleased(1);
     }
+
+    public static boolean HiLoPressed()
+    {
+        return buttons.getRawButtonPressed(6);
+    }
+    
 }
