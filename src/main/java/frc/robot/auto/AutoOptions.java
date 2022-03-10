@@ -35,14 +35,14 @@ public class AutoOptions
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
         {   // Drive 1 m backwards
-            auto_options.addOption("TAXI",
+            auto_options.addOption("TAXI (A1FF)",
                 new SequentialCommandGroup(
                     new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(false, -1, 0, 0)));
         }
 
         {  // Drive 1 m backwards after 10 seconds
-            auto_options.addOption("TAXIDelayed",
+            auto_options.addOption("TAXIDelayed (A1FF)",
             new SequentialCommandGroup(
                 new ShiftLowCommand(drivetrain),
                 new WaitCommand(10.0),
@@ -54,7 +54,7 @@ public class AutoOptions
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(2.167, 0.0487, 24.3));
     
-            auto_options.addOption("LTMEPickShootShoot",
+            auto_options.addOption("LTMEPickShootShoot (CTFDU)",
                 new SequentialCommandGroup(
                     new ApplySettingCommand("High", false),
                     new ApplySettingCommand("SpinnerSetpoint", 61),
@@ -74,7 +74,7 @@ public class AutoOptions
                 TrajectoryHelper.createTrajectory(2.3, 0.05, -26,
                                                   2.825, -0.312, -80));
     
-            auto_options.addOption("LTREPickShootShoot",
+            auto_options.addOption("LTREPickShootShoot (Hamburger)",
                 new SequentialCommandGroup(
                     new ApplySettingCommand("High", false),
                     new ApplySettingCommand("SpinnerSetpoint", 61),
@@ -93,7 +93,7 @@ public class AutoOptions
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(2.376, -0.407, 48));
     
-            auto_options.addOption("LTLETaxiShoot",
+            auto_options.addOption("LTLETaxiShoot (GG)",
                 new SequentialCommandGroup(
                     new ApplySettingCommand("High", false),
                     new ApplySettingCommand("SpinnerSetpoint", 61),
@@ -109,7 +109,7 @@ public class AutoOptions
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(2.2, -0.8, 26));
     
-            auto_options.addOption("RTLEPickShootShoot",
+            auto_options.addOption("RTLEPickShootShoot (SM)",
                 new SequentialCommandGroup(
                     new ApplySettingCommand("High", false),
                     new ApplySettingCommand("SpinnerSetpoint", 61),
