@@ -244,9 +244,9 @@ public class BallHandling extends SubsystemBase
         intake_arm.set(false);
 
         // Run motors backwards, but slowly
-        intake.setVoltage(-INTAKE_VOLTAGE/2);
-        conveyor.setVoltage(-CONVEYOR_VOLTAGE/2);
-        feeder.setVoltage(-FEEDER_VOLTAGE/2);
+        intake.setVoltage(-INTAKE_VOLTAGE/1);
+        conveyor.setVoltage(-CONVEYOR_VOLTAGE/1);
+        feeder.setVoltage(-FEEDER_VOLTAGE/1);
         spinner.stop();
     }
 
