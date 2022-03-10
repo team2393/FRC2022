@@ -219,7 +219,20 @@ public class RapidReactRobot extends TimedRobot
             ball_handling.shoot();
 
         if (OperatorInterface.HiLoPressed())
-            nt_high.setBoolean( ! nt_high.getBoolean(false));
+        {
+            // Toggle both hi/lo and set spinner
+            if (nt_high.getBoolean(false))
+            {
+                nt_high.setBoolean(false);
+                SmartDashboard.putNumber("SpinnerSetpoint", 60);
+            }
+            else
+            {
+                nt_high.setBoolean(true);
+                SmartDashboard.putNumber("SpinnerSetpoint", 70);
+            }
+
+        }
             
         // ****** Climbing *****************
         if (OperatorInterface.armManualPressed())
