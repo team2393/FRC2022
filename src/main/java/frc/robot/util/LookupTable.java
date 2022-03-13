@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class LookupTable
 {
+    /** Class that holds one { position, speed } data point */
     private static class Entry
     {
         final double position, speed;
@@ -22,6 +23,8 @@ public class LookupTable
             this.speed = speed;
         }
     }
+
+    /** Table of data points */
     private final List<Entry> table = new ArrayList<>();
     
     /** @param position Position and ..
@@ -34,51 +37,56 @@ public class LookupTable
         table.sort((a, b) -> Double.compare(a.position, b.position));
     }
 
+    /** @param pos Position
+     *  @return Speed for that position
+     */
     public double lookup(final double pos)
     {
-        // Binary search
-        int low = 0, high = table.size()-1;
-        // Is position outside of x range?
-        if (pos <= table.get(low).position)
-            return table.get(low).speed;
-        if (pos >= table.get(high).position)
-            return table.get(high).speed;
-        int i;
-        do
-        {   // Binary search: Find middle index
-            i = (low + high) / 2;
-            // Lucky, exact match?
-            if (table.get(i).position == pos)
-                return table.get(i).speed;
-            else if (pos < table.get(i).position)
-            {   // pos must be in the lower half
-                high = i-1;
-            }
+        final int n = table.size();
+        // Is position outside of table's position range?
+        if (pos <= table.get(0).position)
+            return table.get(0).speed;
+        if (pos >= table.get(n-1).position)
+            return table.get(n-1).speed;
+        // Binary search starting with left, right set to complete table
+        // https://en.wikipedia.org/wiki/Binary_search_algorithm#Procedure_for_finding_the_leftmost_element
+        int l = 0, r = n;
+        while (l < r)
+        {   // Binary search: Find middle index, rounding down(!)
+            final int m = (l + r) / 2;
+            if (table.get(m).position < pos)
+                l = m+1;   // pos must be in upper half
             else
-            {   // pos must be in upper half
-                low = i + 1;
-            }
+                r = m;     // pos must be in lower half (or exact match)
         }
-        while (low < high);
-        // Interpolate
-        return table.get(i).speed
-            + (pos - table.get(i).position) * (table.get(i+1).speed - table.get(i).speed)
-                                            / (table.get(i+1).position - table.get(i).position);
+        // For an exact match, [l] is that element
+        if (table.get(l).position == pos)
+            return table.get(l).speed;
+        // Otherwise l points to the next larger element,
+        // so pos is between element [l-1] and [l].
+        // Interpolate between those two points
+        final double slope = (table.get(l).speed    - table.get(l-1).speed)   /
+                             (table.get(l).position - table.get(l-1).position);
+        return table.get(l-1).speed + (pos - table.get(l-1).position) * slope;
     }
  
+    // Test/demo
     public static void main(String[] args)
     {
         // Example for lookup of spinner speeds for distance
         final LookupTable speeds = new LookupTable();
-        speeds.add(50, 60);
-        speeds.add(100, 65);
-        speeds.add(150, 70);
+        speeds.add(5, 5);
+        speeds.add(100, 100);
+        speeds.add(150, 1500);
         
-        System.out.println(49 + " -> " + speeds.lookup(49));
-        System.out.println(51 + " -> " + speeds.lookup(51));
+        System.out.println(4 + " -> " + speeds.lookup(4));
+        System.out.println(5 + " -> " + speeds.lookup(5));
+        System.out.println(6 + " -> " + speeds.lookup(6));
         System.out.println(75 + " -> " + speeds.lookup(75));
         System.out.println(80 + " -> " + speeds.lookup(80));
+        System.out.println(100 + " -> " + speeds.lookup(100));
         System.out.println(101 + " -> " + speeds.lookup(101));
+        System.out.println(120 + " -> " + speeds.lookup(120));
         System.out.println(149 + " -> " + speeds.lookup(149));
         System.out.println(150 + " -> " + speeds.lookup(150));
         System.out.println(160 + " -> " + speeds.lookup(160));
