@@ -86,8 +86,11 @@ March
      Set Spinner.remember_shot to ~0.02 and check if it still works fine.
      Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
 
-   * Faster ActiveArm?
+   * Update auto options
    * Front camera: Calibrate targeting, test RotateToTargetCommand
+   * Build spinner [ distance, speed ] table
+   * SpinnerFalconTestRobot
+   * Update button board
    * Back camera: Calibrate ball detection, create/test RotateToBallCommand
  * Competitions
 
