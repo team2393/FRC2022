@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch LookupTable",
+      "request": "launch",
+      "mainClass": "frc.robot.util.LookupTable",
+      "projectName": "FRC2022"
+    },
+    {
+      "type": "java",
       "name": "Launch TrajectoryViewer",
       "request": "launch",
       "mainClass": "frc.robot.auto.TrajectoryViewer",
