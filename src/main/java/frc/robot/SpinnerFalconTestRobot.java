@@ -19,7 +19,7 @@ public class SpinnerFalconTestRobot extends TimedRobot
     private final double STEPS_PER_REV = 2048 * 1;
     
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
-    private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
+    // private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
 
     @Override
     public void robotInit()
@@ -31,42 +31,44 @@ public class SpinnerFalconTestRobot extends TimedRobot
         // one needs to be inverted.
         // Configured such that positive speed setting will 'eject' balls
         initializeMotor(primary, false);
-        initializeMotor(secondary, true);
+        // initializeMotor(secondary, true);
         
         // We command the primary motor, secondary follows
-        secondary.follow(primary);
+        // secondary.follow(primary);
 
         // Configure PID etc
-        // primary.configClosedloopRamp(0.5);
+        primary.configClosedloopRamp(2.0);
         primary.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         primary.configNominalOutputForward(0.0);
         primary.configNominalOutputReverse(0.0);
         primary.configPeakOutputForward(1.0);
         primary.configPeakOutputReverse(-1.0);
         primary.configClosedLoopPeakOutput(0, 1.0);
-        // Use maximum of 8 V
-        primary.configVoltageCompSaturation(8.0);
+        // Use maximum of 10 V to have headroom when battery drops from 12 V
+        primary.configVoltageCompSaturation(10.0);
         primary.enableVoltageCompensation(true);
-        // primary.configSupplyCurrentLimit(currLimitCfg);
         
         // To tune, set all gains to zero, then
         // adjust in this order
         
         // kF = 1023 for full output / raw count_per_sec velocity at full output
-        primary.config_kF(0, 0.0);
+        
+        // output 0.67 -> 71 rps = 71*2048*0.1 units/sec ~ 14625 units/100ms 
+        // -> kF = 1023 * 0.67 / 14625 = 0.047
+        primary.config_kF(0, 0.0555);
         // kP = desired_percent_output * 1023 / error,
         // or output = error * kP with 1023 for 100% output
-        primary.config_kP(0, 0.0);
+        primary.config_kP(0, 0.04);
         // kD ~ 10 * kP
-        primary.config_kD(0, 0.0);
+        primary.config_kD(0, 0.4);
 
         // Find remaining error, set Izone to maybe twice that
         // so integral is zeroed when we are outside of the zone
-        // primary.config_IntegralZone(0, 1024);
+        primary.config_IntegralZone(0, 1000);
         // Could also configure max integral
         // primary.configMaxIntegralAccumulator(0, 1024);
         // Increase kI to eliminate residual error
-        primary.config_kI(0, 0.0);
+        primary.config_kI(0, 5e-06);
 
         // Reset position
         primary.setSelectedSensorPosition(0);
@@ -130,10 +132,11 @@ public class SpinnerFalconTestRobot extends TimedRobot
     public void autonomousPeriodic()
     {
         // In auto, ask spinner to run at desired speed
-        double rps = SmartDashboard.getNumber("SpinnerSetpoint", 0.0);
-        
+        final double rps = SmartDashboard.getNumber("SpinnerSetpoint", 0.0);
+       
         // Convert revs per seconds into encoder counts per 100ms
-        double velo = rps * STEPS_PER_REV * 0.1;
+        final double velo = rps * STEPS_PER_REV * 0.1;
+        SmartDashboard.putNumber("Velo", velo);
         
         primary.set(TalonFXControlMode.Velocity, velo);
     }
