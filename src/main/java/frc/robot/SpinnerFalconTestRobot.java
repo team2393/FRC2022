@@ -55,7 +55,7 @@ public class SpinnerFalconTestRobot extends TimedRobot
         
         // output 0.67 -> 71 rps = 71*2048*0.1 units/sec ~ 14625 units/100ms 
         // -> kF = 1023 * 0.67 / 14625 = 0.047
-        primary.config_kF(0, 0.0555);
+        primary.config_kF(0, 0.0557);
         // kP = desired_percent_output * 1023 / error,
         // or output = error * kP with 1023 for 100% output
         primary.config_kP(0, 0.04);
@@ -133,6 +133,9 @@ public class SpinnerFalconTestRobot extends TimedRobot
     {
         // In auto, ask spinner to run at desired speed
         final double rps = SmartDashboard.getNumber("SpinnerSetpoint", 0.0);
+        SmartDashboard.putNumber("ErrorPerc", rps > 0
+                                              ? 100.0* (getSpeed() - rps) / rps
+                                              : 0);
        
         // Convert revs per seconds into encoder counts per 100ms
         final double velo = rps * STEPS_PER_REV * 0.1;
