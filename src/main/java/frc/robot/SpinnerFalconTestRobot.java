@@ -43,9 +43,8 @@ public class SpinnerFalconTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        // In teleop, manually control spinner voltage -12..12 through joystick
-        double voltage = 12.0*OperatorInterface.getSpeed();
-        spinner.setVoltage(voltage);
+        // In teleop, manually control spinner joystick
+        spinner.setOutput(OperatorInterface.getSpeed());
     }
 
     @Override
@@ -53,5 +52,11 @@ public class SpinnerFalconTestRobot extends TimedRobot
     {
         // In auto, ask spinner to run at desired speed
         spinner.run();
+
+        final double setpoint = spinner.getSetpoint();
+        if (setpoint != 0)
+            SmartDashboard.putNumber("Error", (setpoint - spinner.getSpeed()) / setpoint);
+        else
+            SmartDashboard.putNumber("Error", 0.0);
     }
 }

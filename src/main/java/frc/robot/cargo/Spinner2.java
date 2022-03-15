@@ -115,10 +115,10 @@ public class Spinner2 extends SubsystemBase
         return primary.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
     }
 
-    /** @param voltage Voltage for spinner motors */
-    public void setVoltage(final double voltage)
+    /** @param output Output -1..1 to spinner motors */
+    public void setOutput(final double output)
     {
-        primary.setVoltage(voltage);
+        primary.set(TalonFXControlMode.PercentOutput, output);
     }
 
     /** @return Does current drop suggest a ball was ejected? */
@@ -130,7 +130,7 @@ public class Spinner2 extends SubsystemBase
     /** Stop (allow to run down, no hard brake) */
     public void stop()
     {
-        setVoltage(0);
+        primary.set(TalonFXControlMode.PercentOutput, 0.0);
     }
 
     /** @param rps Desired speed in revs/sec */
