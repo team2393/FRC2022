@@ -4,11 +4,10 @@
 package frc.robot.cargo;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -27,12 +26,11 @@ public class Spinner extends SubsystemBase
     private final WPI_TalonFX primary = new WPI_TalonFX(RobotMap.PRIMARY_SPINNER);
     private final WPI_TalonFX secondary = new WPI_TalonFX(RobotMap.SECONDARY_SPINNER);
     
-    // Values based on SysId
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.62408, 0.10847, 0.0044311);
-    private final PIDController pid = new PIDController(0.09015, 0, 0);
-
     private final NetworkTableEntry spinner_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
     private final NetworkTableEntry spinner_rps = SmartDashboard.getEntry("Spinner RPS");
+
+    // Get to max rps in 3 seconds
+    private final SlewRateLimiter slew = new SlewRateLimiter(80.0/1.5);
 
     public Spinner()
     {
@@ -44,6 +42,46 @@ public class Spinner extends SubsystemBase
         
         // We command the primary motor, secondary follows
         secondary.follow(primary);
+
+        // TODO Configure PID etc
+        // primary.configClosedloopRamp(0.0); Using slew
+        primary.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        primary.configNominalOutputForward(0.0);
+        primary.configNominalOutputReverse(0.0);
+        primary.configPeakOutputForward(1.0);
+        primary.configPeakOutputReverse(-1.0);
+        primary.configClosedLoopPeakOutput(0, 1.0);
+        // Use maximum of 10 V to have headroom when battery drops from 12 V
+        primary.configVoltageCompSaturation(10.0);
+        primary.enableVoltageCompensation(true);
+        
+        // To tune, set all following gains to zero,
+        // then adjust in this order within PhoenixTuner
+        //
+        // kF = 1023 for full output / raw count_per_sec velocity at full output
+        //
+        // output 0.67 -> 71 rps = 71*2048*0.1 ~ 14625 units/100ms 
+        // -> kF = 1023 * 0.67 / 14625 = 0.047
+        //
+        // output 0.61 -> 60 rps = 60 * 2048*0.1 = 12288 units/100ms
+        // -> kF = 1023*0.61/12288 = 0.05078
+
+        // output 0.52 -> 50 rps = 50 * 2048*0.1 = 10240
+        // -> kF = 1023*0.52/10240 = 0.05
+        primary.config_kF(0, 0.0557);
+        // kP = desired_percent_output * 1023 / error,
+        // or output = error * kP with 1023 for 100% output
+        primary.config_kP(0, 0.04);
+        // kD ~ 10 * kP
+        primary.config_kD(0, 0.4);
+
+        // Find remaining error, set Izone to maybe twice that
+        // so integral is zeroed when we are outside of the zone
+        primary.config_IntegralZone(0, 1000);
+        // Could also configure max integral
+        // primary.configMaxIntegralAccumulator(0, 1024);
+        // Increase kI to eliminate residual error
+        primary.config_kI(0, 5e-06);
 
         reset();
 
@@ -71,6 +109,7 @@ public class Spinner extends SubsystemBase
     public void reset()
     {
         primary.setSelectedSensorPosition(0);
+        slew.reset(0);
     }
 
     /** @return Position in revs */
@@ -80,12 +119,6 @@ public class Spinner extends SubsystemBase
         return primary.getSelectedSensorPosition() / STEPS_PER_REV;
     }
 
-    /** @return Spinner motor voltage */
-    public double getVoltage()
-    {
-        return primary.getMotorOutputVoltage();
-    }
-
     /** @return Measured speed in revs/sec */
     public double getSpeed()
     {
@@ -93,16 +126,42 @@ public class Spinner extends SubsystemBase
         return primary.getSelectedSensorVelocity() / STEPS_PER_REV * 10.0;
     }
 
-    /** @param voltage Voltage for spinner motors */
-    public void setVoltage(final double voltage)
+    /** @param output Output -1..1 to spinner motors */
+    public void setOutput(final double output)
     {
-        primary.setVoltage(voltage);
+        primary.set(TalonFXControlMode.PercentOutput, output);
     }
 
-    /** @return Current drawn by motor */
-    public double getCurrent()
+    /** @return Does current drop suggest a ball was ejected? */
+    public boolean isBallEjected()
     {
-        return primary.getStatorCurrent();
+        return ejected; 
+    }
+
+    /** Stop (allow to run down, no hard brake) */
+    public void stop()
+    {
+        primary.set(TalonFXControlMode.PercentOutput, 0.0);
+        slew.reset(0);
+    }
+
+    /** @param rps Desired speed in revs/sec */
+    private void setSpeed(final double rps)
+    {
+        // Convert revs per seconds into encoder counts per 100ms
+        final double velo = rps * STEPS_PER_REV * 0.1;        
+        primary.set(TalonFXControlMode.Velocity, velo);
+    }
+
+    public double getSetpoint()
+    {
+        return spinner_setpoint.getDouble(10.0);
+    }
+    
+    /** Run at "SpinnerSetpoint" RPS */
+    public void run()
+    {
+        setSpeed(slew.calculate(getSetpoint()));
     }
 
     // High pass filter shows change in value, any change slower than 0.1 seconds are ignored.
@@ -118,95 +177,16 @@ public class Spinner extends SubsystemBase
     private final CycleDelayFilter delay = CycleDelayFilter.forSeconds(0.05);
     private final KeepOnFilter remember_shot = new KeepOnFilter(0.05);
 
-    /** @return Change in motor current */
-    private double getCurrentChange()
-    {
-        // Try highpass and change_filter
-        // Try different settings to find good current change threshold
-        // for detecting ejected ball
-        final double change = highpass.calculate(getCurrent());
-        SmartDashboard.putNumber("Spinner Current Change", change);
-        return change;
-    }
-    
-    /** @return Does current drop suggest a ball was ejected? */
-    public boolean isBallEjected()
-    {
-        final boolean ejected = delay.compute(remember_shot.compute(Math.abs(getCurrentChange()) > 10.0));
-        return ejected; 
-    }
-
-    // Speed is controlled by FF and PID,
-    // with additional consideration for the initial ramp-up after
-    // being stopped.
-
-    enum State
-    {
-        STOPPED,
-        STARTUP,
-        RUNNING    
-    }
-
-    /** Are we in the initial voltage rampup after being stopped? */
-    private State state = State.STOPPED;
-
-    /** Voltage until which we perform the slow initial rampup */
-    private static final double INITIAL_RAMPUP_THRESHOLD = 4.0;
-
-    /** Slow voltage rampup from stopped state to full 12V to about 3 second */
-    private final SlewRateLimiter startup_slew = new SlewRateLimiter(3.5);
-
-    /** Stop (allow to run down, no hard brake) */
-    public void stop()
-    {
-        setVoltage(0);
-        // Prepare to start over with initial rampup
-        state = State.STOPPED;
-    }
-
-    /** @param speed Desired speed in revs/sec */
-    public void setSpeed(final double speed)
-    {
-        // Use FF and PID to estimate voltage needed for that speed
-        double voltage = feedforward.calculate(speed) + pid.calculate(getSpeed(), speed);
-
-        if (state == State.STOPPED)
-        {
-            startup_slew.reset(0);
-            state = State.STARTUP;
-        }
-        if (state == State.STARTUP)
-        {   // While in initial rampup, slow the voltage changes ...
-            voltage = startup_slew.calculate(voltage);
-            // .. until we reach the threshold voltage
-            if (Math.abs(voltage) > INITIAL_RAMPUP_THRESHOLD)
-                state = State.RUNNING;
-        }
-
-        voltage = MathUtil.clamp(voltage, -12.0, 12.0);
-        setVoltage(voltage);
-    }
-
-    public double getSetpoint()
-    {
-        return spinner_setpoint.getDouble(10.0);
-    }
-    
-    /** Run at "SpinnerSetpoint" RPS */
-    public void run()
-    {
-        setSpeed(getSetpoint());
-    }
+    private boolean ejected = false;
 
     @Override
     public void periodic()
     {
-        final double speed = getSpeed();
-        spinner_rps.setDouble(speed);
-        // Remove items as they're no longer necessary
-        // SmartDashboard.putNumber("Spinner RPM", speed * 60.0);
-        // SmartDashboard.putNumber("Spinner Rev", getPosition());
-        // SmartDashboard.putNumber("Spinner Voltage", getVoltage());
-        // SmartDashboard.putNumber("Spinner Current", getCurrent());
+        final double current  = primary.getStatorCurrent();
+        final double change = highpass.calculate(current);
+        // SmartDashboard.putNumber("Spinner Current Change", change);
+        ejected = delay.compute(remember_shot.compute(Math.abs(change) > 10.0));
+
+        spinner_rps.setDouble(getSpeed());
     }
 } 

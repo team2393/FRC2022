@@ -69,9 +69,8 @@ public class SpinnerTestRobot extends TimedRobot
     @Override
     public void teleopPeriodic()
     {
-        // In teleop, manually control spinner voltage -12..12 through joystick
-        double voltage = 12.0*OperatorInterface.getSpeed();
-        spinner.setVoltage(voltage);
+        // In teleop, manually control spinner through joystick
+        spinner.setOutput(OperatorInterface.getSpeed());
     }
 
     @Override
