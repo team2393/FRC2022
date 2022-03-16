@@ -71,9 +71,9 @@ public class Spinner extends SubsystemBase
         primary.config_kF(0, 0.0557);
         // kP = desired_percent_output * 1023 / error,
         // or output = error * kP with 1023 for 100% output
-        primary.config_kP(0, 0.04);
+        primary.config_kP(0, 0.05);
         // kD ~ 10 * kP
-        primary.config_kD(0, 0.4);
+        primary.config_kD(0, 0.5);
 
         // Find remaining error, set Izone to maybe twice that
         // so integral is zeroed when we are outside of the zone
