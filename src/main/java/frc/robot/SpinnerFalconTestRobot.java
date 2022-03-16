@@ -35,6 +35,12 @@ public class SpinnerFalconTestRobot extends TimedRobot
     }
 
     @Override
+    public void disabledPeriodic()
+    {
+        spinner.stop();
+    }
+
+    @Override
     public void teleopInit()
     {
         spinner.reset();

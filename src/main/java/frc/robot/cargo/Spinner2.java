@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,9 @@ public class Spinner2 extends SubsystemBase
     private final NetworkTableEntry spinner_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
     private final NetworkTableEntry spinner_rps = SmartDashboard.getEntry("Spinner RPS");
 
+    // Get to max rps in 3 seconds
+    private final SlewRateLimiter slew = new SlewRateLimiter(80.0/3);
+
     public Spinner2()
     {
         // Primary and secondary motors are on opposite sides of spinner,
@@ -40,7 +44,7 @@ public class Spinner2 extends SubsystemBase
     // TODO    secondary.follow(primary);
 
         // TODO Configure PID etc
-        primary.configClosedloopRamp(2.0);
+        // primary.configClosedloopRamp(0.0); Using slew
         primary.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         primary.configNominalOutputForward(0.0);
         primary.configNominalOutputReverse(0.0);
@@ -53,11 +57,14 @@ public class Spinner2 extends SubsystemBase
         
         // To tune, set all following gains to zero,
         // then adjust in this order within PhoenixTuner
-        
+        //
         // kF = 1023 for full output / raw count_per_sec velocity at full output
-        
-        // output 0.67 -> 71 rps = 71*2048*0.1 units/sec ~ 14625 units/100ms 
+        //
+        // output 0.67 -> 71 rps = 71*2048*0.1 ~ 14625 units/100ms 
         // -> kF = 1023 * 0.67 / 14625 = 0.047
+        //
+        // output 0.61 -> 60 rps = 60 * 2048*0.1 = 12288 units/100ms
+        // -> kF = 1023*0.61/12288 = 0.05078
         primary.config_kF(0, 0.0557);
         // kP = desired_percent_output * 1023 / error,
         // or output = error * kP with 1023 for 100% output
@@ -99,6 +106,7 @@ public class Spinner2 extends SubsystemBase
     public void reset()
     {
         primary.setSelectedSensorPosition(0);
+        slew.reset(0);
     }
 
     /** @return Position in revs */
@@ -131,10 +139,11 @@ public class Spinner2 extends SubsystemBase
     public void stop()
     {
         primary.set(TalonFXControlMode.PercentOutput, 0.0);
+        slew.reset(0);
     }
 
     /** @param rps Desired speed in revs/sec */
-    public void setSpeed(final double rps)
+    private void setSpeed(final double rps)
     {
         // Convert revs per seconds into encoder counts per 100ms
         final double velo = rps * STEPS_PER_REV * 0.1;        
@@ -149,7 +158,7 @@ public class Spinner2 extends SubsystemBase
     /** Run at "SpinnerSetpoint" RPS */
     public void run()
     {
-        setSpeed(getSetpoint());
+        setSpeed(slew.calculate(getSetpoint()));
     }
 
     // High pass filter shows change in value, any change slower than 0.1 seconds are ignored.
