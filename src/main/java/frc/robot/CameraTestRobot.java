@@ -15,7 +15,12 @@ import frc.robot.camera.SetSpeedForTargetCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
 import frc.robot.drivetrain.Drivetrain;
 
-/** Robot for camera tests */
+/** Robot for camera tests
+ * 
+ *  Check with small 'rmin' if robot rotates the correct way
+ *  Then tune 'rmin', 'P', 'rmax'.
+ *  Check if 'SpinnerSetpoint' updates with distance
+ */
 public class CameraTestRobot extends TimedRobot
 {
     private final WPI_TalonSRX pigeon_carrier = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
