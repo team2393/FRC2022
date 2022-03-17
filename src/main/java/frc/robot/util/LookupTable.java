@@ -26,6 +26,16 @@ public class LookupTable
 
     /** Table of data points */
     private final List<Entry> table = new ArrayList<>();
+
+    public LookupTable(final double... pos_speed)
+    {
+        if (pos_speed.length % 2 != 0)
+            throw new IllegalArgumentException("Need list of pos, speed, pos, speed, ...");
+        for (int i = 0;  i < pos_speed.length;  i += 2)
+            table.add(new Entry(pos_speed[i], pos_speed[i+1]));
+        // Table must be sorted by position
+        table.sort((a, b) -> Double.compare(a.position, b.position));
+    }
     
     /** @param position Position and ..
      *  @param speed .. speed to add to table
@@ -74,21 +84,13 @@ public class LookupTable
     public static void main(String[] args)
     {
         // Example for lookup of spinner speeds for distance
-        final LookupTable speeds = new LookupTable();
-        speeds.add(5, 5);
-        speeds.add(100, 100);
-        speeds.add(150, 1500);
+        final LookupTable speeds = new LookupTable(30, 65,
+                                                   20, 60,
+                                                    0, 55,
+                                                  -20, 60,
+                                                  -30, 75);
         
-        System.out.println(4 + " -> " + speeds.lookup(4));
-        System.out.println(5 + " -> " + speeds.lookup(5));
-        System.out.println(6 + " -> " + speeds.lookup(6));
-        System.out.println(75 + " -> " + speeds.lookup(75));
-        System.out.println(80 + " -> " + speeds.lookup(80));
-        System.out.println(100 + " -> " + speeds.lookup(100));
-        System.out.println(101 + " -> " + speeds.lookup(101));
-        System.out.println(120 + " -> " + speeds.lookup(120));
-        System.out.println(149 + " -> " + speeds.lookup(149));
-        System.out.println(150 + " -> " + speeds.lookup(150));
-        System.out.println(160 + " -> " + speeds.lookup(160));
+        for (double d : new double[] { 40, 30, 25, 20, 10, 5, 0, -5, -10, -20, -30, -40})
+            System.out.println(d + " -> " + speeds.lookup(d));
     }
 }

@@ -5,10 +5,14 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.camera.RotateToTargetCommand;
+import frc.robot.camera.SetSpeedForTargetCommand;
+import frc.robot.drivetrain.DriveByJoystickCommand;
 import frc.robot.drivetrain.Drivetrain;
 
 /** Robot for camera tests */
@@ -16,7 +20,9 @@ public class CameraTestRobot extends TimedRobot
 {
     private final WPI_TalonSRX pigeon_carrier = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
     private final Drivetrain drivetrain = new Drivetrain(pigeon_carrier);
+    private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain);
     private final RotateToTargetCommand rotate_to_target = new RotateToTargetCommand(drivetrain);
+    private final CommandBase set_speed_command = new SetSpeedForTargetCommand("limelight-front");
 
     @Override
     public void robotInit()
@@ -33,12 +39,29 @@ public class CameraTestRobot extends TimedRobot
     public void robotPeriodic()
     {
         CommandScheduler.getInstance().run();
+
+        // Faster updates
+        NetworkTableInstance.getDefault().flush();
     }
-    
+
+    @Override
+    public void disabledInit()
+    {
+        joydrive.cancel();
+    }
+
+    @Override
+    public void teleopInit()
+    {
+        joydrive.schedule();
+        set_speed_command.schedule();
+    }
+
     @Override
     public void autonomousInit()
     {
         rotate_to_target.schedule();
+        set_speed_command.schedule();
     }
 
     @Override
@@ -46,6 +69,6 @@ public class CameraTestRobot extends TimedRobot
     {
         rotate_to_target.configure(SmartDashboard.getNumber("rmin", 0),
                                    SmartDashboard.getNumber("P", 0),
-                                   SmartDashboard.getNumber("rmax", 0));        
+                                   SmartDashboard.getNumber("rmax", 0));
     }
 }
