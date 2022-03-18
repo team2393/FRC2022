@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
-import frc.robot.camera.CameraHelper;
-import frc.robot.camera.GuessingUDPClient;
+import frc.robot.camera.SetSpeedForTargetCommand;
 import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.BallHandling.ShooterStates;
 import frc.robot.climb.ArmInOutCommand;
@@ -29,13 +28,11 @@ import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.StayPutCommand;
 import frc.robot.led.BurstCommand;
 import frc.robot.led.LEDStrip;
-import frc.robot.led.OscillateCommand;
 import frc.robot.led.RainbowCommand;
 import frc.robot.led.SetColorCommand;
 import frc.robot.led.TwoColorSwapCommand;
 import frc.robot.led.TwoColorThirdsSwapCommand;
 import frc.robot.drivetrain.AutoShiftCommand;
-import frc.robot.drivetrain.DriveAndRotateToVisionCommand;
 import frc.robot.drivetrain.DriveByJoystickCommand;
 
 /** Team 2393 'Rapid React' robot */
@@ -73,12 +70,11 @@ public class RapidReactRobot extends TimedRobot
     final private CommandBase climb_sequence = new ClimbSequence(climber, ball_handling);
 
     /** Camera info client */
-    private GuessingUDPClient camera = new GuessingUDPClient();
+    private CommandBase set_spinner_speed = new SetSpeedForTargetCommand("limelight-front");
 
     /** Commands */
     private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain),
-                              auto_shift = new AutoShiftCommand(drivetrain),
-                              camera_drive = new DriveAndRotateToVisionCommand(drivetrain, () -> camera.get().direction);
+                              auto_shift = new AutoShiftCommand(drivetrain);
 
     private final CommandBase reset_command = new InstantCommand()
     {
@@ -133,10 +129,6 @@ public class RapidReactRobot extends TimedRobot
         SmartDashboard.putData(new ApplySettingsCommand("Aim Low Near", "low_near.dat"));
 
         SmartDashboard.putData(climb_sequence);
-
-        // Camera support
-        SmartDashboard.putData(camera_drive);
-        CameraHelper.registerCommands();
 
         reset();
 
@@ -193,11 +185,6 @@ public class RapidReactRobot extends TimedRobot
     public void teleopPeriodic()
     {
         // ****** Driving *****************
-        // GUI can select camera_drive.
-        // If that's not running, re-schedule the plain joydrive
-        if (! camera_drive.isScheduled())
-            joydrive.schedule();
-
         // auto_shift can be enabled on dashboard, and always allow manual shifting
         if (OperatorInterface.shiftHigh())
             // auto_shift.schedule();
@@ -205,6 +192,12 @@ public class RapidReactRobot extends TimedRobot
         if (OperatorInterface.shiftLow())
             // auto_shift.cancel();
             drivetrain.shiftgear(false);
+
+        // ****** Camera **********************************
+        if (OperatorInterface.joystick.getXButtonPressed())
+            set_spinner_speed.schedule();
+        if (OperatorInterface.joystick.getXButtonReleased())
+            set_spinner_speed.cancel();
 
         // ****** Shooting (but peaceful) *****************
         ball_handling.reverse(OperatorInterface.reverseIntake());
