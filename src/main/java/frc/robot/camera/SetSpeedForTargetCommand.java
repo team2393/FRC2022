@@ -26,8 +26,8 @@ public class SetSpeedForTargetCommand extends CommandBase
 
     private final LookupTable speed_for_dist = new LookupTable(
     // Distance, Spinner Speed
-        10, 70,
-        50, 60
+          -10.0, 70,
+              0, 40
     );
 
     public SetSpeedForTargetCommand(final String limelight_name)
