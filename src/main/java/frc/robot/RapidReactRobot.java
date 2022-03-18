@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
+import frc.robot.camera.RotateToTargetCommand;
 import frc.robot.camera.SetSpeedForTargetCommand;
 import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.BallHandling.ShooterStates;
@@ -67,10 +68,11 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase arm_in = new ArmInOutCommand(climber, false);
     // private final CommandBase arm_out = new InstantCommand(() -> climber.setAngle(true));
     // private final CommandBase arm_in = new InstantCommand(() -> climber.setAngle(false));
-    final private CommandBase climb_sequence = new ClimbSequence(climber, ball_handling);
+    private final CommandBase climb_sequence = new ClimbSequence(climber, ball_handling);
 
     /** Camera info client */
-    private CommandBase set_spinner_speed = new SetSpeedForTargetCommand("limelight-front");
+    private final CommandBase set_spinner_speed = new SetSpeedForTargetCommand("limelight-front");
+    private final CommandBase rotate_to_target = new RotateToTargetCommand(drivetrain);
 
     /** Commands */
     private final CommandBase joydrive = new DriveByJoystickCommand(drivetrain),
@@ -195,9 +197,15 @@ public class RapidReactRobot extends TimedRobot
 
         // ****** Camera **********************************
         if (OperatorInterface.joystick.getXButtonPressed())
+        {
             set_spinner_speed.schedule();
+            // TODO rotate_to_target.schedule();
+        }
         if (OperatorInterface.joystick.getXButtonReleased())
+        {
             set_spinner_speed.cancel();
+            joydrive.schedule();
+        }
 
         // ****** Shooting (but peaceful) *****************
         ball_handling.reverse(OperatorInterface.reverseIntake());

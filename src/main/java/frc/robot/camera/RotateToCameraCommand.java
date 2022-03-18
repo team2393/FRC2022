@@ -39,6 +39,8 @@ public class RotateToCameraCommand extends CommandBase
     {
         this.drivetrain = drivetrain;
 
+        addRequirements(drivetrain);
+
         final NetworkTable table = NetworkTableInstance.getDefault().getTable(limelight_name);
         // 0-3 = default, off, blink, on
         table.getEntry("ledMode").setDouble(led_on ? 3.0 : 1.0);

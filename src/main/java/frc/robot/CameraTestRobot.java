@@ -19,7 +19,8 @@ import frc.robot.drivetrain.Drivetrain;
  * 
  *  Check with small 'rmin' if robot rotates the correct way
  *  Then tune 'rmin', 'P', 'rmax'.
- *  Check if 'SpinnerSetpoint' updates with distance
+ *  Place correct values into RotateToTargetCommand
+ *  Check if 'SpinnerSetpoint' updates with distance.
  */
 public class CameraTestRobot extends TimedRobot
 {
