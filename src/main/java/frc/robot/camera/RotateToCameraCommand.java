@@ -8,6 +8,7 @@ import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OperatorInterface;
 import frc.robot.drivetrain.Drivetrain;
@@ -88,5 +89,16 @@ public class RotateToCameraCommand extends CommandBase
 
         // Drive: Positive rotation is "right", clockwise
         drivetrain.drive(OperatorInterface.getSpeed(), rotation);
+
+        // Tell driver if we're moving left/right or "done"
+        if (error > 0.1)
+            OperatorInterface.joystick.setRumble(RumbleType.kLeftRumble, 1.0);
+        else if (error < -0.1)
+            OperatorInterface.joystick.setRumble(RumbleType.kRightRumble, 1.0);
+        else
+        {
+            OperatorInterface.joystick.setRumble(RumbleType.kLeftRumble, 0.0);
+            OperatorInterface.joystick.setRumble(RumbleType.kRightRumble, 0.0);
+        }
     }
 }
