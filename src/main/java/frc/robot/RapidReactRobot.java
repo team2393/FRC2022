@@ -196,12 +196,12 @@ public class RapidReactRobot extends TimedRobot
             drivetrain.shiftgear(false);
 
         // ****** Camera **********************************
-        if (OperatorInterface.joystick.getXButtonPressed())
+        if (OperatorInterface.startFollowingCamera())
         {
             set_spinner_speed.schedule();
             // TODO rotate_to_target.schedule();
         }
-        if (OperatorInterface.joystick.getXButtonReleased())
+        if (OperatorInterface.stopFollowingCamera())
         {
             set_spinner_speed.cancel();
             joydrive.schedule();

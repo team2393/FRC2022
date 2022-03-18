@@ -22,6 +22,7 @@ public class OperatorInterface
         joystick.getAButtonPressed();
         joystick.getBButtonPressed();
         joystick.getXButtonPressed();
+        joystick.getXButtonReleased();
         joystick.getYButtonPressed();
         joystick.getRightBumperPressed();
 
@@ -149,5 +150,14 @@ public class OperatorInterface
     {
         return buttons.getRawButtonPressed(6);
     }
+
+    public static boolean startFollowingCamera()
+    {
+        return joystick.getXButtonPressed();
+    }
     
+    public static boolean stopFollowingCamera()
+    {
+        return joystick.getXButtonReleased();
+    }
 }
