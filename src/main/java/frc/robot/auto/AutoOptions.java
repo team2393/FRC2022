@@ -50,19 +50,16 @@ public class AutoOptions
         }
 
         {   // Left Tarmac, Middle Edge, pickup, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.26, 0.003, -1);
-            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
-                TrajectoryHelper.createTrajectory(2.167, 0.0487, 24.3));
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.2, 0, 6.5);
     
             auto_options.addOption("LTMEPickShootShoot (CTFDU)",
                 new SequentialCommandGroup(
-                    new ApplySettingCommand("High", false),
-                    new ApplySettingCommand("SpinnerSetpoint", 61),
+                    new ApplySettingCommand("High", true),
+                    new ApplySettingCommand("SpinnerSetpoint", 70),
                     new ToggleSpinnerCommand(ball_handling),
                     new ShiftLowCommand(drivetrain),
                     new OpenIntakeCommand(ball_handling),                   
                     drivetrain.createTrajectoryCommand(seg1),
-                    drivetrain.createTrajectoryCommand(seg2),
                     new ShootCommand(ball_handling),
                     new WaitCommand(1.5),
                     new ShootCommand(ball_handling)));
@@ -88,6 +85,23 @@ public class AutoOptions
                     new ShootCommand(ball_handling)));
         }
 
+        {   // Left Tarmac, Right Edge, pickup, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.4, -1.2, 50,
+                                                                      -1.5, -1.3, 8.5);
+    
+            auto_options.addOption("LTREPickShootShootFar (Hamburger)",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", true),
+                    new ApplySettingCommand("SpinnerSetpoint", 72),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),                   
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(1.5),
+                    new ShootCommand(ball_handling)));
+        }
+
         {   // Left Tarmac, Left Edge, pickup, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.239, 0.0, 0);
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
@@ -101,6 +115,19 @@ public class AutoOptions
                     new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(seg1),
                     drivetrain.createTrajectoryCommand(seg2),
+                    new ShootCommand(ball_handling)));
+        }
+
+        {   // Left Tarmac, Left Edge, pickup, shoot from far
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.5, 0.01, 8.4);
+    
+            auto_options.addOption("LTLETaxiShootFar (GG)",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", true),
+                    new ApplySettingCommand("SpinnerSetpoint", 70),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    drivetrain.createTrajectoryCommand(seg1),
                     new ShootCommand(ball_handling)));
         }
 
@@ -120,6 +147,60 @@ public class AutoOptions
                     drivetrain.createTrajectoryCommand(seg2),
                     new ShootCommand(ball_handling),
                     new WaitCommand(1.5),
+                    new ShootCommand(ball_handling)));
+        }
+
+        {   // Right Tarmac, Left Edge, pickup, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.08, -0.01, -2.3);
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                TrajectoryHelper.createTrajectory(1.96, 0.75, -28));
+            Trajectory seg3 = TrajectoryHelper.continueTrajectory(seg2,
+                TrajectoryHelper.createTrajectory(false, -1.85, 1, -21));
+            
+    
+            auto_options.addOption("RTMEPickShootShootPickShoot",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", true),
+                    new ApplySettingCommand("SpinnerSetpoint", 72),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),          
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(1.5),
+                    new ShootCommand(ball_handling),
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ApplySettingCommand("SpinnerSetpoint", 73),
+                    new OpenIntakeCommand(ball_handling),  
+                    drivetrain.createTrajectoryCommand(seg3), 
+                    new ShootCommand(ball_handling)));
+        }
+
+        {   // Right Tarmac, Left Edge, pickup, shoot, shoot, pick, pick, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.27, -0.1, 10);
+            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
+                TrajectoryHelper.createTrajectory(false, -3.45, 1.73, 10));
+            Trajectory seg3 = TrajectoryHelper.continueTrajectory(seg2,
+                TrajectoryHelper.createTrajectory(2.47, -1.27, -19));
+            
+    
+            auto_options.addOption("RTLEPSSPSS",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("High", true),
+                    new ApplySettingCommand("SpinnerSetpoint", 72),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),          
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
+                    new ShootCommand(ball_handling),
+                    new OpenIntakeCommand(ball_handling),  
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ApplySettingCommand("SpinnerSetpoint", 81),
+                    drivetrain.createTrajectoryCommand(seg3), 
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
                     new ShootCommand(ball_handling)));
         }
 
