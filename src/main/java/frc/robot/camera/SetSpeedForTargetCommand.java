@@ -25,9 +25,14 @@ public class SetSpeedForTargetCommand extends CommandBase
     private final MedianFilter median = new MedianFilter(3);
 
     private final LookupTable speed_for_dist = new LookupTable(
-    // Distance, Spinner Speed
-          -10.0, 70,
-              0, 40
+    // Distance [ty], Spinner Speed [rps]
+           10.00, 64,
+            3.15, 70,
+           -0.70, 70,
+           -4.50, 76,
+           -6.3,  82,
+           -6.60, 84,
+           -9.65, 90
     );
 
     public SetSpeedForTargetCommand(final String limelight_name)
@@ -41,6 +46,7 @@ public class SetSpeedForTargetCommand extends CommandBase
     public void initialize()
     {
         median.reset();
+        SmartDashboard.putBoolean("High", true);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class RotateToTargetCommand extends RotateToCameraCommand
     public RotateToTargetCommand(final Drivetrain drivetrain)
     {
         super(drivetrain, "limelight-front", true, 1);
-        // TODO Configure rmin, kp, rmax
-        configure(0, 0, 0);
+        // Configure rmin, kp, rmax
+        configure(0.25, 0.02, 0.35);
     }
 }

@@ -199,7 +199,7 @@ public class RapidReactRobot extends TimedRobot
         if (OperatorInterface.startFollowingCamera())
         {
             set_spinner_speed.schedule();
-            // TODO rotate_to_target.schedule();
+            rotate_to_target.schedule();
         }
         if (OperatorInterface.stopFollowingCamera())
         {

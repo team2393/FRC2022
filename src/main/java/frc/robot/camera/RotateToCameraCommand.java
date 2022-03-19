@@ -87,7 +87,8 @@ public class RotateToCameraCommand extends CommandBase
         // Positive if target is to the right.
         // Drivetrain rotates to the right (clockwise)
         // for positive values, so same sign on error and rotation
-        // TODO Ignore small errors? error = MathUtil.applyDeadband(error, 0.5);
+        // Ignore small errors
+        error = MathUtil.applyDeadband(error, 1.0);
 
         // Minimum feed forward and prop gain
         double rotation = Math.signum(error)*rmin + kp*error;
