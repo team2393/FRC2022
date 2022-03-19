@@ -102,7 +102,7 @@ public class Drivetrain extends SubsystemBase
                                 right_speed_pid = new PIDController(4, 0, 0);
 
     /** Maximum speed in meters/sec (actual max speed is ~2.8), acceleration in (m/s)/s */        
-    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 1.0)
+    public static final TrajectoryConfig trajectory_config = new TrajectoryConfig(2.5, 2)
                                         .addConstraint(new CentripetalAccelerationConstraint(1.0))
      // Limit voltage?                  .addConstraint(new DifferentialDriveVoltageConstraint(speed_feedforward, kinematics, 8.0))
                                         .setKinematics(kinematics);
