@@ -83,11 +83,17 @@ public class RotateToCameraCommand extends CommandBase
         // Filter
         error = median.calculate(error);
 
+        // Error is -30 .. +30 degrees.
+        // Positive if target is to the right.
+        // Drivetrain rotates to the right (clockwise)
+        // for positive values, so same sign on error and rotation
+        // TODO Ignore small errors? error = MathUtil.applyDeadband(error, 0.5);
+
         // Minimum feed forward and prop gain
         double rotation = Math.signum(error)*rmin + kp*error;
         rotation = MathUtil.clamp(rotation, -rmax, rmax);
 
-        // Drive: Positive rotation is "right", clockwise
+        // Drive: Allow manual for/back, rotate based on error
         drivetrain.drive(OperatorInterface.getSpeed(), rotation);
 
         // Tell driver if we're moving left/right or "done"
