@@ -32,17 +32,7 @@ public class AutoFireCommand extends CommandBase
     private final MedianFilter median_dist = new MedianFilter(3);
     private final MedianFilter median_error = new MedianFilter(3);
 
-    private final LookupTable speed_for_dist = new LookupTable(
-    // Distance [ty], Spinner Speed [rps]
-           10.00, 64,
-            3.15, 70,
-           -0.70, 70,
-           -4.50, 76,
-           -6.3,  82,
-           -6.60, 84,
-           -9.65, 90
-    );
-
+    private final LookupTable speed_for_dist = new SpeedLookupTable();
     private final double rmin = 0.25, rp = 0.02, rmax = 0.35;
 
     public AutoFireCommand(final Drivetrain drivetrain, final BallHandling ball_handling)
