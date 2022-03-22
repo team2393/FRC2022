@@ -118,7 +118,7 @@ public class ActiveArm
     {
         // Hitting limit switch for the first time?
         if (! homed  &&  latch_retracted)
-        {   // Set 'home' loation == zero
+        {   // Set 'home' location == zero
             extender.setSelectedSensorPosition(0);
             extension_pid.reset(0);
             // Remember that we hit home

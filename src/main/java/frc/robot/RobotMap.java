@@ -56,6 +56,7 @@ public class RobotMap
     public final static int RIGHT_INTAKE = 10; // TalonFX
     public final static int CONVEYOR = 11;
     public final static int FEEDER = 12;
+    public final static int HOOD = 14;
     
     // Solenoids
     // Are we using original PCM (of which we have many)
@@ -72,6 +73,7 @@ public class RobotMap
     public final static int EJECTION_SENSOR = 2;
     public static final int LEFT_ARM_RETRACTED = 3;
     public static final int RIGHT_ARM_RETRACTED = 4;
+    public static final int HOOD_HOME = 5;
 
     // PMW Channels
     public final static int LED_STRING = 5;
