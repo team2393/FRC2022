@@ -14,7 +14,7 @@ public class DriveByJoystickCommand extends CommandBase
 
     // Preserve battery and reduce gear wear:
     // Slew by 3 per second, i.e. 1/3 sec until full speed
-    private final SlewRateLimiter speed_limiter = new SlewRateLimiter(3);
+    private final SlewRateLimiter speed_limiter = new SlewRateLimiter(1);
     private final SlewRateLimiter turn_limiter = new SlewRateLimiter(3);
 
     public DriveByJoystickCommand(final Drivetrain drivetrain)
