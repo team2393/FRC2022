@@ -268,7 +268,9 @@ public class BallHandling extends SubsystemBase
         }
         if (shooter_state == ShooterStates.SPINUP)
         {   // Is spinner fast enough ... long enough?
-            final boolean at_speed = spinner.getSpeed() >= 0.95*spinner.getSetpoint();
+            final double speed = spinner.getSpeed();
+            final boolean at_speed = speed >= 0.95*spinner.getSetpoint()  &&
+                                     speed <= 1.05*spinner.getSetpoint();
             if (at_speed_filter.calculate(at_speed))
             {
                 shooter_state = ShooterStates.SHOOTING;
