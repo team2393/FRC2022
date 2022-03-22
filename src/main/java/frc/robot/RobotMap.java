@@ -24,10 +24,11 @@ public class RobotMap
     //  8                             11
     //
     //  * 20 Amp ports
-    //  9 VRM for sensors             10 Camera LED ring
+    //  9 VRM for sensors             10
     //
     // Port 20, 10 Amp: Radio Power Module
     // Port 21, 10 Amp: RoboRIO
+    // Port 23 (switchable)  Camera LED ring
     //
     // VRM 12V, 500mA
     // 1) Conveyor sensor

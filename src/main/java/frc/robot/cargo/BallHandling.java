@@ -164,8 +164,10 @@ public class BallHandling extends SubsystemBase
         keep_spinner_running = keep_running;
     }
 
-    /** @param do_load Load or not? */
-    public void load(final boolean do_load)
+    /** @param do_load Load or not?
+     *  @return Are we now 'loading'?
+     */
+    public boolean load(final boolean do_load)
     {
         if (do_load)
         {
@@ -174,14 +176,17 @@ public class BallHandling extends SubsystemBase
         }
         else
             load_state = LoadStates.NOT_LOADING;
+        return load_state == LoadStates.LOADING;
     }
 
-    /** Toggle between loading and not */
-    public void toggleLoading()
+    /** Toggle between loading and not
+     *  @return Are we now 'loading'?
+     */
+    public boolean toggleLoading()
     {
         // From NOT_LOADING, go to LOADING.
         // From LOADING or REVERSE go to NOT_LOADING
-        load(load_state == LoadStates.NOT_LOADING);
+        return load(load_state == LoadStates.NOT_LOADING);
     }
 
     /** Reverse intake, 'unclog' stuck balls */

@@ -205,7 +205,13 @@ public class RapidReactRobot extends TimedRobot
         ball_handling.reverse(OperatorInterface.reverseIntake());
 
         if (OperatorInterface.toggleLoading())
-            ball_handling.toggleLoading();
+        {
+            // Toggle loading, turn LED on if intake is 'out' to load
+            if (ball_handling.toggleLoading())
+                power.setSwitchableChannel(true);
+            else
+                power.setSwitchableChannel(false);
+        }
 
         if (OperatorInterface.toggleSpinner())
             ball_handling.toggleSpinner();
