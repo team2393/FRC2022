@@ -168,7 +168,10 @@ public class BallHandling extends SubsystemBase
     public void load(final boolean do_load)
     {
         if (do_load)
+        {
             load_state = LoadStates.LOADING;
+            shot_requested = false;
+        }
         else
             load_state = LoadStates.NOT_LOADING;
     }
