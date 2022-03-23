@@ -11,13 +11,13 @@ public class SpeedLookupTable extends LookupTable
     public SpeedLookupTable()
     {
         super(
-    // Distance [ty], Spinner Speed [rps]
-           10.00, 64,
-            3.15, 70,
-           -0.70, 70,
-           -4.50, 76,
-           -6.3,  82,
-           -6.60, 84,
-           -9.65, 90);
+    // Distance [ty], Spinner Speed [rps], Hood [mm], Deviation [deg]
+           10.00, 64, 0, 0,
+            3.15, 70, 0, 0,
+           -0.70, 70, 0, 0,
+           -4.50, 76, 0, 0,
+           -6.3,  82, 0, 0,
+           -6.60, 84, 0, 0,
+           -9.65, 90, 0, 0);
     }
 }

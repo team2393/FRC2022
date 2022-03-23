@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.util.LookupTable;
+import frc.robot.util.LookupTable.Entry;
 
 /** Command for setting spinner speed to hit target */
 public class SetSpeedForTargetCommand extends CommandBase
@@ -58,11 +59,11 @@ public class SetSpeedForTargetCommand extends CommandBase
             // Filter
             final double filtered_pixel_dist = median.calculate(pixel_dist);
     
-            final double speed = speed_for_dist.lookup(filtered_pixel_dist);
+            final Entry info = speed_for_dist.lookup(filtered_pixel_dist);
     
             SmartDashboard.putNumber("Raw Dist", pixel_dist);
             SmartDashboard.putNumber("Filtered Dist", filtered_pixel_dist);
-            SmartDashboard.putNumber("SpinnerSetpoint", speed);
+            SmartDashboard.putNumber("SpinnerSetpoint", info.speed);
         }
     }
 }

@@ -54,14 +54,14 @@ public class Spinner extends SubsystemBase
         // Use maximum of 10 V to have headroom when battery drops from 12 V
         primary.configVoltageCompSaturation(10.0);
         primary.enableVoltageCompensation(true);
-        
+
+        // TODO Try volt. comp. 11.0 V,
+        // scaling kF =  0.0557 * 10/11  = 0.0506
+
         // To tune, set all following gains to zero,
         // then adjust in this order within PhoenixTuner
         //
         // kF = 1023 for full output / raw count_per_sec velocity at full output
-        //
-        // output 0.67 -> 71 rps = 71*2048*0.1 ~ 14625 units/100ms 
-        // -> kF = 1023 * 0.67 / 14625 = 0.047
         //
         // output 0.61 -> 60 rps = 60 * 2048*0.1 = 12288 units/100ms
         // -> kF = 1023*0.61/12288 = 0.05078

@@ -15,6 +15,7 @@ import frc.robot.OperatorInterface;
 import frc.robot.cargo.BallHandling;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.util.LookupTable;
+import frc.robot.util.LookupTable.Entry;
 
 /** Command for setting spinner speed and rotating robot to hit target */
 public class AutoFireCommand extends CommandBase
@@ -71,9 +72,10 @@ public class AutoFireCommand extends CommandBase
             // Filter
             final double filtered_pixel_dist = median_dist.calculate(pixel_dist);
     
-            final double speed = speed_for_dist.lookup(filtered_pixel_dist);
+            final Entry info = speed_for_dist.lookup(filtered_pixel_dist);
     
-            SmartDashboard.putNumber("SpinnerSetpoint", speed);
+            SmartDashboard.putNumber("SpinnerSetpoint", info.speed);
+            SmartDashboard.putNumber("HoodSetpoint", info.hood);
 
             // Rotate onto target
             double error = horiz.getDouble(0);

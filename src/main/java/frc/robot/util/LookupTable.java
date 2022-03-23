@@ -13,14 +13,24 @@ import java.util.List;
 public class LookupTable
 {
     /** Class that holds one { position, speed } data point */
-    private static class Entry
+    public static class Entry
     {
-        final double position, speed;
+        final public double position, speed, hood, deviation;
 
-        Entry(final double position, final double speed)
+        Entry(final double position, final double speed,
+              final double hood, final double deviation)
         {
             this.position = position;
             this.speed = speed;
+            this.hood = hood;
+            this.deviation = deviation;
+        }
+
+        @Override
+        public String toString()
+        {
+            return String.format("Pos %f: Speed %f, Hood %f, Deviation %f",
+                                 position, speed, hood, deviation);
         }
     }
 
@@ -29,35 +39,25 @@ public class LookupTable
 
     public LookupTable(final double... pos_speed)
     {
-        if (pos_speed.length % 2 != 0)
-            throw new IllegalArgumentException("Need list of pos, speed, pos, speed, ...");
-        for (int i = 0;  i < pos_speed.length;  i += 2)
-            table.add(new Entry(pos_speed[i], pos_speed[i+1]));
+        if (pos_speed.length % 4 != 0)
+            throw new IllegalArgumentException("Need list of { pos, speed, hood, deviation}, {pos, speed, ...");
+        for (int i = 0;  i < pos_speed.length;  i += 4)
+            table.add(new Entry(pos_speed[i], pos_speed[i+1], pos_speed[i+2], pos_speed[i+3]));
         // Table must be sorted by position
         table.sort((a, b) -> Double.compare(a.position, b.position));
     }
     
-    /** @param position Position and ..
-     *  @param speed .. speed to add to table
-     */
-    public void add(final double position, final double speed)
-    {
-        table.add(new Entry(position, speed));
-        // Table must be sorted by position
-        table.sort((a, b) -> Double.compare(a.position, b.position));
-    }
-
     /** @param pos Position
      *  @return Speed for that position
      */
-    public double lookup(final double pos)
+    public Entry lookup(final double pos)
     {
         final int n = table.size();
         // Is position outside of table's position range?
         if (pos <= table.get(0).position)
-            return table.get(0).speed;
+            return table.get(0);
         if (pos >= table.get(n-1).position)
-            return table.get(n-1).speed;
+            return table.get(n-1);
         // Binary search starting with left, right set to complete table
         // https://en.wikipedia.org/wiki/Binary_search_algorithm#Procedure_for_finding_the_leftmost_element
         int l = 0, r = n;
@@ -71,24 +71,34 @@ public class LookupTable
         }
         // For an exact match, [l] is that element
         if (table.get(l).position == pos)
-            return table.get(l).speed;
+            return table.get(l);
         // Otherwise l points to the next larger element,
         // so pos is between element [l-1] and [l].
         // Interpolate between those two points
-        final double slope = (table.get(l).speed    - table.get(l-1).speed)   /
-                             (table.get(l).position - table.get(l-1).position);
-        return table.get(l-1).speed + (pos - table.get(l-1).position) * slope;
+        double slope = (table.get(l).speed    - table.get(l-1).speed)   /
+                       (table.get(l).position - table.get(l-1).position);
+        final double speed = table.get(l-1).speed + (pos - table.get(l-1).position) * slope;
+
+        slope = (table.get(l).hood     - table.get(l-1).hood)   /
+                (table.get(l).position - table.get(l-1).position);
+        final double hood = table.get(l-1).hood + (pos - table.get(l-1).position) * slope;
+
+        slope = (table.get(l).deviation - table.get(l-1).deviation)   /
+                (table.get(l).position  - table.get(l-1).position);
+        final double deviation = table.get(l-1).deviation + (pos - table.get(l-1).position) * slope;
+
+        return new Entry(pos, speed, hood, deviation);
     }
  
     // Test/demo
     public static void main(String[] args)
     {
         // Example for lookup of spinner speeds for distance
-        final LookupTable speeds = new LookupTable(30, 65,
-                                                   20, 60,
-                                                    0, 55,
-                                                  -20, 60,
-                                                  -30, 75);
+        final LookupTable speeds = new LookupTable(30, 65, 0, 0,
+                                                   20, 60, 0, 0,
+                                                    0, 55, 0, 0,
+                                                  -20, 60, 0, 0,
+                                                  -30, 75, 0, 0);
         
         for (double d : new double[] { 40, 30, 25, 20, 10, 5, 0, -5, -10, -20, -30, -40})
             System.out.println(d + " -> " + speeds.lookup(d));
