@@ -55,7 +55,7 @@ public class HoodTestRobot extends TimedRobot
         if (OperatorInterface.joystick.getYButton())
             home.schedule();
         if (! home.isScheduled())
-            hood.setOutput(OperatorInterface.getSpeed());
+            hood.setOutput(0.1*OperatorInterface.getSpeed());
     }
 
     @Override

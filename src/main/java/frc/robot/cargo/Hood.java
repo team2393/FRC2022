@@ -19,14 +19,14 @@ import frc.robot.RobotMap;
 public class Hood extends SubsystemBase
 {
     /** Encoder steps per percent movement */
-    private final double STEPS_PER_PERC = 2048 * 1;
+    private final double STEPS_PER_PERC = 2048 * 14.0 / 100.0;
 
     /** Position is limited to 0 .. max [percent] */
-    private final double MAX_POS_PERC = 500.0;
+    private final double MAX_POS_PERC = 100.0;
     
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
-    private final double MAX_PERC_PER_SEC = 50.0;
+    private final double MAX_PERC_PER_SEC = 100.0;
     
     private final WPI_TalonFX hood = new WPI_TalonFX(RobotMap.HOOD);
     private final DigitalInput home = new DigitalInput(RobotMap.HOOD_HOME);
@@ -40,6 +40,7 @@ public class Hood extends SubsystemBase
         hood.configFactoryDefault();
         hood.clearStickyFaults();
         hood.setNeutralMode(NeutralMode.Brake);
+        hood.setInverted(true);
     
         hood.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
@@ -53,9 +54,9 @@ public class Hood extends SubsystemBase
         // To tune, set all following gains to zero,
         // then adjust in this order within PhoenixTuner
         hood.selectProfileSlot(0, 0);
-        hood.config_kP(0, 0.2);
+        hood.config_kP(0, 1);
         // kD ~ 10 * kP
-        hood.config_kD(0, 2.0);
+        hood.config_kD(0, 0.0);
 
         // Find remaining error, set Izone to maybe twice that
         // so integral is zeroed when we are outside of the zone
