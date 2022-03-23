@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.auto.ApplySettingsCommand;
 import frc.robot.auto.AutoOptions;
 import frc.robot.camera.AutoFireCommand;
-import frc.robot.camera.RotateToTargetCommand;
-import frc.robot.camera.SetSpeedForTargetCommand;
 import frc.robot.cargo.BallHandling;
+import frc.robot.cargo.HomeHoodCommand;
+import frc.robot.cargo.Hood;
 import frc.robot.cargo.BallHandling.ShooterStates;
 import frc.robot.climb.ArmInOutCommand;
 import frc.robot.climb.ClimbSequence;
@@ -49,7 +49,9 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase led_fire = new BurstCommand(strip,  0.05, Color.kBlueViolet);
 
     // Robot components
-    BallHandling ball_handling = new BallHandling();
+    private final BallHandling ball_handling = new BallHandling();
+
+    private final Hood hood = new Hood();
 
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain(ball_handling.pigeon_carrier);
@@ -180,6 +182,8 @@ public class RapidReactRobot extends TimedRobot
 
         // Start driving via joystick
         joydrive.schedule();
+
+        new HomeHoodCommand(hood).schedule();
     }
 
     /** This function is called periodically during operator control. */
@@ -287,6 +291,7 @@ public class RapidReactRobot extends TimedRobot
         // Start selected auto command
         auto_options.getSelected().schedule();
         new HomeCommand(climber).schedule();
+        new HomeHoodCommand(hood).schedule();
         led_auto.schedule();
     }
 
