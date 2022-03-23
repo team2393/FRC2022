@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OperatorInterface;
 import frc.robot.drivetrain.Drivetrain;
@@ -18,7 +19,7 @@ public class RotateToCameraCommand extends CommandBase
 {
     private final Drivetrain drivetrain;
     private double rmin = 0, kp = 0, rmax = 0;
-    private final NetworkTableEntry valid, horiz;
+    private final NetworkTableEntry valid, horiz, deviation;
 
     // Camera data can 'jump around'.
     // Median filter picks the middle value of the last N readings.
@@ -30,11 +31,13 @@ public class RotateToCameraCommand extends CommandBase
 
     /** @param drivetrain Drivetrain to move robot
      *  @param limelight_name Name of limelight (as used in network table)
+     *  @param deviation_name Name of deviation in network table
      *  @param led_on Turn LED on?
      *  @param pipeline Pipeline 0..9 to use
      */
     public RotateToCameraCommand(final Drivetrain drivetrain,
                                  final String limelight_name,
+                                 final String deviation_name,
                                  final boolean led_on,
                                  final int pipeline)
     {
@@ -51,6 +54,8 @@ public class RotateToCameraCommand extends CommandBase
         table.getEntry("pipeline").setDouble(pipeline);
         valid = table.getEntry("tv");
         horiz = table.getEntry("tx");
+        deviation = SmartDashboard.getEntry(deviation_name);
+        deviation.setDefaultNumber(0.0);
     }
 
     /** @param rmin Minimum feed-forward rotation
@@ -78,7 +83,7 @@ public class RotateToCameraCommand extends CommandBase
         if (valid.getDouble(0) < 1)
            error = 0.0;
         else
-            error = horiz.getDouble(0);
+            error = horiz.getDouble(0) - deviation.getDouble(0.0);
 
         // Filter
         error = median.calculate(error);

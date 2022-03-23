@@ -76,6 +76,7 @@ public class AutoFireCommand extends CommandBase
     
             SmartDashboard.putNumber("SpinnerSetpoint", info.speed);
             SmartDashboard.putNumber("HoodSetpoint", info.hood);
+            SmartDashboard.putNumber("Deviation", info.deviation);
 
             // Rotate onto target
             double error = horiz.getDouble(0);
