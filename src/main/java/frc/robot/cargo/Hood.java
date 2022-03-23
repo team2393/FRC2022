@@ -18,15 +18,15 @@ import frc.robot.RobotMap;
 /** Hood that controls ball ejection angle */
 public class Hood extends SubsystemBase
 {
-    /** Encoder steps per revolution of spinner wheel */
-    private final double STEPS_PER_MM = 2048 * 1;
+    /** Encoder steps per percent movement */
+    private final double STEPS_PER_PERC = 2048 * 1;
 
-    /** Position is limited to 0 .. max [mm] */
-    private final double MAX_POS_MM = 500.0;
+    /** Position is limited to 0 .. max [percent] */
+    private final double MAX_POS_PERC = 500.0;
     
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
-    private final double MAX_MM_PER_SEC = 50.0;
+    private final double MAX_PERC_PER_SEC = 50.0;
     
     private final WPI_TalonFX hood = new WPI_TalonFX(RobotMap.HOOD);
     private final DigitalInput home = new DigitalInput(RobotMap.HOOD_HOME);
@@ -66,7 +66,7 @@ public class Hood extends SubsystemBase
         hood.config_kI(0, 0.0);
 
         // Max speed in encoder ticks per 0.1 seconds;
-        final double max_speed = MAX_MM_PER_SEC * STEPS_PER_MM * 0.1;
+        final double max_speed = MAX_PERC_PER_SEC * STEPS_PER_PERC * 0.1;
         hood.configMotionCruiseVelocity(max_speed);
         hood.configMotionAcceleration(max_speed);
         // hood.configMotionSCurveStrength(4);
@@ -88,7 +88,7 @@ public class Hood extends SubsystemBase
     /** @return Position in mm */
     public double getPosition()
     {
-        return hood.getSelectedSensorPosition() / STEPS_PER_MM;
+        return hood.getSelectedSensorPosition() / STEPS_PER_PERC;
     }
 
     public boolean atHome()
@@ -112,7 +112,7 @@ public class Hood extends SubsystemBase
 
     public void setPosition()
     {
-        final double ticks = MathUtil.clamp(setpoint.getDouble(0.0), 0, MAX_POS_MM) * STEPS_PER_MM;
+        final double ticks = MathUtil.clamp(setpoint.getDouble(0.0), 0, MAX_POS_PERC) * STEPS_PER_PERC;
         // hood.set(TalonFXControlMode.Position, ticks);
         hood.set(TalonFXControlMode.MotionMagic, ticks);
     }

@@ -12,9 +12,9 @@ import frc.robot.cargo.SetHoodCommand;
 
 /** Hood test robot
  * 
- *  [ ] In teleop, calibrate STEPS_PER_MM,
+ *  [ ] In teleop, calibrate STEPS_PER_PERC,
  *      check direction (forward == out),
- *      MAX_POS_MM, MAX_MM_PER_SEC
+ *      MAX_POS_PERC, MAX_PERC_PER_SEC
  * 
  *  [ ] Check homing
  * 
