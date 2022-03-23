@@ -266,6 +266,15 @@ public class Drivetrain extends SubsystemBase
         diff_drive.arcadeDrive(speed, rotation);
     }
 
+    /** Drive without the 'squared' correction
+     *  @param speed -1..1 speed of going back/for. Forward is positive
+     *  @param rotation -1..1 speed of rotation. Positive is "right", clockwise
+     */
+    public void driveDirect(final double speed, final double rotation)
+    {
+        diff_drive.arcadeDrive(speed, rotation, false);
+    }
+
     /** @param left_speed Speed in meters/sec for left side
      *  @param right_speed .. and right side
      */

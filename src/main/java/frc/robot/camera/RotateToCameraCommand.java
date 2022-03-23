@@ -100,7 +100,7 @@ public class RotateToCameraCommand extends CommandBase
         rotation = MathUtil.clamp(rotation, -rmax, rmax);
 
         // Drive: Allow manual for/back, rotate based on error
-        drivetrain.drive(OperatorInterface.getSpeed(), rotation);
+        drivetrain.driveDirect(OperatorInterface.getSpeed(), rotation);
 
         // Tell driver if we're moving left/right or "done"
         if (error > 0.1)
