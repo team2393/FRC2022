@@ -15,11 +15,21 @@ Code for 2022 Robot
 
 To get a copy of the sources, follow the WPILib introduction section on "Installing Software".
 You mostly need the "WPILib", which includes VS Code, and can add the rest later.
-Then get GIT from https://git-scm.com/downloads .
-Finally, open VS Code, and select the View menu, Command Palette, Git: Clone, `https://github.com/team2393/FRC2022.git` .
+Then get GIT.
+On a Mac, it's either already installed or will be when you type this in a terminal window:
+```
+mkdir ~/git
+cd ~/git
+git clone https://github.com/team2393/FRC2022
+```
+For Windows, get it from https://git-scm.com/downloads .
+Finally, open VS Code, and either use the File, Open Folder menu to open the git/FRC2022 folder
+that you already cloned,
+or do that via the View menu, Command Palette, Git: Clone, `https://github.com/team2393/FRC2022.git` .
 When prompted for the location of the code, best use a `git/` subfolder of your home directory.
 
-If you're later asked to commit changes, you'll also need to
+A useful extension for browsing the git history can be installed via the menu View, Extensions,
+then search for "Git Graph". If you're later asked to commit changes, you'll also need to
   1) Get a github account
   2) Get added to the people with write access to the repository
   3) Create an "access token", https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
@@ -85,11 +95,13 @@ March
      Set Spinner.delay to 2 seconds, check that return to IDLE takes that long. Revert to small setting.
      Set Spinner.remember_shot to ~0.02 and check if it still works fine.
      Auto-shoot 2 balls, adjust Spinner.remember_shot to find point where 2nd ball fails, back off.
-
    * Update auto options
    * Front camera: Calibrate targeting, test RotateToTargetCommand
    * Build spinner [ distance, speed ] table
    * SpinnerFalconTestRobot
+ * TODO
+   * Hood
+   * Deviation
    * Update button board
    * Back camera: Calibrate ball detection, create/test RotateToBallCommand
  * Competitions
@@ -98,14 +110,14 @@ March
 Radio
 -----
 
-Connect power to network hub.
-Plug USB/Ethernet adapter into laptop and hub.
-Connect radio to hub, but not, yet, power.
-Right-click wifi indicator in toolbar, "Open Network & Internet Settings", "Change adapter options",
-disable all but the USB/Ethernet adapter.
-Start FRC radio configuration tool as administrator.
-Configure team 2393, "Load Firmware", connect power to radio.
-On success, enter "Robot Name" and press "Configure".
+ * Connect power to network hub.
+ * Plug USB/Ethernet adapter into laptop and hub.
+ * Connect radio to hub, but not, yet, power.
+ * Right-click wifi indicator in toolbar, "Open Network & Internet Settings", "Change adapter options",
+   disable all but the USB/Ethernet adapter.
+ * Start FRC radio configuration tool as administrator.
+ * Configure team 2393, "Load Firmware", connect power to radio.
+ * On success, enter "Robot Name" and press "Configure".
 
 
 Limelight
