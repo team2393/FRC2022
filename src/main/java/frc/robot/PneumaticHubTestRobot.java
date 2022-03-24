@@ -69,8 +69,8 @@ public class PneumaticHubTestRobot extends TimedRobot
         if (OperatorInterface.toggleArmAngle())
             solenoids.get(RobotMap.ARM_ROTATOR).toggle();
 
-        if (OperatorInterface.doShoot())
-            solenoids.get(RobotMap.SHOOTER_ANGLE).toggle();
+        // if (OperatorInterface.doShoot())
+        //     solenoids.get(RobotMap.SHOOTER_ANGLE).toggle();
     }
 
     @Override

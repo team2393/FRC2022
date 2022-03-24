@@ -12,7 +12,6 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,7 +24,7 @@ public class BallHandling extends SubsystemBase
     public static final double FEEDER_VOLTAGE = 3.0;
     
     private final Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
-    private final Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
+    // private final Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
 
     private final WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.LEFT_INTAKE);
     private final WPI_TalonSRX secondary_intake = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE);
@@ -100,7 +99,7 @@ public class BallHandling extends SubsystemBase
     /** Timeout used for shot_requested */
     private static final double SHOT_TIMEOUT = 2.0;
 
-    private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
+    // private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
     private final NetworkTableEntry nt_ball_conveyor = SmartDashboard.getEntry("Ball in Conveyor");
     private final NetworkTableEntry nt_ball_feeder = SmartDashboard.getEntry("Ball in Feeder");
     private final NetworkTableEntry nt_ball_ejected = SmartDashboard.getEntry("Ball Ejected");
@@ -119,7 +118,7 @@ public class BallHandling extends SubsystemBase
         secondary_intake.follow(intake);
 
         // Allow control of shooter angle from smartboard
-        nt_high.setDefaultBoolean(false);
+        // nt_high.setDefaultBoolean(false);
     }
 
     public static void initializeMotor(final WPI_TalonFX motor)
@@ -218,7 +217,7 @@ public class BallHandling extends SubsystemBase
         nt_ball_ejected.setBoolean(ball_ejected);
 
         // Control shooter angle from dashboard
-        shooter_angle.set(nt_high.getBoolean(false));
+        // shooter_angle.set(nt_high.getBoolean(false));
         
         // Update and handle states
         if (load_state == LoadStates.OFF)

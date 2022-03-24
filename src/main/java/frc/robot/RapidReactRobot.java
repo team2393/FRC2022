@@ -97,7 +97,7 @@ public class RapidReactRobot extends TimedRobot
     /** Options shown on dashboard for selecting what to do in auto-no-mouse mode  */
     private final SendableChooser<CommandBase> auto_options = new SendableChooser<>();
     
-    private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
+    // private final NetworkTableEntry nt_high = SmartDashboard.getEntry("High");
 
     
     /** This function runs once on robot startup. */
@@ -224,21 +224,21 @@ public class RapidReactRobot extends TimedRobot
         if (OperatorInterface.doShoot())
             ball_handling.shoot();
 
-        if (OperatorInterface.HiLoPressed())
-        {
-            // Toggle both hi/lo and set spinner
-            if (nt_high.getBoolean(false))
-            {
-                nt_high.setBoolean(false);
-                SmartDashboard.putNumber("SpinnerSetpoint", 60);
-            }
-            else
-            {
-                nt_high.setBoolean(true);
-                SmartDashboard.putNumber("SpinnerSetpoint", 70);
-            }
+        // if (OperatorInterface.HiLoPressed())
+        // {
+        //     // Toggle both hi/lo and set spinner
+        //     if (nt_high.getBoolean(false))
+        //     {
+        //         nt_high.setBoolean(false);
+        //         SmartDashboard.putNumber("SpinnerSetpoint", 60);
+        //     }
+        //     else
+        //     {
+        //         nt_high.setBoolean(true);
+        //         SmartDashboard.putNumber("SpinnerSetpoint", 70);
+        //     }
 
-        }
+        // }
             
         // ****** Climbing *****************
         if (OperatorInterface.armManualPressed())

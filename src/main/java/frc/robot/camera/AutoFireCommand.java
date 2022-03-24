@@ -52,7 +52,7 @@ public class AutoFireCommand extends CommandBase
     {
         median_dist.reset();
         median_error.reset();
-        SmartDashboard.putBoolean("High", true);
+        // SmartDashboard.putBoolean("High", true);
     }
 
     @Override

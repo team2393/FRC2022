@@ -63,7 +63,7 @@ public class RobotMap
     // or new REV PH (more channels, but only one)?
     public final static PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
     public static final int ARM_ROTATOR = 0; //A
-    public final static int SHOOTER_ANGLE = 1; //B
+    // public final static int SHOOTER_ANGLE = 1; //B
     public final static int GEAR_SHIFTER = 2; //C
     public final static int INTAKE_ARM = 3; //D
 

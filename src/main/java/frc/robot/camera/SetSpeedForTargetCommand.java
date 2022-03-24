@@ -38,7 +38,7 @@ public class SetSpeedForTargetCommand extends CommandBase
     public void initialize()
     {
         median.reset();
-        SmartDashboard.putBoolean("High", true);
+        // SmartDashboard.putBoolean("High", true);
     }
 
     @Override
