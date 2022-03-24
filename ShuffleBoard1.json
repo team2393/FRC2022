@@ -170,13 +170,6 @@
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
                 },
-                "2,0": {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///SmartDashboard/High",
-                  "_title": "High",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
                 "1,1": {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///SmartDashboard/Ball in Conveyor",
@@ -184,12 +177,12 @@
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
                 },
-                "2,1": {
+                "2,0": {
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/HoodSetpoint",
                   "_title": "HoodSetpoint"
                 },
-                "2,2": {
+                "2,1": {
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Hood",
                   "_title": "Hood"

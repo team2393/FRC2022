@@ -52,7 +52,7 @@ public class Spinner extends SubsystemBase
         primary.configPeakOutputReverse(-1.0);
         primary.configClosedLoopPeakOutput(0, 1.0);
         // Use maximum of 10 V to have headroom when battery drops from 12 V
-        primary.configVoltageCompSaturation(10.0);
+        primary.configVoltageCompSaturation(11.0);
         primary.enableVoltageCompensation(true);
 
         // TODO Try volt. comp. 11.0 V,
@@ -68,20 +68,20 @@ public class Spinner extends SubsystemBase
 
         // output 0.52 -> 50 rps = 50 * 2048*0.1 = 10240
         // -> kF = 1023*0.52/10240 = 0.05
-        primary.config_kF(0, 0.0557);
+        primary.config_kF(0, 0.0526);
         // kP = desired_percent_output * 1023 / error,
         // or output = error * kP with 1023 for 100% output
-        primary.config_kP(0, 0.05);
+        primary.config_kP(0, 0.07);
         // kD ~ 10 * kP
-        primary.config_kD(0, 0.5);
+        primary.config_kD(0, 0.7);
 
         // Find remaining error, set Izone to maybe twice that
         // so integral is zeroed when we are outside of the zone
-        primary.config_IntegralZone(0, 1000);
+        primary.config_IntegralZone(0, 200);
         // Could also configure max integral
         // primary.configMaxIntegralAccumulator(0, 1024);
         // Increase kI to eliminate residual error
-        primary.config_kI(0, 5e-06);
+        primary.config_kI(0, 0.0001);
 
         reset();
 
