@@ -12,6 +12,6 @@ public class RotateToTargetCommand extends RotateToCameraCommand
     {
         super(drivetrain, "limelight-front", "Deviation", true, 1);
         // Configure rmin, kp, rmax
-        configure(0.25, 0.02, 0.35);
+        configure(0.01, 0.1, 0.13);
     }
 }
