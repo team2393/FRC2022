@@ -18,6 +18,7 @@ import frc.robot.camera.AutoFireCommand;
 import frc.robot.cargo.BallHandling;
 import frc.robot.cargo.HomeHoodCommand;
 import frc.robot.cargo.Hood;
+import frc.robot.cargo.SetHoodCommand;
 import frc.robot.cargo.BallHandling.ShooterStates;
 import frc.robot.climb.ArmInOutCommand;
 import frc.robot.climb.ClimbSequence;
@@ -183,7 +184,7 @@ public class RapidReactRobot extends TimedRobot
         // Start driving via joystick
         joydrive.schedule();
 
-        new HomeHoodCommand(hood).schedule();
+        new HomeHoodCommand(hood).andThen(new SetHoodCommand(hood)).schedule();
     }
 
     /** This function is called periodically during operator control. */
@@ -291,7 +292,7 @@ public class RapidReactRobot extends TimedRobot
         // Start selected auto command
         auto_options.getSelected().schedule();
         new HomeCommand(climber).schedule();
-        new HomeHoodCommand(hood).schedule();
+        new HomeHoodCommand(hood).andThen(new SetHoodCommand(hood)).schedule();
         led_auto.schedule();
     }
 
