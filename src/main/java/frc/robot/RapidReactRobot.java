@@ -50,16 +50,15 @@ public class RapidReactRobot extends TimedRobot
     private final CommandBase led_fire = new BurstCommand(strip,  0.05, Color.kBlueViolet);
 
     // Robot components
-    private final BallHandling ball_handling = new BallHandling();
+    private final PowerDistribution power = new PowerDistribution();
+    public final Pneumatics pneumatics = new Pneumatics();
+    private final BallHandling ball_handling = new BallHandling(power::setSwitchableChannel);
 
     private final Hood hood = new Hood();
 
     /** Drive motors */
     private final Drivetrain drivetrain = new Drivetrain(ball_handling.pigeon_carrier);
 
-    public final Pneumatics pneumatics = new Pneumatics();
-
-    private final PowerDistribution power = new PowerDistribution();
 
     public final Climber climber = new Climber();
     
@@ -210,13 +209,7 @@ public class RapidReactRobot extends TimedRobot
         ball_handling.reverse(OperatorInterface.reverseIntake());
 
         if (OperatorInterface.toggleLoading())
-        {
-            // Toggle loading, turn LED on if intake is 'out' to load
-            if (ball_handling.toggleLoading())
-                power.setSwitchableChannel(true);
-            else
-                power.setSwitchableChannel(false);
-        }
+            ball_handling.toggleLoading();
 
         if (OperatorInterface.toggleSpinner())
             ball_handling.toggleSpinner();

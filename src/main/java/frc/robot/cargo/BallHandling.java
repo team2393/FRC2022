@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,6 +23,8 @@ public class BallHandling extends SubsystemBase
     public static final double INTAKE_VOLTAGE = 6.0;
     public static final double CONVEYOR_VOLTAGE = 3.0;
     public static final double FEEDER_VOLTAGE = 3.0;
+
+    private final BooleanConsumer light_controller;
     
     private final Solenoid intake_arm = new Solenoid(RobotMap.PCM_TYPE, RobotMap.INTAKE_ARM);
     // private final Solenoid shooter_angle = new Solenoid(RobotMap.PCM_TYPE, RobotMap.SHOOTER_ANGLE);
@@ -104,8 +107,12 @@ public class BallHandling extends SubsystemBase
     private final NetworkTableEntry nt_ball_feeder = SmartDashboard.getEntry("Ball in Feeder");
     private final NetworkTableEntry nt_ball_ejected = SmartDashboard.getEntry("Ball Ejected");
     
-    public BallHandling()
+    /** @param light_controller Will be called to turn light on/off when intake open/close */
+    public BallHandling(final BooleanConsumer light_controller)
     {
+        this.light_controller = light_controller;
+        // Initially, turn light off
+        light_controller.accept(false);
         // Apply common settings
         initializeMotor(conveyor);
         conveyor.setInverted(true);
@@ -163,10 +170,8 @@ public class BallHandling extends SubsystemBase
         keep_spinner_running = keep_running;
     }
 
-    /** @param do_load Load or not?
-     *  @return Are we now 'loading'?
-     */
-    public boolean load(final boolean do_load)
+    /** @param do_load Load or not? */
+    public void load(final boolean do_load)
     {
         if (do_load)
         {
@@ -175,17 +180,15 @@ public class BallHandling extends SubsystemBase
         }
         else
             load_state = LoadStates.NOT_LOADING;
-        return load_state == LoadStates.LOADING;
+        light_controller.accept(load_state == LoadStates.LOADING);
     }
 
-    /** Toggle between loading and not
-     *  @return Are we now 'loading'?
-     */
-    public boolean toggleLoading()
+    /** Toggle between loading and not */
+    public void toggleLoading()
     {
         // From NOT_LOADING, go to LOADING.
         // From LOADING or REVERSE go to NOT_LOADING
-        return load(load_state == LoadStates.NOT_LOADING);
+        load(load_state == LoadStates.NOT_LOADING);
     }
 
     /** Reverse intake, 'unclog' stuck balls */
