@@ -93,10 +93,11 @@ public class RotateToCameraCommand extends CommandBase
         // Drivetrain rotates to the right (clockwise)
         // for positive values, so same sign on error and rotation
         // Ignore small errors
-        error = MathUtil.applyDeadband(error, 1.0);
+        if (Math.abs(error) < 1)
+            error = 0;
 
         // Minimum feed forward and prop gain
-        double rotation = Math.signum(error)*rmin + kp*error;
+        double rotation = Math.signum(error)*rmin + kp*error;        
         rotation = MathUtil.clamp(rotation, -rmax, rmax);
 
         // Drive: Allow manual for/back, rotate based on error

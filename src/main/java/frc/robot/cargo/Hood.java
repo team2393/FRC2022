@@ -26,7 +26,7 @@ public class Hood extends SubsystemBase
     
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
-    private final double MAX_PERC_PER_SEC = 100.0;
+    private final double MAX_PERC_PER_SEC = 200.0;
     
     private final WPI_TalonFX hood = new WPI_TalonFX(RobotMap.HOOD);
     private final DigitalInput home = new DigitalInput(RobotMap.HOOD_HOME);
