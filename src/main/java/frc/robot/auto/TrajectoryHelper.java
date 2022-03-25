@@ -42,16 +42,85 @@ public class TrajectoryHelper
      */
     public static Trajectory createTrajectory(final boolean forward, final double... x_y_h)
     {
+        return createTrajectory(new Pose2d(), forward, x_y_h);
+    }
+
+    /** Create trajectory from points
+     * 
+     *  Trajectory starts where previus trajectory ends and moves forward.
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
+     *  @param previous Previous trajectory from which we continue without any 'reset'
+     *  @param x_y_z Sequence of points { X, Y, Heading }
+     */
+    public static Trajectory createTrajectory(final Trajectory previous, final double... x_y_h)
+    {
+        return createTrajectory(previous, true, x_y_h);
+    }
+
+    /** Create trajectory from points
+     * 
+     *  Trajectory starts where previus trajectory ends.
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
+     *  @param previous Previous trajectory from which we continue without any 'reset'
+     *  @param forward Are we driving forward?
+     *  @param x_y_z Sequence of points { X, Y, Heading }
+     */
+    public static Trajectory createTrajectory(final Trajectory previous, final boolean forward, final double... x_y_h)
+    {
+        return createTrajectory(getEndPose(previous), forward, x_y_h);
+    }
+
+    /** Create trajectory from points
+     * 
+     *  Trajectory starts where previus trajectory ends, going forward
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
+     *  @param previous Previous pose from which we continue without any 'reset'
+     *  @param x_y_z Sequence of points { X, Y, Heading }
+     */
+    public static Trajectory createTrajectory(final Pose2d previous, final double... x_y_h)
+    {
+        return createTrajectory(previous, true, x_y_h);
+    }
+
+    /** Create trajectory from points
+     * 
+     *  Trajectory starts where previus trajectory ends.
+     *  Given list of points must contain entries x, y, h,
+     *  i.e., total length of x_y_h array must be a multiple of 3.
+     * 
+     *  @param previous Previous pose from which we continue without any 'reset'
+     *  @param forward Are we driving forward?
+     *  @param x_y_z Sequence of points { X, Y, Heading }
+     */
+    public static Trajectory createTrajectory(final Pose2d previous, final boolean forward, final double... x_y_h)
+    {
         if (x_y_h.length % 3 != 0)
             throw new IllegalArgumentException("List of { X, Y, Heading } contains " + x_y_h.length + " entries?!");
 
         List<Pose2d> waypoints = new ArrayList<>();
-        waypoints.add(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+        waypoints.add(previous);
         for (int i=0; i<x_y_h.length; i += 3)
             waypoints.add(new Pose2d(x_y_h[i], x_y_h[i+1], Rotation2d.fromDegrees(x_y_h[i+2])));
 
         Drivetrain.trajectory_config.setReversed(! forward);
         return TrajectoryGenerator.generateTrajectory(waypoints, Drivetrain.trajectory_config);
+    }
+
+    /** From end of a trajectory, turn in place to a new heading
+     *  @param previous Last trajectory
+     *  @param heading New heading to which we turned
+     *  @return New starting point, located at end of previous traj. with new heading
+     */
+    public static Pose2d rotateInPlaceToHeading(final Trajectory previous, final double heading)
+    {
+        final Pose2d last = getEndPose(previous);
+        return new Pose2d(last.getTranslation(), Rotation2d.fromDegrees(heading));
     }
 
     /** @param trajectory Trajectory
