@@ -69,7 +69,7 @@ public class AutoOptions
             Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, false,
                                                                 0.02, 2.7, -106,
                                                                 -0.43, 5.8, -66);
-            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, 0.65, 3.18, -61.0);
+            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, 0.16, 4.37, -63.7);
             
             auto_options.addOption("RTME4Ball",
                 new SequentialCommandGroup(
@@ -85,8 +85,8 @@ public class AutoOptions
                     new RotateToHeadingCommand(drivetrain, -114),
                     new OpenIntakeCommand(ball_handling),     
                     drivetrain.createTrajectoryCommand(seg2),
-                    new ApplySettingCommand("HoodSetpoint", 54.1),
-                    new ApplySettingCommand("SpinnerSetpoint", 40.4),
+                    new ApplySettingCommand("HoodSetpoint", 86.5),
+                    new ApplySettingCommand("SpinnerSetpoint", 42.7),
                     drivetrain.createTrajectoryCommand(seg3), 
                     new ShootCommand(ball_handling),
                     new WaitCommand(.5),
