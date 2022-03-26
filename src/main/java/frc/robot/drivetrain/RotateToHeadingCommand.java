@@ -25,7 +25,7 @@ public class RotateToHeadingCommand extends CommandBase
         this.drivetrain = drivetrain;
         this.desired_degrees = desired_degrees;
         addRequirements(drivetrain);
-        pid.setTolerance(1.0);
+        pid.setTolerance(2.5);
     }
 
     @Override
