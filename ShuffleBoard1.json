@@ -252,14 +252,25 @@
               "_source0": "network_table:///limelight-back/pipeline",
               "_title": "Pipeline"
             }
+          },
+          "4,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight-front/ty",
+              "_title": "limelight-front/ty"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -13.600000381469727,
-    "y": 239.1999969482422,
+    "x": -6.400000095367432,
+    "y": 215.1999969482422,
     "width": 1548.800048828125,
     "height": 564.7999877929688
   }
