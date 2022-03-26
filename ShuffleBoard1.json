@@ -148,11 +148,6 @@
                   "_source0": "network_table:///SmartDashboard/Aim High Near",
                   "_title": "Aim High Near"
                 },
-                "1,2": {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/Aim High at Line",
-                  "_title": "Aim High at Line"
-                },
                 "0,3": {
                   "_type": "Command",
                   "_source0": "network_table:///SmartDashboard/Aim Low Near",
@@ -186,6 +181,11 @@
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Hood",
                   "_title": "Hood"
+                },
+                "2,2": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///limelight-front/ty",
+                  "_title": "Limelight TY"
                 }
               }
             }
@@ -252,26 +252,15 @@
               "_source0": "network_table:///limelight-back/pipeline",
               "_title": "Pipeline"
             }
-          },
-          "4,5": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///limelight-front/ty",
-              "_title": "limelight-front/ty"
-            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -6.400000095367432,
-    "y": 215.1999969482422,
+    "x": -8.0,
+    "y": 152.8000030517578,
     "width": 1548.800048828125,
-    "height": 564.7999877929688
+    "height": 676.0
   }
 }
