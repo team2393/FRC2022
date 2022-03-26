@@ -35,10 +35,10 @@ public class RotateToHeadingTestRobot extends TimedRobot
         SmartDashboard.setDefaultNumber("Desired Heading", 0.0);
 
         SmartDashboard.setDefaultNumber("Tolerance", 1.0);
-        SmartDashboard.setDefaultNumber("P", 0.0);
+        SmartDashboard.setDefaultNumber("P", 0.005); // 0.5 / 90, get half speed for 90 deg. error
         SmartDashboard.setDefaultNumber("I", 0.0);
-        SmartDashboard.setDefaultNumber("D", 0.0);
-        SmartDashboard.setDefaultNumber("max", 0.3);
+        SmartDashboard.setDefaultNumber("D", 0.0);   // 0.05
+        SmartDashboard.setDefaultNumber("max", 0.5);
     }
 
     @Override
