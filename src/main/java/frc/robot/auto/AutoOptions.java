@@ -36,33 +36,6 @@ public class AutoOptions
         // First list the default option that does nothing
         auto_options.setDefaultOption("Nothing", new PrintCommand("Doing nothing"));
 
-        {   // "L" test of rotating in place
-            // Run forward 1.5 m
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(1.5, 0, 0);
-
-            // Rotate to 90 degrees in place
-            Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, 90);
-
-            // Move to the left
-            Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, 1.5, 1, 90);
-
-            // Rotate to atan2(1, 1.5) = 33.67 degrees in place, so back points straight back to origin
-            Pose2d seg2_rot = TrajectoryHelper.rotateInPlaceToHeading(seg2, 33.67);
-
-            // Back to origin
-            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, false, 0, 0, 0);
-
-            auto_options.addOption("L (inverted) test",
-                new SequentialCommandGroup(
-                    new ShiftLowCommand(drivetrain),
-                    drivetrain.createTrajectoryCommand(seg1),
-                    new RotateToHeadingCommand(drivetrain, 90.0),
-                    drivetrain.createTrajectoryCommand(seg2),
-                    new RotateToHeadingCommand(drivetrain, 33.67),
-                    drivetrain.createTrajectoryCommand(seg3)       ));
-        }
-
-
         {   // Right Tarmac Middle Edge 4 ball
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -0.96, 0, -9.4);
             Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, -114);
@@ -95,8 +68,6 @@ public class AutoOptions
 
         }
 
-
-
         {   // Drive 1 m backwards
             auto_options.addOption("TAXI (A1FF)",
                 new SequentialCommandGroup(
@@ -111,6 +82,39 @@ public class AutoOptions
                 new WaitCommand(10.0),
                 drivetrain.createTrajectoryCommand(false, -1, 0, 0)));
         }
+
+        {   // Right Tarmac, Left Edge, pickup, shoot, shoot, pick, pick human, shoot, shoot
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.83, -0.03, 10.28);
+            Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1, false, -4.94, 0.98, 8.26);
+            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, -2.3, 1.04, -1.5);            
+    
+            auto_options.addOption("RTLE4BallHuman",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("HoodSetpoint", 57.3),
+                    new ApplySettingCommand("SpinnerSetpoint", 39.07),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),          
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
+                    new ShootCommand(ball_handling),
+                    new OpenIntakeCommand(ball_handling),  
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ApplySettingCommand("SpinnerSetpoint", 41.4),
+                    new ApplySettingCommand("HoodSetpoint", 51.6),
+                    drivetrain.createTrajectoryCommand(seg3), 
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
+                    new ShootCommand(ball_handling)));
+        }
+
+
+
+
+
+
+
 
         {   // Left Tarmac, Middle Edge, pickup, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.2, 0, 6.5);
@@ -236,34 +240,6 @@ public class AutoOptions
                     new ApplySettingCommand("SpinnerSetpoint", 73),
                     new OpenIntakeCommand(ball_handling),  
                     drivetrain.createTrajectoryCommand(seg3), 
-                    new ShootCommand(ball_handling)));
-        }
-
-        {   // Right Tarmac, Left Edge, pickup, shoot, shoot, pick, pick, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.27, -0.1, 10);
-            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
-                TrajectoryHelper.createTrajectory(false, -3.45, 1.73, 10));
-            Trajectory seg3 = TrajectoryHelper.continueTrajectory(seg2,
-                TrajectoryHelper.createTrajectory(2.47, -1.27, -19));
-            
-    
-            auto_options.addOption("RTLEPSSPSS",
-                new SequentialCommandGroup(
-                    new ApplySettingCommand("High", true),
-                    new ApplySettingCommand("SpinnerSetpoint", 72),
-                    new ToggleSpinnerCommand(ball_handling),
-                    new ShiftLowCommand(drivetrain),
-                    new OpenIntakeCommand(ball_handling),          
-                    drivetrain.createTrajectoryCommand(seg1),
-                    new ShootCommand(ball_handling),
-                    new WaitCommand(.5),
-                    new ShootCommand(ball_handling),
-                    new OpenIntakeCommand(ball_handling),  
-                    drivetrain.createTrajectoryCommand(seg2),
-                    new ApplySettingCommand("SpinnerSetpoint", 81),
-                    drivetrain.createTrajectoryCommand(seg3), 
-                    new ShootCommand(ball_handling),
-                    new WaitCommand(.5),
                     new ShootCommand(ball_handling)));
         }
 
