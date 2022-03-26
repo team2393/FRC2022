@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 
@@ -114,27 +115,25 @@ public class TrajectoryViewer
 
     public static void main(String[] args) throws Exception
     {
-        // Segment moves forward and turns left
-        // Trajectory segment = TrajectoryHelper.createTrajectory(true, 1, 0, 90);
+        // Run forward 1.5 m
+        Trajectory seg1 = TrajectoryHelper.createTrajectory(1.5, 0, 0);
+        System.out.println("Seg1 ends with " + TrajectoryHelper.getEndPose(seg1));
 
-        // Concatenate into 4 times total -> square (but moving 'outside' to end with heading 90, 180, 270, 0)
-        // Trajectory trajectory = segment;
-        // trajectory = trajectory.concatenate(TrajectoryHelper.makeTrajectoryStartAt(segment, TrajectoryHelper.getEndPose(trajectory)));
-        // trajectory = trajectory.concatenate(TrajectoryHelper.makeTrajectoryStartAt(segment, TrajectoryHelper.getEndPose(trajectory)));
-        // // trajectory = trajectory.concatenate(TrajectoryHelper.makeTrajectoryStartAt(segment, TrajectoryHelper.getEndPose(trajectory)));
-        
-        // Trajectory trajectory = segment;
-        // trajectory = trajectory.concatenate(TrajectoryHelper.makeTrajectoryStartAt(segment, TrajectoryHelper.getEndPose(trajectory)));
-        // trajectory = trajectory.concatenate(TrajectoryHelper.makeTrajectoryStartAt(segment, TrajectoryHelper.getEndPose(trajectory)));
-        // trajectory = TrajectoryHelper.reverse(trajectory);
-        
-        Trajectory trajectory = TrajectoryHelper.createTrajectory(true,
-                                                                  1, 0, 45,
-                                                                  1, 1, 135,
-                                                                  0, 1, 225,
-                                                                  0, 0, 0);
+        // Rotate to 90 degrees in place
+        Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, 90);
+
+        // Move to the left (from that point, note that there's no "reset")
+        Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, 1.5, 1, 90);
+        System.out.println("Seg2 starts with " + seg2.getInitialPose() + " and ends at " + TrajectoryHelper.getEndPose(seg2));
+
+        // Rotate to atan2(1, 1.5) = 33.67 degrees in place, so back points straight back to origin
+        Pose2d seg2_rot = TrajectoryHelper.rotateInPlaceToHeading(seg2, 33.67);
+
+        // Back to origin (again no "reset", we move from 1.5,1 to 0,0)
+        // Compare to running to 0, 0, 33.67 !
+        Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, false, 0, 0, 0*33.67);
 
         // Show it
-        new TrajectoryViewer(trajectory, 0.25);
+        new TrajectoryViewer(seg1.concatenate(seg2).concatenate(seg3), 0.25);
     }
 }

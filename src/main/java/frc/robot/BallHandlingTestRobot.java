@@ -63,7 +63,7 @@ import frc.robot.cargo.ShootCommand;
  */
 public class BallHandlingTestRobot extends TimedRobot
 {
-    private final BallHandling ball_handling = new BallHandling();
+    private final BallHandling ball_handling = new BallHandling(on -> System.out.println("LED on: " + on));
     public final Pneumatics pneumatics = new Pneumatics();
 
     @Override
