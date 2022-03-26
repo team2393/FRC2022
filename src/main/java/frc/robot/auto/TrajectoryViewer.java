@@ -115,19 +115,22 @@ public class TrajectoryViewer
 
     public static void main(String[] args) throws Exception
     {
-        // Assume we run forward 1 m
-        Trajectory seg1 = TrajectoryHelper.createTrajectory(1.0, 0, 0);
+        // Run forward 1.5 m
+        Trajectory seg1 = TrajectoryHelper.createTrajectory(1.5, 0, 0);
         System.out.println("Seg1 ends with " + TrajectoryHelper.getEndPose(seg1));
 
-        // Next we want to move forward by another 0.5 to 1.5
-        Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1, 1.5, 0, 0);
+        // Rotate to 90 degrees in place
+        Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, 90);
+
+        // Move to the left
+        Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, 1.5, 1, 90);
         System.out.println("Seg2 starts with " + seg2.getInitialPose() + " and ends at " + TrajectoryHelper.getEndPose(seg2));
 
-        // Assume we rotated by 90 degrees in place, then want to move up
-        Pose2d seg2_rot = TrajectoryHelper.rotateInPlaceToHeading(seg2, 90);
+        // Rotate to atan2(1, 1.5) = 33.67 degrees in place, so back points straight back to origin
+        Pose2d seg2_rot = TrajectoryHelper.rotateInPlaceToHeading(seg2, 33.67);
 
-        Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, 1.5, 1, 90);
-        System.out.println("Seg3 starts with " + seg3.getInitialPose() + " and ends at " + TrajectoryHelper.getEndPose(seg3));
+        // Back to origin
+        Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, false, 0, 0, 0);
 
         // Show it
         new TrajectoryViewer(seg1.concatenate(seg2).concatenate(seg3), 0.25);
