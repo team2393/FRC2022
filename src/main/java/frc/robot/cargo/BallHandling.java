@@ -238,7 +238,8 @@ public class BallHandling extends SubsystemBase
     {
         // Move intake up (close) to stay within bumper outline
         intake_arm.set(false);
-        
+        light_controller.accept(false);
+
         // Turn everything off
         intake.setVoltage(0);
         conveyor.setVoltage(0);
@@ -252,6 +253,7 @@ public class BallHandling extends SubsystemBase
         // After REVERSE mode, we go to LOADING, which
         // leaves the intake open
         intake_arm.set(false);
+        light_controller.accept(false);
 
         // Run motors backwards, but slowly
         intake.setVoltage(-INTAKE_VOLTAGE/1);
@@ -323,6 +325,8 @@ public class BallHandling extends SubsystemBase
 
         // Intake: Open while loading
         intake_arm.set(load_state == LoadStates.LOADING);
+        light_controller.accept(load_state == LoadStates.LOADING);
+
         // Run while loading until we have two balls
         if (load_state == LoadStates.LOADING  &&  !have_all_balls)
             intake.setVoltage(INTAKE_VOLTAGE);
