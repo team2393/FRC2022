@@ -126,33 +126,32 @@ public class AutoOptions
                     new ShootCommand(ball_handling)));
         }
 
-
-
-
-
-
-
-
-
         {   // Left Tarmac, Right Edge, pickup, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.335, -1.27, 42);
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.59, -1.4, 25,
+                                                                      -2.1,-1.7,15);
             Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
                 TrajectoryHelper.createTrajectory(2.3, 0.05, -26,
                                                   2.825, -0.312, -80));
     
             auto_options.addOption("LTREPickShootShoot (Hamburger)",
                 new SequentialCommandGroup(
-                    new ApplySettingCommand("High", false),
-                    new ApplySettingCommand("SpinnerSetpoint", 61),
+                    new ApplySettingCommand("HoodSetpoint", 55),
+                    new ApplySettingCommand("SpinnerSetpoint", 40),
                     new ToggleSpinnerCommand(ball_handling),
                     new ShiftLowCommand(drivetrain),
                     new OpenIntakeCommand(ball_handling),                   
                     drivetrain.createTrajectoryCommand(seg1),
-                    drivetrain.createTrajectoryCommand(seg2),
+
                     new ShootCommand(ball_handling),
                     new WaitCommand(1.5),
-                    new ShootCommand(ball_handling)));
+                    new ShootCommand(ball_handling)
+                    ));
         }
+
+
+
+
+
 
         {   // Left Tarmac, Right Edge, pickup, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.4, -1.2, 50,
