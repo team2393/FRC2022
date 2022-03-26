@@ -18,7 +18,7 @@ public class RotateToHeadingCommand extends CommandBase
     private final Timer timer = new Timer();
 
     /** @param drivetrain Drivetrain to control
-     *  @param heading Target degrees
+     *  @param heading Target heading [degrees]
      */
     public RotateToHeadingCommand(final Drivetrain drivetrain, final double desired_degrees)
     {

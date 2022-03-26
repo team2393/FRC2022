@@ -122,15 +122,16 @@ public class TrajectoryViewer
         // Rotate to 90 degrees in place
         Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, 90);
 
-        // Move to the left
+        // Move to the left (from that point, note that there's no "reset")
         Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, 1.5, 1, 90);
         System.out.println("Seg2 starts with " + seg2.getInitialPose() + " and ends at " + TrajectoryHelper.getEndPose(seg2));
 
         // Rotate to atan2(1, 1.5) = 33.67 degrees in place, so back points straight back to origin
         Pose2d seg2_rot = TrajectoryHelper.rotateInPlaceToHeading(seg2, 33.67);
 
-        // Back to origin
-        Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, false, 0, 0, 0);
+        // Back to origin (again no "reset", we move from 1.5,1 to 0,0)
+        // Compare to running to 0, 0, 33.67 !
+        Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2_rot, false, 0, 0, 0*33.67);
 
         // Show it
         new TrajectoryViewer(seg1.concatenate(seg2).concatenate(seg3), 0.25);
