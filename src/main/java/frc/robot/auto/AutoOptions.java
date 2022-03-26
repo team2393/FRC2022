@@ -148,56 +148,24 @@ public class AutoOptions
                     ));
         }
 
-
-
-
-
-
-        {   // Left Tarmac, Right Edge, pickup, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.4, -1.2, 50,
-                                                                      -1.5, -1.3, 8.5);
-    
-            auto_options.addOption("LTREPickShootShootFar (Hamburger)",
-                new SequentialCommandGroup(
-                    new ApplySettingCommand("High", true),
-                    new ApplySettingCommand("SpinnerSetpoint", 72),
-                    new ToggleSpinnerCommand(ball_handling),
-                    new ShiftLowCommand(drivetrain),
-                    new OpenIntakeCommand(ball_handling),                   
-                    drivetrain.createTrajectoryCommand(seg1),
-                    new ShootCommand(ball_handling),
-                    new WaitCommand(1.5),
-                    new ShootCommand(ball_handling)));
-        }
-
         {   // Left Tarmac, Left Edge, pickup, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.239, 0.0, 0);
-            Trajectory seg2 = TrajectoryHelper.continueTrajectory(seg1,
-                TrajectoryHelper.createTrajectory(2.376, -0.407, 48));
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.52, -0.01, 9.7);
     
             auto_options.addOption("LTLETaxiShoot (GG)",
                 new SequentialCommandGroup(
-                    new ApplySettingCommand("High", false),
-                    new ApplySettingCommand("SpinnerSetpoint", 61),
+                    new ApplySettingCommand("HoodSetpoint", 63),
+                    new ApplySettingCommand("SpinnerSetpoint", 37),
                     new ToggleSpinnerCommand(ball_handling),
                     new ShiftLowCommand(drivetrain),
                     drivetrain.createTrajectoryCommand(seg1),
-                    drivetrain.createTrajectoryCommand(seg2),
                     new ShootCommand(ball_handling)));
         }
 
-        {   // Left Tarmac, Left Edge, pickup, shoot from far
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.5, 0.01, 8.4);
-    
-            auto_options.addOption("LTLETaxiShootFar (GG)",
-                new SequentialCommandGroup(
-                    new ApplySettingCommand("High", true),
-                    new ApplySettingCommand("SpinnerSetpoint", 70),
-                    new ToggleSpinnerCommand(ball_handling),
-                    new ShiftLowCommand(drivetrain),
-                    drivetrain.createTrajectoryCommand(seg1),
-                    new ShootCommand(ball_handling)));
-        }
+
+
+
+
+      
 
         {   // Right Tarmac, Left Edge, pickup, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.29, -0.12, 14);
