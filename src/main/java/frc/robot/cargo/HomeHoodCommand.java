@@ -55,7 +55,7 @@ public class HomeHoodCommand extends CommandBase
                 hood.reset();
             }
             else
-                hood.setOutput(-0.5*HOMING_OUTPUT);
+                hood.setOutput(-HOMING_OUTPUT);
         }
     }
 
