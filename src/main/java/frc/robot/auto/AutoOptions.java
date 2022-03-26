@@ -109,28 +109,30 @@ public class AutoOptions
                     new ShootCommand(ball_handling)));
         }
 
-
-
-
-
-
-
-
         {   // Left Tarmac, Middle Edge, pickup, shoot, shoot
-            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.2, 0, 6.5);
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.17, -0.01, 9.4);
     
             auto_options.addOption("LTMEPickShootShoot (CTFDU)",
                 new SequentialCommandGroup(
-                    new ApplySettingCommand("High", true),
-                    new ApplySettingCommand("SpinnerSetpoint", 70),
+                    new ApplySettingCommand("HoodSetpoint", 66),
+                    new ApplySettingCommand("SpinnerSetpoint", 36.1),
                     new ToggleSpinnerCommand(ball_handling),
                     new ShiftLowCommand(drivetrain),
                     new OpenIntakeCommand(ball_handling),                   
+                    new WaitCommand(1.5), // assert intake is ope, hood positioned, ...
                     drivetrain.createTrajectoryCommand(seg1),
                     new ShootCommand(ball_handling),
                     new WaitCommand(1.5),
                     new ShootCommand(ball_handling)));
         }
+
+
+
+
+
+
+
+
 
         {   // Left Tarmac, Right Edge, pickup, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false,-1.335, -1.27, 42);
