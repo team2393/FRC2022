@@ -86,7 +86,7 @@ public class AutoOptions
         {   // Right Tarmac, Left Edge, pickup, shoot, shoot, pick, pick human, shoot, shoot
             Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -1.83, -0.03, 10.28);
             Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1, false, -4.94, 0.98, 8.26);
-            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, -2.3, 1.04, -1.5);            
+            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, -2.3, 1.04, -1.5-1.5);            
     
             auto_options.addOption("RTLE4BallHuman",
                 new SequentialCommandGroup(
