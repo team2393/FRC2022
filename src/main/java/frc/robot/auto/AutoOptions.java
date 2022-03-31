@@ -41,7 +41,7 @@ public class AutoOptions
             Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, -114);
             Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, false,
                                                                 0.02, 2.7, -106,
-                                                                -0.43, 5.8, -66);
+                                                                -0.43+.45, 5.8+.2, -66);
             Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, 0.16, 4.37, -63.7);
             
             auto_options.addOption("RTME4Ball",
