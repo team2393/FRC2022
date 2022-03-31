@@ -15,6 +15,10 @@ import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import frc.robot.drivetrain.Drivetrain;
 
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
+import static java.lang.Math.toRadians;
+
 /** Helpers for dealing with trajectories */
 public class TrajectoryHelper
 {
@@ -245,5 +249,18 @@ public class TrajectoryHelper
                                           orig.curvatureRadPerMeter));
         }
         return new Trajectory(reversed_states);
+    }
+
+    public static void main(String[] args)
+    {
+        // Assume a waypoint needs to be moved by some meters ..
+        double distance = 0.5;
+        // ..  into a direction in degrees:
+        double direction = -66.0 + 90;
+
+        double dx = distance * cos(toRadians(direction));
+        double dy = distance * sin(toRadians(direction));
+        
+        System.out.format("dx = %.2f m, dy = %.2f m\n", dx, dy);
     }
 }
