@@ -34,8 +34,12 @@ public class DriveByJoystickCommand extends CommandBase
     @Override
     public void execute()
     {
-        drivetrain.drive(speed_limiter.calculate(OperatorInterface.getSpeed()),
-                         turn_limiter.calculate(OperatorInterface.getRotation()));
+        // While using left bumber in manual climb arm up/down, don't drive
+        if (OperatorInterface.joystick.getLeftBumper())
+            drivetrain.drive(0, 0);
+        else
+            drivetrain.drive(speed_limiter.calculate(OperatorInterface.getSpeed()),
+                             turn_limiter.calculate(OperatorInterface.getRotation()));
     }
 
     @Override
