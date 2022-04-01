@@ -64,9 +64,9 @@ public class RapidReactRobot extends TimedRobot
     
     private final CommandBase climb_idle = new IdleClimberCommand(climber);
     private final CommandBase manual_climb = new ManualClimbCommand(climber);
-    private final CommandBase climb_low = new SetClimberExtensionCommand(climber, "Arm Low", -0.04);    
+    private final CommandBase climb_low = new SetClimberExtensionCommand(climber, "Arm Low", -0.05);    
     private final CommandBase climb_mid = new SetClimberExtensionCommand(climber, "Arm Mid", 0.4);    
-    private final CommandBase climb_high = new SetClimberExtensionCommand(climber, "Arm High", 0.85);    
+    private final CommandBase climb_high = new SetClimberExtensionCommand(climber, "Arm High", 0.86);    
     private final CommandBase arm_out = new ArmInOutCommand(climber, true);
     private final CommandBase arm_in = new ArmInOutCommand(climber, false);
     // private final CommandBase arm_out = new InstantCommand(() -> climber.setAngle(true));
