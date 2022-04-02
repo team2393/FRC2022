@@ -44,7 +44,7 @@ public class AutoOptions
                                                                 -0.43+.45, 5.8+.2, -66);
             Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, 0.16, 4.37, -63.7);
             
-            auto_options.addOption("RTME4Ball",
+            auto_options.addOption("RTME4BallRed",
                 new SequentialCommandGroup(
                     new ApplySettingCommand("HoodSetpoint", 65.6),
                     new ApplySettingCommand("SpinnerSetpoint", 35),
@@ -64,9 +64,38 @@ public class AutoOptions
                     new ShootCommand(ball_handling),
                     new WaitCommand(.5),
                     new ShootCommand(ball_handling)));
-
-
         }
+
+        {   // Right Tarmac Middle Edge 4 ball
+            Trajectory seg1 = TrajectoryHelper.createTrajectory(false, -0.96, 0, -9.4);
+            Pose2d seg1_rot = TrajectoryHelper.rotateInPlaceToHeading(seg1, -114);
+            Trajectory seg2 = TrajectoryHelper.createTrajectory(seg1_rot, false,
+                                                                0.02, 2.7, -106,
+                                                                -0.43+.45, 5.8+.2, -66);
+            Trajectory seg3 = TrajectoryHelper.createTrajectory(seg2, 0.16, 4.37, -63.7 - 4.0);
+            
+            auto_options.addOption("RTME4BallBlue",
+                new SequentialCommandGroup(
+                    new ApplySettingCommand("HoodSetpoint", 65.6),
+                    new ApplySettingCommand("SpinnerSetpoint", 35),
+                    new ToggleSpinnerCommand(ball_handling),
+                    new ShiftLowCommand(drivetrain),
+                    new OpenIntakeCommand(ball_handling),     
+                    drivetrain.createTrajectoryCommand(seg1),
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
+                    new ShootCommand(ball_handling),
+                    new RotateToHeadingCommand(drivetrain, -114),
+                    new OpenIntakeCommand(ball_handling),     
+                    drivetrain.createTrajectoryCommand(seg2),
+                    new ApplySettingCommand("HoodSetpoint", 86.5),
+                    new ApplySettingCommand("SpinnerSetpoint", 42.7),
+                    drivetrain.createTrajectoryCommand(seg3), 
+                    new ShootCommand(ball_handling),
+                    new WaitCommand(.5),
+                    new ShootCommand(ball_handling)));
+        }
+
 
         {   // Drive 1 m backwards
             auto_options.addOption("TAXI (A1FF)",
