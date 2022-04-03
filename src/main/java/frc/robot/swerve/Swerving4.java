@@ -14,7 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import static java.lang.Math.sqrt;
 
 /** Basic exploration of serve helpers in WPILib */
-public class Swerving
+public class Swerving4
 {
     /** Distance of each module from center of robot */
     private static final double module_distance = sqrt(0.5*0.5 + 0.5*0.5);
@@ -39,6 +39,8 @@ public class Swerving
         new Translation2d(module_distance, Rotation2d.fromDegrees(90+45))
     };
 
+    private static final int N = modules.length;
+
     /** Transform robot movement into swerve module speeds and vice versa */
     private static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(modules);
 
@@ -50,7 +52,7 @@ public class Swerving
 
     private static void print(final SwerveModuleState[] module_states)
     {
-        for (int i=0; i<4; ++i)
+        for (int i=0; i<N; ++i)
             System.out.format("#%d: %6.2f m/s @%6.1f deg\n",
                               i,
                               module_states[i].speedMetersPerSecond,
@@ -68,7 +70,7 @@ public class Swerving
     public static void main(String[] args)
     {
         System.out.println("Module locations:");
-        for (int i=0; i<4; ++i)
+        for (int i=0; i<N; ++i)
             System.out.format("#%d: X=%5.2f m, Y=%5.2f m\n", i, modules[i].getX(), modules[i].getY());
 
         System.out.print("\nInitial position: ");
